@@ -1166,6 +1166,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 {
 //    [self performSelector:@selector(setdefaults) withObject:nil afterDelay:0.1];
 //    [self.tableView reloadData];
+    
 }
 
 
