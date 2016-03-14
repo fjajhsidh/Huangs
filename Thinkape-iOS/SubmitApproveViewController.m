@@ -1000,11 +1000,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
       UITextField * textField=(UITextField *)[self.view viewWithTag:self.tagValue];
     
     
-//    if (![str isEqualToString:@"0"]) {
-//        textField.text=str;
-//    }
-//    textField.text=str;
-    
     double number = [str doubleValue];
     
     if (number == 0){
@@ -1014,9 +1009,12 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         textField.text = str;
     }
     
-
     NSLog(@"-----%@",str);
-    [self.calculatorView removeFromSuperview];
+    
+
+    
+    [self.calculatorvc.view removeFromSuperview];
+
     //[textField resignFirstResponder];
     
 }
@@ -1050,7 +1048,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         cell.category.text = [NSString stringWithFormat:@"%@:",layoutModel.Name];
        
         cell.contentText.tag = indexPath.row;
-
 
         if(indexPath.row == 0){
             
@@ -1165,7 +1162,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
 //    [self performSelector:@selector(setdefaults) withObject:nil afterDelay:0.1];
-//    [self.tableView reloadData];
+    [self.tableView reloadData];
     
 }
 
@@ -1225,7 +1222,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                            }
                            
                        }
-
+                       
                    }
 
                }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -1247,8 +1244,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     
        }
    }
-//    [self.tableView reloadData];
-    
+
 }
 
 
