@@ -19,8 +19,8 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
 @property(nonatomic,strong)NSMutableArray *dataArr;
-@property(nonatomic,assign)int firstindex;
-@property(nonatomic,assign)BOOL ishandan;
+@property(nonatomic,assign)NSInteger firstindex;
+@property(nonatomic,assign)int IsPage;
 @end
 
 @implementation Bianjito
@@ -221,8 +221,8 @@
 
                   LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
                   _dataArr = [_costDataArr safeObjectAtIndex:_index];
-                   
-                    _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                    _firstindex = indexPath.row-2;
+                  _datar = [_dataArr safeObjectAtIndex:_firstindex];
                     
                    
                     //判断传值是否经过传值而过来的字典
@@ -230,7 +230,7 @@
                     
                 
                     
-                    if (_index==0) {
+                    if (_IsPage==_index) {
                         
                     
                     if (self.editstart==YES) {
@@ -241,11 +241,17 @@
                            NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
                            [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
                            _dataArr = dateAll;
-                        
+                           _datar = [_dataArr safeObjectAtIndex:_indexRow];
+                           label.text = [_datar objectForKey:layoutModel.fieldname];
+                           
                         
                         
                         }
-                     
+                        if (indexPath.row==_firstindex) {
+                             _dataArr = [_costDataArr safeObjectAtIndex:_index];
+                            _datar = [_dataArr safeObjectAtIndex:_firstindex];
+                             label.text = [_datar objectForKey:layoutModel.fieldname];
+                        }
                     
                      
                        
@@ -256,13 +262,32 @@
                 
                     }
                     
-                   
-                   
-                    
-                    
-                  
-                    
-                   
+                    if (_IsPage!=_index) {
+                        if (self.isstrart==YES) {
+                            
+                        
+                        if (indexPath.row==_indexRow+2) {
+                            
+                            NSMutableArray *dateAll = [NSMutableArray arrayWithArray:_dataArr];
+                            NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editxiao];
+                            [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
+                            _dataArr = dateAll;
+                            _datar = [_dataArr safeObjectAtIndex:_indexRow];
+                            label.text = [_datar objectForKey:layoutModel.fieldname];
+                            
+                            
+                            
+                        }
+                        if (indexPath.row==_firstindex) {
+                            _dataArr = [_costDataArr safeObjectAtIndex:_index];
+                            _datar = [_dataArr safeObjectAtIndex:_firstindex];
+                            label.text = [_datar objectForKey:layoutModel.fieldname];
+                        }
+                        
+                        
+
+                    }
+                    }
                     
                     NSLog(@"_datar====%@",_datar);
                     NSLog(@"%@",label.text);
@@ -272,8 +297,13 @@
                     
                     
                     if (self.editstart==NO||self.isstrart==NO) {
-                         label.text = [_datar objectForKey:layoutModel.fieldname];
                        
+                         label.text = [_datar objectForKey:layoutModel.fieldname];
+                        
+                        
+                        
+                        
+                        
                       
                     }
                     
@@ -347,39 +377,67 @@
     
         
      _indexRow = indexPath.row-2;
-    if (indexPath.row == _indexRow+2||_firstindex==2) {
+   
         
-        if (self.editstart==NO) {
-        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-        app.dict = _datar;
+    if (_IsPage==_index) {
+        
+    
+    if (self.editstart==YES) {
        
-        
+       
+        if (indexPath.row == _indexRow+2) {
+            
+            NSMutableArray *dateAll = [NSMutableArray arrayWithArray:_dataArr];
+            NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
+            [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
+            _dataArr = dateAll;
+            _datar = [_dataArr safeObjectAtIndex:_indexRow];
+            app.dict = _datar;
+            
+          }
+        if (indexPath.row==_firstindex+2) {
+           
+                app.dict = _datar;
             
         }
-       
-        if (self.editstart==YES) {
-            
-                if (indexPath.row==_indexRowss+2) {
-                     _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-                    _datar= self.editnew;
-                    app.dict = _datar;
-                   
-                                    }
-                else
-                {
-                    
-                }
-        
-                  }
+
        
     }
     else
     {
-        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+        
         app.dict = _datar;
     }
- 
+    }
+    if (_IsPage!=_index) {
+        if (self.isstrart==YES) {
+            
+            
+            if (indexPath.row == _indexRow+2) {
+                
+                NSMutableArray *dateAll = [NSMutableArray arrayWithArray:_dataArr];
+                NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
+                [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
+                _dataArr = dateAll;
+                _datar = [_dataArr safeObjectAtIndex:_indexRow];
+                app.dict = _datar;
+                
+            }
+            if (indexPath.row==_firstindex+2) {
+                
+                app.dict = _datar;
+                
+            }
+            
+            
+        }
+        else
+        {
+            
+            app.dict = _datar;
+        }
 
+    }
 
     MixiViewController *vc =[[MixiViewController alloc] init];
     vc.index = _index;
