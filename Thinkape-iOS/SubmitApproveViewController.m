@@ -47,6 +47,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 //    NSString *_field;
 }
 
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) KindsModel *selectModel;
 @property (strong, nonatomic) NSMutableArray *searchArray;
@@ -91,10 +92,8 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
 //    [self performSelector:@selector(setdefaults) withObject:nil afterDelay:0.1];
-    
-    
+
     _searchArray = [[NSMutableArray alloc] init];
     _selectModel = [[KindsModel alloc] init];
     _layoutArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -968,7 +967,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         textField.text = @"";
     }
 
-    
     if ([textField.text length]>0) {
         unichar single = [textField.text characterAtIndex:0];
         if ((single>='0'&&single<='9')||single=='.') {
@@ -982,7 +980,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         }
     }
     
-
     [self.XMLParameterDic setObject:textField.text forKey:layoutModel.key];
     [self.tableViewDic setObject:textField.text forKey:layoutModel.key];
     
@@ -995,13 +992,10 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 //执行计算器单击确认的操作
 -(void)sender:(NSString *)str{
 //    UITextField * textField=(UITextField *)[self.view viewWithTag:self.textfield.tag];
-    
-    
-      UITextField * textField=(UITextField *)[self.view viewWithTag:self.tagValue];
-    
+
+    UITextField * textField=(UITextField *)[self.view viewWithTag:self.tagValue];
     
     double number = [str doubleValue];
-    
     if (number == 0){
         textField.text = @"";
         
@@ -1011,13 +1005,20 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     
     NSLog(@"-----%@",str);
     
-
-    
     [self.calculatorvc.view removeFromSuperview];
-
-    //[textField resignFirstResponder];
+    
+    [textField resignFirstResponder];
     
 }
+
+
+- (void)deleteBtnClick
+{
+     UITextField * textField=(UITextField *)[self.view viewWithTag:self.tagValue];
+    textField.text = @"";
+    
+}
+
 
 
 
@@ -1025,6 +1026,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     [self.calculatorView removeFromSuperview];
     
 }
+
 #pragma mark - UITableView Delegate && DataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -1166,8 +1168,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     
 }
 
-
-
 -(void)setdefaults
 {
    
@@ -1179,7 +1179,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
            }else {
             
                NSString *mober = layout.MobileSspDefaultValue;
-            
                NSString *aler =[self str:mober];
             //            @synchronized(self) {
                NSString *defaults = [NSString stringWithFormat:@"http://27.115.23.126:5032/ashx/mobilenew.ashx?ac=MobileDefaultValue&u=%@&fieldname=%@&strsql=%@",self.uid,layout.Field,aler];
@@ -1275,6 +1274,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     {
         idept = @"";
     }
+    
     NSString *cdepname;
     if ([aler objectForKey:@"#cdepname"]!=nil ) {
         cdepname = [aler objectForKey:@"#cdepname"];
@@ -1345,18 +1345,15 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         if ([self.XMLParameterDic objectForKey:sss] == nil) {
             sst = @"";
         }else{
-           sst = [self.XMLParameterDic objectForKey:sss];
+            sst = [self.XMLParameterDic objectForKey:sss];
         }
-      
     
-       
         mobel =[mobel stringByReplacingOccurrencesOfString:field withString:sst];
         NSLog(@"mob = %@",mobel);
         
         mobel = [mobel stringByReplacingOccurrencesOfString:@"{" withString:@""];
         
     }
-    
     
     mobel = [mobel stringByReplacingOccurrencesOfString:@"#idepid" withString:idept];
     mobel = [mobel stringByReplacingOccurrencesOfString:@"#cdepcode" withString:cdepcode];
@@ -1367,7 +1364,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     mobel = [mobel stringByReplacingOccurrencesOfString:@"#cusercode" withString:cusercode];
     mobel = [mobel stringByReplacingOccurrencesOfString:@"#cusername" withString:cusername];
 
-    
     return mobel;
 }
 -(NSDictionary *)fetchdata:(NSDictionary *)dict;
@@ -1386,7 +1382,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 {
     if ([Idept containsString:@"#"]) {
         NSRange c =[Idept rangeOfString:@"#"];
-        int start = c.location;
+        long start = c.location;
         NSRange b = [Idept rangeOfString:@"d"];
         
         int end = b.location;
@@ -1406,6 +1402,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         return 40;
     }
     else{
+       
         NSInteger count = _imagesArray.count + _imagePaths.count;
         CGFloat speace = 15.0f;
         CGFloat imageWidth = (SCREEN_WIDTH - 4*speace) / 3.0f;
@@ -1440,6 +1437,8 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 /*
  #pragma mark - Navigation
  

@@ -10,10 +10,15 @@
 @protocol  CalculatorResultDelegate<NSObject>
 -(void)sender:(NSString *)str;
 
+-(void)deleteBtnClick;
+
+
 @end
 @interface CalculatorViewController : UIViewController
 
 @property(nonatomic,assign) id<CalculatorResultDelegate>delegate;
+
+
 
 
 @end

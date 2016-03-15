@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+//@protocol btnClickDelegate  <NSObject>
+//
+//- (void)deleteNum;
+//
+//@end
+
+
 @interface ScreenView : UILabel
+
+//@property (nonatomic , assign)id <btnClickDelegate> delegate;
+
 
 @end

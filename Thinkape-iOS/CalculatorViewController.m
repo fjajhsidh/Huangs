@@ -33,9 +33,10 @@
     self.operator = [NSMutableString stringWithFormat:@"0"];
     self.calculator = [[Calculator alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.view = self.calculator;
+    
+    
+    
 }
-
-
 
 
 //点击数字键 拼接于临时字符串并显示
@@ -46,7 +47,7 @@
     self.calculator.multiplication.layer.borderWidth = 0;
     self.calculator.devide.layer.borderWidth = 0;
     self.flag = YES;
-    
+
     
     if(self.tempString.length > 7)
     {
@@ -85,6 +86,7 @@
     }
     
     self.calculator.screenText.text = self.tempString;
+//    self.calculator.screenText.delegate = self;
      NSLog(@"=====%@",self.tempString);
 }
 
@@ -170,6 +172,14 @@
         self.operator = [NSMutableString stringWithFormat:@"0"];
         self.calculator.screenText.text = self.firstString;
     }
+    
+//    
+    if (self.delegate) {
+        [self.delegate deleteBtnClick];
+        
+    }
+    
+    
 }
 //减法运算
 - (void) subOperator: (UIButton *) subOperator
@@ -258,7 +268,6 @@
 //除法运算
 - (void) devide: (UIButton *)multiplicationButton
 {
-    
     self.calculator.add.layer.borderWidth = 0;
     self.calculator.subtraction.layer.borderWidth = 0;
     self.calculator.multiplication.layer.borderWidth = 0;
@@ -392,45 +401,69 @@
 //正负键
 - (void) addSub: (UIButton *) sender
 {
-    self.calculator.add.layer.borderWidth = 0;
-    self.calculator.subtraction.layer.borderWidth = 0;
-    self.calculator.multiplication.layer.borderWidth = 0;
-    self.calculator.devide.layer.borderWidth = 0;
-    double a = [self.tempString doubleValue];
-    double b = [self.firstString doubleValue];
-    if (self.flag && ([self.operator isEqualToString:@"＋"]||[self.operator isEqualToString:@"－"]||[self.operator isEqualToString:@"×"]||
-                      [self.operator isEqualToString:@"÷"]||[self.operator isEqualToString:@"%"]||[self.operator isEqualToString:@"＝"]))
+//    self.calculator.add.layer.borderWidth = 0;
+//    self.calculator.subtraction.layer.borderWidth = 0;
+//    self.calculator.multiplication.layer.borderWidth = 0;
+//    self.calculator.devide.layer.borderWidth = 0;
+//    double a = [self.tempString doubleValue];
+//    double b = [self.firstString doubleValue];
+//    if (self.flag && ([self.operator isEqualToString:@"＋"]||[self.operator isEqualToString:@"－"]||[self.operator isEqualToString:@"×"]||
+//                      [self.operator isEqualToString:@"÷"]||[self.operator isEqualToString:@"%"]||[self.operator isEqualToString:@"＝"]))
+//    {
+////        NSLog(@"%s %int",__FUNCTION__,__LINE__);
+////        NSLog(@"%lf %lf",a,b);
+//        if([self.operator isEqualToString:@"＋"])
+//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b+a];
+//        else if([self.operator isEqualToString:@"－"])
+//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b-a];
+//        else if([self.operator isEqualToString:@"×"])
+//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b*a];
+//        else if ([self.operator isEqualToString:@"÷"])
+//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b/a];
+//        else if([self.operator isEqualToString:@"%"])
+//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b];
+//        
+//        self.calculator.screenText.text = [self subzero:self.firstString];
+//        self.tempString = [NSMutableString string];
+//    }
+//    if([self.operator isEqualToString:@"0"])
+//    {
+//        b = a;
+//        b = [self.firstString doubleValue] + a ;
+//    }
+//    else
+//    {
+//        b = [self.firstString doubleValue] ;
+//    }
+//    self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b * (-1)];
+//    self.calculator.screenText.text = [self subzero:self.firstString];
+//    self.tempString = [NSMutableString string];
+//    self.flag = NO;
+//    self.operator = [NSMutableString stringWithFormat:@"+/-"];
+    
+    
+    
+//    if (self.delegate) {
+//        [self.delegate deleteBtnClick];
+//        
+//    }
+//    
+    
+    
+    if(self.tempString.length > 1)
     {
-//        NSLog(@"%s %int",__FUNCTION__,__LINE__);
-//        NSLog(@"%lf %lf",a,b);
-        if([self.operator isEqualToString:@"＋"])
-            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b+a];
-        else if([self.operator isEqualToString:@"－"])
-            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b-a];
-        else if([self.operator isEqualToString:@"×"])
-            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b*a];
-        else if ([self.operator isEqualToString:@"÷"])
-            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b/a];
-        else if([self.operator isEqualToString:@"%"])
-            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b];
-        
-        self.calculator.screenText.text = [self subzero:self.firstString];
+        self.calculator.screenText.text = [self.calculator.screenText.text substringToIndex: self.calculator.screenText.text.length-1];
+        self.tempString = [NSMutableString stringWithFormat:@"%@",self.calculator.screenText.text];
+    }
+    else if (self.tempString.length == 1)
+    {
+        self.calculator.screenText.text = @"0";
         self.tempString = [NSMutableString string];
     }
-    if([self.operator isEqualToString:@"0"])
-    {
-        b = a;
-        b = [self.firstString doubleValue] + a ;
-    }
-    else
-    {
-        b = [self.firstString doubleValue] ;
-    }
-    self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b * (-1)];
-    self.calculator.screenText.text = [self subzero:self.firstString];
-    self.tempString = [NSMutableString string];
-    self.flag = NO;
-    self.operator = [NSMutableString stringWithFormat:@"+/-"];
+    
+    NSLog(@"=====%@",self.tempString);
+
+    
 }
 //percent
 - (void) percent: (UIButton *) sender
@@ -541,6 +574,26 @@
     
 }
 
+
+
+#pragma mark -- ScreenView的代理方法
+
+//- (void)deleteNum
+//{
+//    if(self.tempString.length > 1)
+//    {
+//        self.calculator.screenText.text = [self.calculator.screenText.text substringToIndex: self.calculator.screenText.text.length-1];
+//        self.tempString = [NSMutableString stringWithFormat:@"%@",self.calculator.screenText.text];
+//    }
+//    else if (self.tempString.length == 1)
+//    {
+//        self.calculator.screenText.text = @"0";
+//        self.tempString = [NSMutableString string];
+//    }
+//    
+//    NSLog(@"=====%@",self.tempString);
+//    
+//}
 
 
 - (void)didReceiveMemoryWarning

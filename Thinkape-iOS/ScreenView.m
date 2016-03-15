@@ -26,4 +26,38 @@
 //{
 ////    NSLog(@"移动中");
 //}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    
+    
+    if (self = [super initWithFrame:frame]) {
+//        
+//        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+////        btn.backgroundColor = [UIColor blackColor];
+//        btn.frame = CGRectMake(10, 15, 40, 30);
+//        
+//        [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        [btn setBackgroundImage:[UIImage imageNamed:@"input_delete"] forState:UIControlStateNormal];
+//    
+//        [self addSubview:btn];
+        
+    }
+    return self;
+    
+}
+
+//
+//- (void)btnClick:(UIButton *)sender
+//{
+//    if (self.delegate) {
+//        [self.delegate  deleteNum];
+//        
+//    }
+//    
+//}
+
+
+
 @end
