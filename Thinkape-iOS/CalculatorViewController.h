@@ -10,6 +10,7 @@
 @protocol  CalculatorResultDelegate<NSObject>
 -(void)sender:(NSString *)str;
 
+
 @end
 @interface CalculatorViewController : UIViewController
 

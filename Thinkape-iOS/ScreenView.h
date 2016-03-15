@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ScreenView : UILabel
+@interface ScreenView : UITextField
 
 @end

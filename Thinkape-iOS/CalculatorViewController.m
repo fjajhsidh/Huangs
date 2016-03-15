@@ -95,6 +95,7 @@
     
     
 }
+
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
 //    结果不会退格
@@ -158,7 +159,7 @@
         self.operator = [NSMutableString stringWithFormat:@"＋"];
         self.flag = NO;
     }
-    else if([operatorButton.titleLabel.text isEqualToString:@"AC"])
+    else if([operatorButton.titleLabel.text isEqualToString:@"清除"])
     {
         self.calculator.add.layer.borderWidth = 0;
         self.calculator.subtraction.layer.borderWidth = 0;

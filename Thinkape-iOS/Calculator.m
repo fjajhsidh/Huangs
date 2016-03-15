@@ -63,13 +63,18 @@
     //    上方留一些格子显示头信息
     ScreenView *terminal = [[ScreenView alloc] initWithFrame:CGRectMake(0, screenHeight*1/13, screenWidth, screenHeight*2.5/13)];
     [self addSubview:terminal];
+    
     self.screenText = terminal;
+
+    
     //    设置编辑
     terminal.enabled = YES;
     //    设置初始显示
     terminal.text = @"0";
+    
+   
     //    背景颜色黑色
-    terminal.backgroundColor = [UIColor blackColor];
+    terminal.backgroundColor = [UIColor yellowColor];
     //    透明度
 //    terminal.alpha = 0.5; 
     //    字体颜色白色
@@ -83,8 +88,11 @@
 //    设置可触摸
     terminal.userInteractionEnabled = YES;
     //    设置最小字体
-//    terminal.minimumFontSize = 1;
-    terminal.minimumScaleFactor = 0.1;
+    terminal.minimumFontSize = 1;
+//    terminal.minimumScaleFactor = 0.1;
+    
+   
+    
 //  自动换行
 //    terminal.numberOfLines = 0;
     
@@ -99,7 +107,7 @@
     allClean.frame = CGRectMake(0, screenHeight*3/13, buttonWidth, buttonHeight);
     allClean.backgroundColor = [UIColor colorWithRed:188/255. green:188/255. blue:188/255. alpha:1];
     //    设置button显示的字
-    [allClean setTitle:@"AC" forState:UIControlStateNormal];
+    [allClean setTitle:@"清除" forState:UIControlStateNormal];
     //    设置title的颜色
     [allClean setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     //    设置button 上 的字体及大小
