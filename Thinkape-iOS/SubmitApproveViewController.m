@@ -102,7 +102,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     self.XMLParameterDic = [[NSMutableDictionary alloc] init];
     self.tableViewDic = [[NSMutableDictionary alloc] init];
     self.deaftcec = [NSMutableArray array];
-     NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
+    NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
     
     if (self.type == 0) {
         UIButton *backBt = [UIButton buttonWithType:UIButtonTypeCustom];
