@@ -237,22 +237,15 @@
                         //通过我的点的行数，值就会带到那行
                        if (indexPath.row==_indexRow+2) {
                           
-                        _datar = self.editnew;
-                        
-                        label.text = [_datar objectForKey:layoutModel.fieldname];
+                           NSMutableArray *dateAll = [NSMutableArray arrayWithArray:_dataArr];
+                           NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
+                           [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
+                           _dataArr = dateAll;
                         
                         
                         
                         }
-                      if(indexPath.row!=_indexRow+2)
-                       {
-                       
-                          
-                        label.text = [_datar objectForKey:layoutModel.fieldname];
-                           
-                           
-                       }
-                    
+                     
                     
                      
                        
@@ -281,8 +274,7 @@
                     if (self.editstart==NO||self.isstrart==NO) {
                          label.text = [_datar objectForKey:layoutModel.fieldname];
                        
-                        
-                        _firstindex = 2;
+                      
                     }
                     
                    
@@ -360,45 +352,25 @@
         if (self.editstart==NO) {
         _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
         app.dict = _datar;
-        _ishandan=YES;
+       
         
             
         }
-        _firstindex = 1;
+       
         if (self.editstart==YES) {
-            if (_firstindex==1) {
+            
                 if (indexPath.row==_indexRowss+2) {
                      _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
                     _datar= self.editnew;
                     app.dict = _datar;
-                    [self.tableview reloadData];
+                   
                                     }
                 else
                 {
-                    if (_ishandan==NO) {
-                        _datar= self.editnew;
-                        app.dict = _datar;
-                        [self.tableview reloadData];
-                    }
-                    else
-                    {
-                    _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-                    app.dict = _datar;
-                        [self.tableview reloadData];
-                    }
-
+                    
                 }
-            
-               
-            }
-           else
-           {
-            _datar = self.editnew;
-            app.dict = _datar;
-               [self.tableview reloadData];
-            
-           }
-        }
+        
+                  }
        
     }
     else
