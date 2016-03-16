@@ -47,7 +47,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 //    NSString *_field;
 }
 
-
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) KindsModel *selectModel;
 @property (strong, nonatomic) NSMutableArray *searchArray;
@@ -93,8 +92,8 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [self performSelector:@selector(setdefaults) withObject:nil afterDelay:0.1];
-
+    _delaysContentTouches = NO;
+    
     _searchArray = [[NSMutableArray alloc] init];
     _selectModel = [[KindsModel alloc] init];
     _layoutArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -141,10 +140,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     self.calculatorvc.delegate=self;
     self.textfield = [[UITextField alloc] init];
     
-  
-    //请求数据：
-//    [self setdefaults];
-   
 }
 
 
@@ -154,7 +149,8 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
  */
 - (void)initItemView:(NSArray *)arr tag:(NSInteger)tag{
 //    KindsItemsView *itemView;
-   self.kindsItemsView= [[[NSBundle mainBundle] loadNibNamed:@"KindsItems" owner:self options:nil] lastObject];
+   
+    self.kindsItemsView= [[[NSBundle mainBundle] loadNibNamed:@"KindsItems" owner:self options:nil] lastObject];
     self.kindsItemsView.frame = CGRectMake(50, 100, SCREEN_WIDTH - 20, SCREEN_WIDTH - 20);
     self.kindsItemsView.center = CGPointMake(SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0);
     self.kindsItemsView.delegate = self;
@@ -189,14 +185,14 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     
     
 //     [self str:ID];
+    
     [self.XMLParameterDic setObject:ID forKey:layoutModel.key];
     [self.tableViewDic setObject:name forKey:layoutModel.key];
-   
    
     [view closed];
     
     [self.tableView reloadData];
-     self.isretern=YES;
+    self.isretern=YES;
 }
 
 - (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
@@ -219,6 +215,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     }
     [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
     [self.tableViewDic setObject:nameStr forKey:layoutModel.key];
+    
     [self.tableView reloadData];
 }
 
@@ -291,7 +288,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
  *
  */
 
-
 - (void)kindsDataSource:(KindsLayoutModel *)model{
     
     
@@ -301,8 +297,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 
     if (model.datasource.length != 0) {
         NSString *oldDataVer = [[CoreDataManager shareManager] searchDataVer:str1];
-        
-        
+    
          _sqlstr =model.MobileSspDataSourceWhere;
         /**
          *  首先判断是否为空，空的话 就传空值，不为空替换
@@ -350,8 +345,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
  *  请求 详细数据分类
  *
  */
-
-
 
 - (void)requestKindsDataSource:(KindsLayoutModel *)model{
     //http://localhost:53336/WebUi/ashx/mobilenew.ashx?ac=GetDataSource&u=9& datasource =400102&dataver=1.3
@@ -862,10 +855,12 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 }
 
 - (void)addDatePickerView:(NSInteger)tag date:(NSString *)date{
-//    if (!self.datePickerView) {
-//        self.datePickerView = [[[NSBundle mainBundle] loadNibNamed:@"DatePickerView" owner:self options:nil] lastObject];
-//        [self.datePickerView setFrame:CGRectMake(0, self.view.frame.size.height - 218, self.view.frame.size.width, 218)];
-//    }
+    
+    if (!self.datePickerView) {
+        self.datePickerView = [[[NSBundle mainBundle] loadNibNamed:@"DatePickerView" owner:self options:nil] lastObject];
+        [self.datePickerView setFrame:CGRectMake(0, self.view.frame.size.height - 218, self.view.frame.size.width, 218)];
+    }
+    
     __block SubmitApproveViewController *weakSelf = self;
     self.datePickerView.tag = tag;
     
@@ -873,8 +868,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     if (date.length != 0) {
         self.datePickerView.date = date;
     }
-    
-    
+
     self.datePickerView.selectDateCallBack = ^(NSString *date){
         NSInteger tag = weakSelf.datePickerView.tag;
         KindsLayoutModel *layoutModel = [weakSelf.layoutArray safeObjectAtIndex:tag];
@@ -884,9 +878,14 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         [weakSelf.tableView reloadData];
     };
    
-    [self.view addSubview:self.datePickerView];
     [self.calculatorvc.view removeFromSuperview];
     [self.kindsItemsView removeFromSuperview];
+    
+    
+    [self.view addSubview:self.datePickerView];
+    
+    NSLog(@"kongd");
+
 }
 
 //    UIImage图片转成base64字符串
@@ -932,21 +931,26 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     self.tagValue=textField.tag;
     self.textfield.tag = textField.tag;
-//    KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:textField.tag];
+
      KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:self.tagValue];
     NSString * category=[NSString stringWithFormat:@"%@",layoutModel.Name];
     NSLog(@"===%@",layoutModel.Name);
     
     if ([category rangeOfString:@"金额"].location !=NSNotFound) {
-        textField.enabled=NO;
-   
+        
         CGRect frame=CGRectMake(0,[UIScreen mainScreen].bounds.size.height-250 , [UIScreen mainScreen].bounds.size.width, 250);
         self.calculatorvc.view.frame=frame;
-        textField.inputView=self.calculatorvc.view;
         
-        
+//        textField.inputView=self.calculatorvc.view;
+
+        [self.view addSubview:self.calculatorvc.view];
+
         [self.kindsItemsView removeFromSuperview];
         [self.datePickerView removeFromSuperview];
+        
+        [textField resignFirstResponder];
+        return NO;
+        
         
     }else{
         
@@ -956,25 +960,34 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 
     if (layoutModel.datasource.length > 0) {
         
+        //如果是1，就会弹出选择框：
         isSingal = layoutModel.IsSingle;
       
+        [self.kindsItemsView removeFromSuperview];
+        
         [self kindsDataSource:layoutModel];
        
-        
         return NO;
     }
   
-  
     else if ([layoutModel.SqlDataType isEqualToString:@"date"]){
         [self addDatePickerView:textField.tag date:textField.text];
+        
         [self.kindsPickerView removeFromSuperview];
         [self.calculatorView removeFromSuperview];
         
         return NO;
     }
-    else
+    else{
+    
+        [self.kindsItemsView removeFromSuperview];
+        [self.kindsPickerView removeFromSuperview];
+        [self.calculatorView removeFromSuperview];
         
-        return YES;
+         return YES;
+        
+    }
+    
 }
 
 
@@ -1004,37 +1017,40 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     [self.XMLParameterDic setObject:textField.text forKey:layoutModel.key];
     [self.tableViewDic setObject:textField.text forKey:layoutModel.key];
    
-    
-   
-    
+
     return YES;
 }
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
-    [self.datePickerView removeFromSuperview];
-    
-}
+
+
+#pragma mark -- 执行计算器单击确认的操作
 
 //执行计算器单击确认的操作
 -(void)sender:(NSString *)str{
+    
 //    UITextField * textField=(UITextField *)[self.view viewWithTag:self.textfield.tag];
 
     UITextField * textField=(UITextField *)[self.view viewWithTag:self.tagValue];
-    
     double number = [str doubleValue];
     if (number == 0){
         textField.text = @"";
         
     }else{
         textField.text = str;
+
     }
-    
     NSLog(@"-----%@",str);
     
     [self.calculatorvc.view removeFromSuperview];
     
-    [textField resignFirstResponder];
+    self.tagValue=textField.tag;
+    self.textfield.tag = textField.tag;
     
+    KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:self.tagValue];
+
+    [self.XMLParameterDic setObject:str forKey:layoutModel.key];
+    [self.tableViewDic setObject:str forKey:layoutModel.key];
+    [self.tableView reloadData];
+
 }
 
 
@@ -1045,13 +1061,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     
 }
 
-
-
-
 -(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self.calculatorView removeFromSuperview];
-   
-    
     
 }
 

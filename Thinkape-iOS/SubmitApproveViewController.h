@@ -17,5 +17,10 @@
 @property (nonatomic , strong) UIView * calculatorView;
 @property (nonatomic , copy) void (^callback)();
 
+@property(nonatomic) BOOL delaysContentTouches;
+
+
+
+
 @end
 
