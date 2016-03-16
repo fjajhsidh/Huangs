@@ -21,6 +21,7 @@
 @property(nonatomic,strong)NSMutableArray *dataArr;
 @property(nonatomic,assign)NSInteger firstindex;
 @property(nonatomic,assign)int IsPage;
+
 @end
 
 @implementation Bianjito
@@ -30,34 +31,39 @@
     CGFloat itemWidth;
     CGFloat speace;
     UILabel *label;
+    UIView *ada;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [self viewDidLoad];
-   
+    
     
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
-   
+    
     self.title = @"明 细";
     
     itemWidth = 80;
     speace = 20;
-  
+    
     
     [self addRightNavgation];
     [self itemLength];
     [self layoutScroll];
     self.scrollview.bounces=NO;
     self.navigationController.navigationBarHidden=NO;
-    if (self.editstart==YES) {
+    if (self.editstart==YES||self.isstrart==YES||self.isbool) {
         [self.tableview reloadData];
     }
-   
     
-
+    _editnew =[NSMutableDictionary dictionary];
+    
+    
 }
+
+
+
 -(void)addRightNavgation{
     UIButton *imageview = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     [imageview setBackgroundImage:[UIImage imageNamed:@"jiaban_white.png"] forState:UIControlStateNormal];
@@ -65,23 +71,33 @@
     UIBarButtonItem *item =[[UIBarButtonItem alloc] initWithCustomView:imageview];
     
     self.navigationItem.rightBarButtonItem=item;
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
 }
 
 
 -(void)appcer
 {
     
-    Bianjiviewtableview *vc =[Bianjiviewtableview new];
-    vc.indexto = _index;
-    vc.costArray=self.costLayoutArray;
-    vc.costArr=self.costDataArr;
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    
+    if (self.isbool==NO) {
+        ada =[[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH)];
+        ada.backgroundColor =[UIColor whiteColor];
+        [self.view addSubview:ada];
+        self.isbool=YES;
+    }
+    else
+    {
+        [ada setHidden:YES];
+        self.isbool=YES;
+    }
+    
+    
     
     
 }
@@ -129,8 +145,13 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSArray *array = [_costDataArr safeObjectAtIndex:_index ];
-    
-    return array.count + 2;
+    if (self.isbool) {
+        [_dataArr addObject:self.editnew];
+        return _dataArr.count+2;
+    }else
+    {
+        return array.count + 2;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -159,35 +180,35 @@
         [bgView addSubview:title];
         
     }
-   
+    
     else{
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(12, 0, width, 50)];
         bgView.tag = 304;
         for (int i = 0; i < model.fileds.count + 1; i++) {
-//            UILabel *label;
+            //            UILabel *label;
             UIButton *button;
             if (i == 0 ) {
                 label = [[UILabel alloc] initWithFrame:CGRectMake(35, 8, 40, 15)];
                 button=[[UIButton alloc] initWithFrame:CGRectMake(10, 8, 40, 15)];
             }
             else
-               
-            label = [[UILabel alloc] initWithFrame:CGRectMake(40+speace + (itemWidth + speace) * (i-1), 8, itemWidth, 15)];
+                
+                label = [[UILabel alloc] initWithFrame:CGRectMake(40+speace + (itemWidth + speace) * (i-1), 8, itemWidth, 15)];
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:13];
             label.tag = i;
             label.textColor = [UIColor colorWithHexString:@"333333"];
-       
-           button=[[UIButton alloc] initWithFrame:CGRectMake(bgView.frame.origin.x-speace+(itemWidth+speace)*(i-1)-10, 8, itemWidth, 15)];
-//            button.font=[UIFont systemFontOfSize:13];
+            
+            button=[[UIButton alloc] initWithFrame:CGRectMake(bgView.frame.origin.x-speace+(itemWidth+speace)*(i-1)-10, 8, itemWidth, 15)];
+            //            button.font=[UIFont systemFontOfSize:13];
             button.titleLabel.font = [UIFont systemFontOfSize:13];
             button.tag=i;
             [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
             [bgView addSubview:label];
             [bgView addSubview:button];
-           
-             if (indexPath.row == 1)
-             {
+            
+            if (indexPath.row == 1)
+            {
                 if (label.tag == 0) {
                     label.text = @"序号";
                     
@@ -198,122 +219,179 @@
                     
                     
                     label.text = layoutModel.name;
-                 
+                    
                     
                     
                 }
-      
+                
                 if (button.tag==1) {
                     
                     [button setTitle:@"操作" forState:UIControlStateNormal];
-               }
-                 
+                }
+                
             }
             else
             {
                 if (label.tag == 0) {
-                   label.text = [NSString stringWithFormat:@"%ld",indexPath.row - 1];
-                   
+                    label.text = [NSString stringWithFormat:@"%ld",indexPath.row - 1];
+                    
                 }
-             
-                else{
-                 
-
-                  LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
-                  _dataArr = [_costDataArr safeObjectAtIndex:_index];
-                    _firstindex = indexPath.row-2;
-                  _datar = [_dataArr safeObjectAtIndex:_firstindex];
-                    
-                   
-                    //判断传值是否经过传值而过来的字典
-                 
-                    
                 
+                else{
+                    
+                    
+                    LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
+                    
+                    _dataArr = [_costDataArr safeObjectAtIndex:_index];
+                    
+                    
+                    if (_dataArr.count!=0) {
+                        [self readtodate];
+                        
+                    }
+                    
+                    
+                    _datar = [_dataArr safeObjectAtIndex: indexPath.row-2];
+                    //                    if (_dataArr.count!=0) {
+                    //                        [self readtodate:_dataArr];
+                    //                    }
+                    //
+                    
+                    
+                    
+                    
+                    //判断传值是否经过传值而过来的字典
+                    
+                    
+                    
                     
                     if (_IsPage==_index) {
                         
-                    
-                    if (self.editstart==YES) {
-                        //通过我的点的行数，值就会带到那行
-                       if (indexPath.row==_indexRow+2) {
-                          
-                           NSMutableArray *dateAll = [NSMutableArray arrayWithArray:_dataArr];
-                           NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
-                           [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
-                           _dataArr = dateAll;
-                           _datar = [_dataArr safeObjectAtIndex:_indexRow];
-                           label.text = [_datar objectForKey:layoutModel.fieldname];
-                           
+                        
+                        if (self.editstart==YES) {
+                            //通过我的点的行数，值就会带到那行
+                            if (indexPath.row==_indexRow+2) {
+                                if (self.editstart==YES) {
+                                    
+                                    
+                                    //                                NSMutableArray *dateAll = [NSMutableArray arrayWithArray:_dataArr];
+                                    //                                NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
+                                    //                                [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
+                                    //
+                                    //                                _dataArr = dateAll;
+                                    
+                                    
+                                    
+                                    
+                                    _dataArr = self.arrayDict;
+                                    _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                                    
+                                    
+                                    
+                                    label.text = [_datar objectForKey:layoutModel.fieldname];
+                                    [self saveto];
+                                    
+                                    //_firstindex = _indexRow+2;
+                                }
+                                if (self.editstart==NO) {
+                                    _dataArr = [_costDataArr safeObjectAtIndex:_index];
+                                    
+                                    
+                                    
+                                    //                                    _datar = [_dataArr safeObjectAtIndex: indexPath.row-2];
+                                }
+                                if (self.isbool==YES) {
+                                    [_dataArr addObject:self.editnew];
+                                    _datar = [_dataArr safeObjectAtIndex:indexPath.row+2];
+                                    label.text = [_datar objectForKey:layoutModel.fieldname];
+                                    
+                                }
+                                if (self.isstrart ==YES) {
+                                    NSMutableArray *dateAll = [NSMutableArray arrayWithArray:_dataArr];
+                                    NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editxiao];
+                                    [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
+                                    
+                                    //                                    _dataArr = dateAll;
+                                    //                                    _datar = [_dataArr safeObjectAtIndex:_indexRow];
+                                    //                                    label.text = [_datar objectForKey:layoutModel.fieldname];
+                                }
+                                if (self.isstrart==NO) {
+                                    _dataArr = [_costDataArr safeObjectAtIndex:_index];
+                                    
+                                    
+                                    
+                                    //
+                                    //                                    _datar = [_dataArr safeObjectAtIndex: indexPath.row-2];
+                                }
+                            }
+                            
+                            
+                            
+                            
+                            
+                        }
                         
                         
-                        }
-                        if (indexPath.row==_firstindex) {
-                             _dataArr = [_costDataArr safeObjectAtIndex:_index];
-                            _datar = [_dataArr safeObjectAtIndex:_firstindex];
-                             label.text = [_datar objectForKey:layoutModel.fieldname];
-                        }
-                    
-                     
-                       
-                    
-               
-                    }
-                
-                
                     }
                     
                     if (_IsPage!=_index) {
                         if (self.isstrart==YES) {
                             
-                        
-                        if (indexPath.row==_indexRow+2) {
+                            
+                            
                             
                             NSMutableArray *dateAll = [NSMutableArray arrayWithArray:_dataArr];
                             NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editxiao];
                             [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
                             _dataArr = dateAll;
+                            
                             _datar = [_dataArr safeObjectAtIndex:_indexRow];
                             label.text = [_datar objectForKey:layoutModel.fieldname];
                             
                             
                             
+                            
+                            //                            if (indexPath.row==_firstindex) {
+                            //                                _dataArr = [_costDataArr safeObjectAtIndex:_index];
+                            //                                _datar = [_dataArr safeObjectAtIndex:_firstindex];
+                            //                                label.text = [_datar objectForKey:layoutModel.fieldname];
+                            //                            }
+                            
+                            
+                            
                         }
-                        if (indexPath.row==_firstindex) {
-                            _dataArr = [_costDataArr safeObjectAtIndex:_index];
-                            _datar = [_dataArr safeObjectAtIndex:_firstindex];
-                            label.text = [_datar objectForKey:layoutModel.fieldname];
-                        }
-                        
-                        
-
-                    }
                     }
                     
                     NSLog(@"_datar====%@",_datar);
                     NSLog(@"%@",label.text);
-                  
+                    
                     NSLog(@"_datar====%@",_datar);
                     NSLog(@"%@",label.text);
                     
                     
                     if (self.editstart==NO||self.isstrart==NO) {
-                       
-                         label.text = [_datar objectForKey:layoutModel.fieldname];
+                        
+                        label.text = [_datar objectForKey:layoutModel.fieldname];
                         
                         
                         
                         
                         
-                      
+                        
+                    }
+                    if (self.isbool==YES) {
+                        
                     }
                     
-                   
+                    //                    if (self.editstart==YES||self.isstrart==YES) {
+                    //                        [self saveto:_dataArr];
+                    //                    }
                     
                     NSLog(@"%@",label.text);
-
-                 }
+                    
+                }
                 if (button.tag==1) {
-                     [button setTitle:@"删除" forState:UIControlStateNormal];
+                    [button setTitle:@"删除" forState:UIControlStateNormal];
                     [button addTarget:self action:@selector(buttonaction) forControlEvents:UIControlEventTouchUpInside];
                     [bgView addSubview:button];
                     
@@ -331,117 +409,126 @@
         
         
     }
-   
+    
     return cell;
     
 }
--(void)saveto:(NSMutableDictionary *)save
+-(void)saveto
 {
-    NSDictionary *dic =@{@"sda":save};
+    NSDictionary *dic =@{@"sda":_dataArr};
     [dic writeToFile:[self filePath] atomically:YES];
 }
--(void)readtodate:(NSMutableDictionary *)read
+-(void)readtodate
 {
     NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
-   read= [dic objectForKey:@"sda"];
+    _dataArr= [dic objectForKey:@"sda"];
 }
 -(NSString *)filePath{
     NSString *documentsPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
-    NSString *filePath =[documentsPath stringByAppendingPathComponent:@"su.txt"];
+    NSString *filePath =[documentsPath stringByAppendingPathComponent:@"sst.txt"];
     NSLog(@"文件夹位置%@",filePath);
     return filePath;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   
-  
+    
+    
     if (indexPath.row==1||indexPath.row==0) {
         return;
     }
     
-   
-        
- 
-
+    
+    
     
     AppDelegate *app =[UIApplication sharedApplication].delegate;
-   
-//    _datar = [_dataArr safeObjectAtIndex:_indexRow];
-//    if (self.editstart==YES) {
-//    _datar=self.self.editnew;
-//     app.dict = _datar;
-//    }else
-//    {
-//     app.dict=_datar;
-//    }
     
-        
-     _indexRow = indexPath.row-2;
-   
-        
+    //    _datar = [_dataArr safeObjectAtIndex:_indexRow];
+    //    if (self.editstart==YES) {
+    //    _datar=self.self.editnew;
+    //     app.dict = _datar;
+    //    }else
+    //    {
+    //     app.dict=_datar;
+    //    }
+    
+    
+    _indexRow = indexPath.row-2;
+    
+    
     if (_IsPage==_index) {
         
-    
-    if (self.editstart==YES) {
-       
-       
-        if (indexPath.row == _indexRow+2) {
-            
-            NSMutableArray *dateAll = [NSMutableArray arrayWithArray:_dataArr];
-            NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
-            [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
-            _dataArr = dateAll;
-            _datar = [_dataArr safeObjectAtIndex:_indexRow];
-            app.dict = _datar;
-            
-          }
-        if (indexPath.row==_firstindex+2) {
-           
-                app.dict = _datar;
-            
-        }
-
-       
-    }
-    else
-    {
         
-        app.dict = _datar;
-    }
-    }
-    if (_IsPage!=_index) {
-        if (self.isstrart==YES) {
+        if (indexPath.row==_indexRow+2) {
             
-            
-            if (indexPath.row == _indexRow+2) {
+            if (self.editstart==YES||self.isstrart==YES) {
                 
-                NSMutableArray *dateAll = [NSMutableArray arrayWithArray:_dataArr];
-                NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
-                [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
-                _dataArr = dateAll;
+                
+                
+                
+                //                NSMutableArray *dateAll = [NSMutableArray arrayWithArray:_dataArr];
+                //                NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
+                //                [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
+                
+                //                _dataArr = dateAll;
+                //
+                
+                
+                _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                
+                
+                
+                app.dict = _datar;
+                
+                
+                //            if (indexPath.row==_firstindex+2) {
+                //
+                //                app.dict = _datar;
+                //
+                //            }
+                
+            }
+            else
+            {
+                _dataArr = [_costDataArr safeObjectAtIndex:_index];
+                
+                
+                
+                
                 _datar = [_dataArr safeObjectAtIndex:_indexRow];
                 app.dict = _datar;
-                
             }
-            if (indexPath.row==_firstindex+2) {
-                
-                app.dict = _datar;
-                
-            }
-            
-            
         }
-        else
-        {
-            
-            app.dict = _datar;
-        }
-
+        
     }
-
+    //    if (_IsPage!=_index) {
+    //        if (self.isstrart==YES) {
+    //
+    //
+    //
+    //
+    //                NSMutableArray *dateAll = [NSMutableArray arrayWithArray:_dataArr];
+    //                NSMutableDictionary *aller =[NSMutableDictionary dictionaryWithDictionary:self.editxiao];
+    //                [dateAll replaceObjectAtIndex:_indexRow withObject:aller];
+    //                _dataArr = dateAll;
+    //                _datar = [_dataArr safeObjectAtIndex:_indexRow];
+    //                app.dict = _datar;
+    //
+    //
+    //
+    //
+    //
+    //        }
+    //
+    //
+    //    }
+    //    else
+    //    {
+    //        
+    //        app.dict = _datar;
+    //    }
     MixiViewController *vc =[[MixiViewController alloc] init];
     vc.index = _index;
-   
+    
     vc.costatrraylost=self.costLayoutArray;
     vc.costarrdate=_costDataArr;
     
@@ -452,7 +539,7 @@
 
 -(void)buttonaction
 {
- 
+    
     [self.costDataArr removeAllObjects];
     [self.tableview reloadData];
     
@@ -467,13 +554,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

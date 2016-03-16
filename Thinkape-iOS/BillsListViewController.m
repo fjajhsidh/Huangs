@@ -169,6 +169,7 @@
     cell.billNum.text = model.billno;
     cell.billPrice.text = [NSString stringWithFormat:@"￥%@",model.billmoney];
     cell.billName.text = model.pagename;
+    cell.tilenamece.text = [NSString stringWithFormat:@"%@-%@",model.deptid,model.uid];
     
     //
     NSString *str = [model.pagename substringToIndex:1];

@@ -57,6 +57,8 @@
 @property (strong, nonatomic) KindsPickerView *kindsPickerView;
 @property(nonatomic,strong)NSMutableDictionary *tableviewDic;
 @property(nonatomic,strong)CostLayoutModel *coster;
+
+
 @end
 
 @implementation Bianjiviewtableview
@@ -82,10 +84,9 @@
     _selectModel=[[KindsModel alloc] init];
     self.imagedatarry=[NSMutableArray array];
     self.updatearry =[NSMutableArray array];
-     self.tableviewDic=[NSMutableDictionary dictionary];
+    self.tableviewDic=[NSMutableDictionary dictionary];
     self.dict1 =[[NSMutableDictionary alloc]init];
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
-    self.dict1 = [NSMutableDictionary dictionaryWithDictionary:app.dict];
+    
     self.textfield=[[UITextField alloc] initWithFrame:CGRectMake(140, 5, 170, 30)];
     self.textfield.textAlignment=NSTextAlignmentCenter;
     self.textfield.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
@@ -107,22 +108,22 @@
     if (model.fileds.count!=0) {
         number=model.fileds.count+1;
     }
-       return number;
-
+    return number;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     {
         
-      
         
-       MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:indexPath.row];
+        
+        MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:indexPath.row];
         
         
         BijicellTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
         if (!cell) {
             cell=[[[NSBundle mainBundle] loadNibNamed:@"BijicellTableViewCell" owner:self options:nil] lastObject];
-           
+            
             
             //
             //             LayoutModel *layoutModel =[model.fileds safeObjectAtIndex:cell.textlabel.tag-1];
@@ -143,7 +144,7 @@
         NSArray *array =[self.costArr safeObjectAtIndex:_indexto];
         //            NSDictionary *dict =[array safeObjectAtIndex:self.indexto];
         
-       
+        
         
         cell.detailtext.text=[self.dict1 objectForKey:layoutModel.fieldname];
         
@@ -163,19 +164,19 @@
             cell.detailtext.text=@"";
         }
         if ([layoutModel.fieldname isEqualToString:@"ybmoney"]) {
-             cell.detailtext.text=@"";
+            cell.detailtext.text=@"";
         }
         cell.detailtext.delegate= self;
         cell.detailtext.tag=indexPath.row;
         
         
         
- 
+        
         
         if (indexPath.row==self.coster.fileds.count) {
             [cell.textlabel removeFromSuperview];
             [cell.detailtext removeFromSuperview];
-           
+            
             if (!bgView) {
                 bgView = [[UIView alloc] initWithFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (SCREEN_WIDTH - 36) * 0.75)];
                 bgView.tag = 204;
@@ -187,10 +188,10 @@
             [bgView setFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (speace + imageWidth) * row)];
             [bgView removeFromSuperview];
             [self addItems:bgView];
-             [cell.contentView addSubview:bgView];
+            [cell.contentView addSubview:bgView];
             
         }
-         cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
         return cell;
         
     }
@@ -316,7 +317,7 @@
         //        [weaker.datePickerView closeView:nil];
         //
         //        [weaker.tableview reloadData];
-       
+        
         
         MiXimodel *layout =[weaker.costArray safeObjectAtIndex:tag];
         
@@ -445,14 +446,14 @@
             btn.tag = 1024+ i;
             [btn addTarget:self action:@selector(showImages:) forControlEvents:UIControlEventTouchUpInside];
             [bgView addSubview:btn];
-//            if ([self isUnCommint]) {
-                UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                [deleteBtn setFrame:CGRectMake(imageWidth - 32, 0, 32, 32)];
-                [deleteBtn setImage:[UIImage imageNamed:@"deleteBtn"] forState:UIControlStateNormal];
-                deleteBtn.tag = 1024+ i;
-                [deleteBtn addTarget:self action:@selector(deleteImages:) forControlEvents:UIControlEventTouchUpInside];
-               [btn addSubview:deleteBtn];
-//            }
+            //            if ([self isUnCommint]) {
+            UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [deleteBtn setFrame:CGRectMake(imageWidth - 32, 0, 32, 32)];
+            [deleteBtn setImage:[UIImage imageNamed:@"deleteBtn"] forState:UIControlStateNormal];
+            deleteBtn.tag = 1024+ i;
+            [deleteBtn addTarget:self action:@selector(deleteImages:) forControlEvents:UIControlEventTouchUpInside];
+            [btn addSubview:deleteBtn];
+            //            }
             
         }
         count += _imagedatarry.count;
@@ -464,41 +465,41 @@
             [btn setBackgroundImage:[_imagedatarry safeObjectAtIndex:i - _updatearry.count] forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(showSelectImage:) forControlEvents:UIControlEventTouchUpInside];
             btn.tag = 2024+ i;
-                      [bgView addSubview:btn];
+            [bgView addSubview:btn];
             
-//            if ([self isUnCommint]) {
-                UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                [deleteBtn setFrame:CGRectMake(imageWidth - 32, 0, 32, 32)];
-                [deleteBtn setImage:[UIImage imageNamed:@"deleteBtn"] forState:UIControlStateNormal];
-//                deleteBtn.tag = 1024+ i;
+            //            if ([self isUnCommint]) {
+            UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [deleteBtn setFrame:CGRectMake(imageWidth - 32, 0, 32, 32)];
+            [deleteBtn setImage:[UIImage imageNamed:@"deleteBtn"] forState:UIControlStateNormal];
+            //                deleteBtn.tag = 1024+ i;
             deleteBtn.tag = 2024+ i;
-                [deleteBtn addTarget:self action:@selector(deleteImages:) forControlEvents:UIControlEventTouchUpInside];
-                [btn addSubview:deleteBtn];
-//            }
+            [deleteBtn addTarget:self action:@selector(deleteImages:) forControlEvents:UIControlEventTouchUpInside];
+            [btn addSubview:deleteBtn];
+            //            }
         }
         int btnCloum = count %3;
         int btnRow = count / 3;
         view.backgroundColor = [UIColor clearColor];
         //看看都不能删掉，注意只有一行
         //       NSDictionary *mainDataDic = [_mainData safeObjectAtIndex:0];
-//        if ([self isUnCommint]) {
-            UIButton *addImage = [UIButton buttonWithType:UIButtonTypeCustom];
-            [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * btnCloum, speace + (speace + imageWidth) * btnRow, imageWidth, imageWidth)];
-            [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
-            [addImage addTarget:self action:@selector(plusimage) forControlEvents:UIControlEventTouchUpInside];
-                    [bgView addSubview:addImage];
-//        }
+        //        if ([self isUnCommint]) {
+        UIButton *addImage = [UIButton buttonWithType:UIButtonTypeCustom];
+        [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * btnCloum, speace + (speace + imageWidth) * btnRow, imageWidth, imageWidth)];
+        [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
+        [addImage addTarget:self action:@selector(plusimage) forControlEvents:UIControlEventTouchUpInside];
+        [bgView addSubview:addImage];
+        //        }
     }
     else{
         CGFloat speace = 15.0f;
         CGFloat imageWidth = (SCREEN_WIDTH - 36 - 4*speace) / 3.0f;
-//        if ([self isUnCommint]) {
-            UIButton *addImage = [UIButton buttonWithType:UIButtonTypeCustom];
-            [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * 0, speace + (speace + imageWidth) * 0, imageWidth, imageWidth)];
-            [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
-            [addImage addTarget:self action:@selector(plusimage) forControlEvents:UIControlEventTouchUpInside];
-                    [bgView addSubview:addImage];
-//        }
+        //        if ([self isUnCommint]) {
+        UIButton *addImage = [UIButton buttonWithType:UIButtonTypeCustom];
+        [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * 0, speace + (speace + imageWidth) * 0, imageWidth, imageWidth)];
+        [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
+        [addImage addTarget:self action:@selector(plusimage) forControlEvents:UIControlEventTouchUpInside];
+        [bgView addSubview:addImage];
+        //        }
         
     }
     
@@ -597,10 +598,10 @@
 - (void)deleteImages:(UIButton *)btn{
     
     if (btn.tag >=1024 && btn.tag < 2024) {
-//        NSString *url = [_updatearry safeObjectAtIndex:btn.tag - 1024];
-//        
-//        NSString *imgid = [[url componentsSeparatedByString:@"?"] lastObject];
-         ImageModel *model = [_updatearry safeObjectAtIndex:btn.tag - 1024];
+        //        NSString *url = [_updatearry safeObjectAtIndex:btn.tag - 1024];
+        //
+        //        NSString *imgid = [[url componentsSeparatedByString:@"?"] lastObject];
+        ImageModel *model = [_updatearry safeObjectAtIndex:btn.tag - 1024];
         
         if (delteImageIDS.length == 0) {
             delteImageIDS = [NSString stringWithFormat:@"%@",model.ID];
@@ -649,13 +650,13 @@
         //            return (speace + imageWidth) * row;
         
         
-
-
-    return height;
+        
+        
+        return height;
+        
+    }
     
-}
-
-
+    
 }
 
 - (CGFloat )fixStr:(NSString *)str{
@@ -693,17 +694,17 @@
     return _encodedImageStr;
 }
 - (NSInteger)fileType:(NSString *)fileName{
-        NSArray *suffix = [fileName componentsSeparatedByString:@"."];
-        NSString *type = [suffix lastObject];
-        NSRange range = [type rangeOfString:@"png"];
-        NSRange range1 = [type rangeOfString:@"jpg"];
-        
-        if (range.length >0 || range1.length > 0) {
-            return 0;
-        }
-        else
-            return 1;
+    NSArray *suffix = [fileName componentsSeparatedByString:@"."];
+    NSString *type = [suffix lastObject];
+    NSRange range = [type rangeOfString:@"png"];
+    NSRange range1 = [type rangeOfString:@"jpg"];
+    
+    if (range.length >0 || range1.length > 0) {
+        return 0;
     }
+    else
+        return 1;
+}
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -794,10 +795,22 @@
 - (id <QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index{
     return [NSURL fileURLWithPath:[[RequestCenter defaultCenter] filePath]];
 }
+
 - (IBAction)savetext:(id)sender {
     
     
     Bianjito *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+    if (bi.index==0) {
+        bi.isbool=YES;
+        
+        
+        
+        bi.editnew = self.dict1;
+    }
+    
+    
+    
+    
     [self.navigationController popToViewController:bi animated:YES];
     
 }
@@ -807,13 +820,13 @@
     return[scan scanInt:&val] && [scan isAtEnd];
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

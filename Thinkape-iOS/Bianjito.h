@@ -36,4 +36,6 @@
 @property(nonatomic,strong)NSMutableDictionary *editxiao;
 @property(nonatomic,assign)NSInteger indexRow;
 @property(nonatomic,assign)NSInteger indexRowss;
+@property(nonatomic,assign)BOOL isbool;
+
 @end

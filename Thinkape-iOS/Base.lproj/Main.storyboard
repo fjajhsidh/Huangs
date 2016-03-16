@@ -1229,6 +1229,7 @@
                                             <outlet property="billTime" destination="rz9-bc-S3n" id="9Ul-bs-Wso"/>
                                             <outlet property="billTypeImage" destination="6Kt-za-rnR" id="etA-o3-a3A"/>
                                             <outlet property="nameLabel" destination="yxS-OX-4Io" id="IsC-qG-ZgD"/>
+                                            <outlet property="tilenamece" destination="dyj-uP-y2v" id="nBs-0k-spI"/>
                                             <outlet property="titleLabel" destination="yxS-OX-4Io" id="5S2-KC-gSZ"/>
                                         </connections>
                                     </tableViewCell>
