@@ -200,7 +200,7 @@
     
     
     //    设置边框
-    devide.layer.borderWidth = 0.1;
+    devide.layer.borderWidth = 0;
     //    设置按键发光
     devide.showsTouchWhenHighlighted = YES;
 #pragma mark multiplication键
@@ -270,7 +270,7 @@
     //    设置button上字体的颜色
     add.titleLabel.textColor = [UIColor whiteColor];
     //    设置边框
-    add.layer.borderWidth = 0.1;
+    add.layer.borderWidth = 0;
     //    设置按键发光
     add.showsTouchWhenHighlighted = YES;
     
