@@ -58,8 +58,8 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 @property (strong, nonatomic) NSMutableArray *imagePaths;
 @property (strong, nonatomic) KindsPickerView *kindsPickerView;
 @property (strong, nonatomic) DatePickerView *datePickerView;
-@property(nonatomic,copy)NSString *messageid;
-@property(nonatomic,copy)NSString *namestr;
+@property (nonatomic,copy)NSString *messageid;
+@property (nonatomic,copy)NSString *namestr;
 @property (weak, nonatomic) IBOutlet UIButton *saveBtn;
 @property (weak, nonatomic) IBOutlet UIButton *commintBtn;
 
@@ -191,7 +191,21 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
    
     [view closed];
     
+    
+    
+        [self setAuto];
+    
+    
+    
     [self.tableView reloadData];
+    
+
+     //请求数据结束，数据已经铺在textfield上了，拿到这个数据去
+    
+    
+
+    
+    
     self.isretern=YES;
 }
 
@@ -215,6 +229,14 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     }
     [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
     [self.tableViewDic setObject:nameStr forKey:layoutModel.key];
+    
+    
+    //在这获取nameStr
+    
+    [self setAuto];
+    
+    
+    
     
     [self.tableView reloadData];
 }
@@ -298,7 +320,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     if (model.datasource.length != 0) {
         NSString *oldDataVer = [[CoreDataManager shareManager] searchDataVer:str1];
     
-         _sqlstr =model.MobileSspDataSourceWhere;
+         _sqlstr = model.MobileSspDataSourceWhere;
         /**
          *  首先判断是否为空，空的话 就传空值，不为空替换
          */
@@ -457,8 +479,8 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                                                
                                                [SVProgressHUD showSuccessWithStatus:@"提交数据成功"];
                                            }
-                                           else
-                                               [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
+//                                           else
+//                                               [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
                                            
                                        }
                                        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -875,12 +897,15 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         [weakSelf.XMLParameterDic setObject:date forKey:layoutModel.key];
         [weakSelf.tableViewDic setObject:date forKey:layoutModel.key];
         [weakSelf.datePickerView closeView:nil];
+        
+        //[]
+//        [self setAuto];
+        
         [weakSelf.tableView reloadData];
     };
    
     [self.calculatorvc.view removeFromSuperview];
     [self.kindsItemsView removeFromSuperview];
-    
     
     [self.view addSubview:self.datePickerView];
     
@@ -1049,6 +1074,13 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 
     [self.XMLParameterDic setObject:str forKey:layoutModel.key];
     [self.tableViewDic setObject:str forKey:layoutModel.key];
+    
+    
+    //在这里获取输入的金额数str
+    
+    
+    [self setAuto];
+    
     [self.tableView reloadData];
 
 }
@@ -1187,7 +1219,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 //        [self Message];
        
         [self performSelector:@selector(setdefaults) withObject:nil afterDelay:0.1];
-        
+//        [self performSelector:@selector(setAuto) withObject:nil afterDelay:0.5];
         return cell;
        
     }
@@ -1202,7 +1234,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
 //    [self performSelector:@selector(setdefaults) withObject:nil afterDelay:0.1];
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
     
 }
 
@@ -1216,6 +1248,11 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
             
            }else {
             
+//               NSString *MobileSspEventByAuto = layout.MobileSspEventByAuto;
+               
+               
+//               NSString *mobileStr = [self str:MobileSspEventByAuto];
+               
                NSString *mober = layout.MobileSspDefaultValue;
                NSString *aler =[self str:mober];
             //            @synchronized(self) {
@@ -1291,6 +1328,11 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     NSLog(@"hah ");
     
     [self setdefaults];
+    
+    
+//    [self setAuto];
+    
+    
     
 //    [self.tableView reloadData];
 }
@@ -1404,6 +1446,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 
     return mobel;
 }
+
 -(NSDictionary *)fetchdata:(NSDictionary *)dict;
 {
     dict =  [NSDictionary dictionaryWithContentsOfFile:[self filePath]];
@@ -1487,7 +1530,101 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
  }
  */
 
+#pragma mark -- 设置联动值
 
+- (void) setAuto {
+    
+#if 0
+
+    for (KindsLayoutModel *layout in self.layoutArray) {
+        if ([layout.MobileSspEventByAuto isEqualToString:@""]||layout.MobileSspEventByAuto==nil) {
+            
+        }else {
+            
+//            NSString *mobileSspEventByAuto = layout.MobileSspEventByAuto;
+            
+            NSString *mobileStr = [self str:layout.MobileSspEventByAuto];
+            
+//            NSString *mober = layout.MobileSspDefaultValue;
+//            NSString *aler =[self str:mober];
+            //            @synchronized(self) {
+//            NSString *defaults = [NSString stringWithFormat:@"http://27.115.23.126:5032/ashx/mobilenew.ashx?ac=MobileDefaultValue&u=%@&fieldname=%@&strsql=%@",self.uid,layout.Field,aler];
+            
+            
+            NSString * autoStr = [NSString stringWithFormat:@"http://27.115.23.126:5032/ashx/mobilenew.ashx?ac=MobileEventByAuto&u=%@&strsql=%@",self.uid,mobileStr];
+        
+            NSLog(@"默认值的接口=%@",autoStr);
+            
+            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+            
+            AFHTTPRequestOperation *op = [manager POST:[autoStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                long error = [[responseObject objectForKey:@"error"] integerValue];
+                
+                if (error!=0) {
+                    
+                }else{
+                    
+                    NSString *msg =[responseObject objectForKey:@"msg"];
+                    NSArray *array =[msg componentsSeparatedByString:@";"];
+                    
+                    for (int i=0; i<[array count]; i++) {
+                        NSString *ster =  [array objectAtIndex:i];
+                        
+                        if(![ster isEqualToString:@""]) {
+                            
+                            NSArray *arcer =[ster componentsSeparatedByString:@":"];
+                            self.namestr = [arcer objectAtIndex:1];
+                            NSArray *f_id = [[arcer objectAtIndex:0] componentsSeparatedByString:@"="];
+                            
+                            NSString *field =[[f_id objectAtIndex:0]stringByReplacingOccurrencesOfString:@"$" withString:@""];
+                            
+                            self.messageid = [f_id objectAtIndex:1];
+                            NSLog(@"msg分割=%@",[array objectAtIndex:i] );
+                            self.textfield = [self.cell_data objectForKey:field];
+                           
+                            self.textfield.text = self.namestr;
+                            
+                            [self.XMLParameterDic setObject:self.messageid forKey:layout.key];
+                            [self.tableViewDic setObject:self.namestr forKey:layout.key];
+                            //
+                            
+                            
+//                            [self.XMLParameterDic setObject:self.namestr forKey:layout.key];
+//                            [self.tableViewDic setObject:self.messageid forKey:layout.key];
+                            
+                        }else{
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                
+                [SVProgressHUD dismiss];
+                
+            }];
+            
+            [op setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+                
+                NSLog(@"totle %lld",totalBytesWritten);
+                
+            }];
+            
+        }
+        
+        NSLog(@"请求成功");
+        //[__lock unlock];
+        
+    }
+    
+    
+    
+# endif
+
+    
+}
 
 @end
 

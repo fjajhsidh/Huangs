@@ -19,8 +19,14 @@
 @property (nonatomic,strong) NSString *Text;
 @property (nonatomic,strong) NSString *SqlDataType;
 @property(nonatomic,copy) NSString *MobileSspDefaultValue;
+
+
 @property(nonatomic,copy)NSString *MobileSspEventByAuto;
+
+
 @property(nonatomic,copy)NSString *MobileSspDataSourceWhere;
+
+
 @property(nonatomic,copy)NSString *Field;
 @property (nonatomic , assign) BOOL IsMust;
 @property (nonatomic , assign) BOOL IsSingle;
