@@ -42,7 +42,7 @@
 @property(nonatomic,strong)NSMutableDictionary *Dictns;
 @property(nonatomic,strong)UIBarButtonItem *item;
 @property(nonatomic,strong)UIBarButtonItem *items;
-
+@property(nonatomic,strong)NSString *stringall;
 @end
 
 @implementation Bianjito
@@ -71,7 +71,7 @@
     speace = 20;
     
     self.imageview.selected=YES;
-    
+    self.isbool=NO;
     
     [self itemLength];
     [self layoutScroll];
@@ -83,7 +83,7 @@
     //    if (self.editstart==YES||self.isstrart==YES||self.isbool) {
     //        [self.tableview reloadData];
     //    }
-    
+   
     _editnew =[NSMutableDictionary dictionary];
     _coster=[self.costLayoutArray safeObjectAtIndex:_index];
     self.Tositoma =_coster.fileds;
@@ -263,8 +263,9 @@
         
         cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
         _datar =[NSMutableDictionary dictionaryWithDictionary:self.Dictns];
-        cell.detailtext.text= [_datar objectForKey:layoutModel.fieldname];
-        //        cell.detailtext.delegate=self;
+        self.stringall = [_datar objectForKey:layoutModel.fieldname];
+        
+        cell.detailtext.text= self.stringall;
         cell.detailtext.tag=indexPath.row;
         cell.detailtext.delegate =self;
         
@@ -368,10 +369,10 @@
                     
                     else{
                         
-                        
-                        LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
-                        
-                        _dataArr = [_costDataArr safeObjectAtIndex:_index];
+//                        
+                       LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
+////                        
+                       _dataArr = [_costDataArr safeObjectAtIndex:_index];
                         
                         
                         //                        if (_dataArr.count!=0) {
@@ -379,19 +380,27 @@
                         //
                         //                        }
                         
-                        self.Dictns = [NSMutableDictionary dictionaryWithDictionary:_datar];
-                        _datar = [_dataArr safeObjectAtIndex: indexPath.row-2];
+//                        self.Dictns = [NSMutableDictionary dictionaryWithDictionary:_datar];
+//                        _datar = [_dataArr safeObjectAtIndex: indexPath.row-2];
+//                        
+                        
+                        
+                     
+                        
+               
+                        
+                        
+                            _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                        self.Dictns =[NSMutableDictionary dictionaryWithDictionary:_datar];
+                        
+                             self.stringall = [self.Dictns objectForKey:[NSString stringWithFormat:@"%@",layoutModel.fieldname]];
+                             label.text = self.stringall;
                         
                         
                         
-                        if (self.isbool) {
-                            label.text = [_datar objectForKey:layoutModel.fieldname];
-                        }
+                            
                         
-                        if (self.isbool==YES) {
-                            label.text = [self.Dictns objectForKey:layoutModel.fieldname];
-                        }
-                        
+            
                         
                         
                         
@@ -442,17 +451,17 @@
 }
 -(void)saveto
 {
-    NSDictionary *dic =@{@"sda":_dataArr};
+    NSDictionary *dic =@{@"sda":self.stringall};
     [dic writeToFile:[self filePath] atomically:YES];
 }
 -(void)readtodate
 {
     NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
-    _dataArr= [dic objectForKey:@"sda"];
+   self.stringall= [dic objectForKey:@"sda"];
 }
 -(NSString *)filePath{
     NSString *documentsPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
-    NSString *filePath =[documentsPath stringByAppendingPathComponent:@"sst.txt"];
+    NSString *filePath =[documentsPath stringByAppendingPathComponent:@"Yaxh.txt"];
     NSLog(@"文件夹位置%@",filePath);
     return filePath;
 }
@@ -578,8 +587,8 @@
     if (self.imageview.selected==YES) {
         
         _indexRow = indexPath.row-2;
-        
-        _datar = [_dataArr objectAtIndex:_indexRow];
+     
+       _datar = [_dataArr objectAtIndex:_indexRow];
         
         [self.tableview reloadData];
         NSLog(@"点的以二次");
@@ -651,7 +660,7 @@
         
         [self.Dictns setObject:self.textfield.text forKey:model2.fieldname];
         
-        
+          
         return NO;
     }else
         if ([model2.sqldatatype isEqualToString:@"date"]){
