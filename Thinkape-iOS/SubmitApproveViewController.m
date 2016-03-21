@@ -193,9 +193,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     [view closed];
     
     if ([layoutModel.MobileSspEventByAuto isEqualToString:@""]||layoutModel.MobileSspEventByAuto==nil) {
-        
     
-        
     }else {
         [self setAuto:layoutModel];
         
@@ -490,6 +488,10 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                                        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                            
                                        }];
+    
+    
+    
+    
     [op setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         NSLog(@"totle %lld",totalBytesWritten);
     }];
@@ -1148,14 +1150,19 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+
     if (indexPath.row != self.layoutArray.count) {
         
         KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:indexPath.row];
-        NSString *cellID = @"cell";
+        static NSString *cellID = @"cell";
         BillsLayoutViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-       
-       
+        cell.contentText.placeholder = @"";
+        
+        if (cell == nil) {
+            cell = [[BillsLayoutViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+            
+        }
+        
         cell.category.text = [NSString stringWithFormat:@"%@:",layoutModel.Name];
        
         cell.contentText.tag = indexPath.row;
@@ -1179,7 +1186,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
             cell.contentText.enabled = NO;
         }
         else{
-            if (layoutModel.IsMust==1) {
+            if (layoutModel.IsMust == 1) {
                 cell.contentText.placeholder = @"请输入，不能为空";
             }
             if ([layoutModel.SqlDataType isEqualToString:@"number"]) {
@@ -1188,7 +1195,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         }
     
         return cell;
-    
+        
     } else {
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
@@ -1214,10 +1221,9 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                 [btn setImage:[UIImage imageNamed:@"word"] forState:UIControlStateNormal];
             }
             else{
-                
                 [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:model.FilePath] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"ab_nav_bg"]];
             }
-            btn.tag = 1024+ i;
+            btn.tag = 1024 + i;
             [btn addTarget:self action:@selector(showImage:) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:btn];
             
