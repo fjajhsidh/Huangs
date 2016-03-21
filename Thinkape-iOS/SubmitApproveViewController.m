@@ -972,7 +972,9 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     self.textfield.tag = textField.tag;
 
      KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:self.tagValue];
+    
     NSString * category=[NSString stringWithFormat:@"%@",layoutModel.Name];
+   
     NSLog(@"===%@",layoutModel.Name);
     
     if ([category rangeOfString:@"金额"].location !=NSNotFound) {
@@ -1152,6 +1154,8 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:indexPath.row];
         NSString *cellID = @"cell";
         BillsLayoutViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+       
+       
         cell.category.text = [NSString stringWithFormat:@"%@:",layoutModel.Name];
        
         cell.contentText.tag = indexPath.row;
@@ -1161,7 +1165,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         }else{
             [self.cell_data setObject:cell.contentText forKey:layoutModel.key];
         }
-        
+       
         NSString *value = [self.tableViewDic objectForKey:layoutModel.key];
         value = value.length >0 ? value :@"";
         NSLog(@"值%@",value);
@@ -1175,7 +1179,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
             cell.contentText.enabled = NO;
         }
         else{
-            if (layoutModel.IsMust) {
+            if (layoutModel.IsMust==1) {
                 cell.contentText.placeholder = @"请输入，不能为空";
             }
             if ([layoutModel.SqlDataType isEqualToString:@"number"]) {
@@ -1279,7 +1283,18 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
    if (self.isretern==NO) {
     
        for (KindsLayoutModel *layout in self.layoutArray) {
-           if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil) {
+           if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil||layout.IsMust==YES) {
+             
+               
+               
+                 
+                       
+
+             
+                   
+
+               
+               
             
            }else {
             
@@ -1321,6 +1336,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                                NSLog(@"msg分割=%@",[array objectAtIndex:i] );
                                self.textfield = [self.cell_data objectForKey:field];
                                self.textfield.text = self.namestr;
+                               
                             
                                [self.XMLParameterDic setObject:self.messageid forKey:field];
                            
