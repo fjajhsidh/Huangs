@@ -73,8 +73,8 @@
     _hideBtn.frame = CGRectMake(20, 20, 24, 24);
     
 //    [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [_hideBtn setBackgroundImage:[UIImage imageNamed:@"shouqi"] forState:UIControlStateNormal];
+    //shouqi图片
+    [_hideBtn setBackgroundImage:[UIImage imageNamed:@"keybord_hide"] forState:UIControlStateNormal];
 //    self.hideBtn = btn;
     
     [self addSubview:_hideBtn];
@@ -107,6 +107,7 @@
     terminal.userInteractionEnabled = YES;
     //    设置最小字体
     terminal.minimumFontSize = 1;
+    
 //    terminal.minimumScaleFactor = 0.1;
     
    

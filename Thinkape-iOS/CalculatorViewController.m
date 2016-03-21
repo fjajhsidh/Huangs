@@ -402,56 +402,7 @@
 
 //正负键
 - (void) addSub: (UIButton *) sender
-{
-//    self.calculator.add.layer.borderWidth = 0;
-//    self.calculator.subtraction.layer.borderWidth = 0;
-//    self.calculator.multiplication.layer.borderWidth = 0;
-//    self.calculator.devide.layer.borderWidth = 0;
-//    double a = [self.tempString doubleValue];
-//    double b = [self.firstString doubleValue];
-//    if (self.flag && ([self.operator isEqualToString:@"＋"]||[self.operator isEqualToString:@"－"]||[self.operator isEqualToString:@"×"]||
-//                      [self.operator isEqualToString:@"÷"]||[self.operator isEqualToString:@"%"]||[self.operator isEqualToString:@"＝"]))
-//    {
-////        NSLog(@"%s %int",__FUNCTION__,__LINE__);
-////        NSLog(@"%lf %lf",a,b);
-//        if([self.operator isEqualToString:@"＋"])
-//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b+a];
-//        else if([self.operator isEqualToString:@"－"])
-//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b-a];
-//        else if([self.operator isEqualToString:@"×"])
-//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b*a];
-//        else if ([self.operator isEqualToString:@"÷"])
-//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b/a];
-//        else if([self.operator isEqualToString:@"%"])
-//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b];
-//        
-//        self.calculator.screenText.text = [self subzero:self.firstString];
-//        self.tempString = [NSMutableString string];
-//    }
-//    if([self.operator isEqualToString:@"0"])
-//    {
-//        b = a;
-//        b = [self.firstString doubleValue] + a ;
-//    }
-//    else
-//    {
-//        b = [self.firstString doubleValue] ;
-//    }
-//    self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b * (-1)];
-//    self.calculator.screenText.text = [self subzero:self.firstString];
-//    self.tempString = [NSMutableString string];
-//    self.flag = NO;
-//    self.operator = [NSMutableString stringWithFormat:@"+/-"];
-    
-    
-    
-//    if (self.delegate) {
-//        [self.delegate deleteBtnClick];
-//        
-//    }
-//    
-    
-    
+{    
     if(self.tempString.length > 1)
     {
         self.calculator.screenText.text = [self.calculator.screenText.text substringToIndex: self.calculator.screenText.text.length-1];

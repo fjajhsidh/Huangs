@@ -479,11 +479,12 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                                                    }
                                                }
                                                
+//                                               [SVProgressHUD showWithStatus:@"正在提交" maskType:2];
                                                
                                                [SVProgressHUD showSuccessWithStatus:@"提交数据成功"];
                                            }
-//                                           else
-//                                               [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
+                                           else
+                                               [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
                                            
                                        }
                                        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -934,7 +935,8 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 }
 
 
-- (NSString *)XMLParameter{
+- (NSString *)XMLParameter
+{
     NSMutableString *xmlStr = [NSMutableString string];
     int i = 0;
     for (KindsLayoutModel *layoutModel in self.layoutArray) {

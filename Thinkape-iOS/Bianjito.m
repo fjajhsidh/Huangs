@@ -626,11 +626,7 @@
     
     MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
     NSLog(@"键值：%@=%@",layoutModel.fieldname,name);
-    
-    
-    
-    
-    
+
     [self.Dictns setObject:name forKey:layoutModel.fieldname];
     NSLog(@"字典：%@",_datar);
     self.isbool=YES;
@@ -649,10 +645,7 @@
     MiXimodel *model2 =[model.fileds
                         safeObjectAtIndex:self.textfield.tag];
     
-    
-    
     if (![model2.datasource isEqualToString:@"0"]&&![model2.sqldatatype isEqualToString:@"date"]) {
-        
         
         isSinglal =model2.issingle;
         
@@ -660,7 +653,6 @@
         
         [self.Dictns setObject:self.textfield.text forKey:model2.fieldname];
         
-          
         return NO;
     }else
         if ([model2.sqldatatype isEqualToString:@"date"]){
