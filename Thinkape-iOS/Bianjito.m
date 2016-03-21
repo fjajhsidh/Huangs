@@ -249,7 +249,7 @@
         
         BijicellTableViewCell *cell = (BijicellTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell"];
         
-        [self.scrollview addSubview:self.tableview];
+       // [self.scrollview addSubview:self.tableview];
         
         
         
@@ -262,8 +262,8 @@
         }
         
         cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
-        _datar =[NSMutableDictionary dictionaryWithDictionary:self.Dictns];
-        self.stringall = [_datar objectForKey:layoutModel.fieldname];
+        
+         self.stringall = [self.Dictns objectForKey:layoutModel.fieldname];
         
         cell.detailtext.text= self.stringall;
         cell.detailtext.tag=indexPath.row;
@@ -393,7 +393,7 @@
                             _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
                         self.Dictns =[NSMutableDictionary dictionaryWithDictionary:_datar];
                         
-                             self.stringall = [self.Dictns objectForKey:[NSString stringWithFormat:@"%@",layoutModel.fieldname]];
+                             self.stringall = [_datar objectForKey:layoutModel.fieldname];
                              label.text = self.stringall;
                         
                         
@@ -577,19 +577,24 @@
     
     
     _indexRow = indexPath.row;
+    if (self.imageview.selected==NO) {
+        if (indexPath.row==0||indexPath.row==YES) {
+            return;
+        }
+    }
     if (self.imageview.selected==YES) {
         if (indexPath.row==_indexRow) {
             return;
         }
     }
-    
     self.imageview.selected=!self.imageview.selected;
     if (self.imageview.selected==YES) {
         
         _indexRow = indexPath.row-2;
-     
-       _datar = [_dataArr objectAtIndex:_indexRow];
+        self.Dictns = [NSMutableDictionary dictionaryWithDictionary:_datar];
         
+        self.Dictns = [_dataArr objectAtIndex:_indexRow];
+       
         [self.tableview reloadData];
         NSLog(@"点的以二次");
         return;
