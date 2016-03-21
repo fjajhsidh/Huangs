@@ -945,8 +945,6 @@
     
     if (self.billType==0&&[[mainDataDic objectForKey:@"flowstatus_show"]isEqualToString:@"已提交"]) {
         
-        
-        
         UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
         [btn setFrame:CGRectMake(10, SCREEN_HEIGHT-60, SCREEN_WIDTH-20, 40)];
         
