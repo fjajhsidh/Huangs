@@ -48,7 +48,7 @@
 - (void)drawBorderWithButton:(UIButton *)button {
     CALayer * downButtonLayer = [button layer];
     [downButtonLayer setMasksToBounds:YES];
-    [downButtonLayer setBorderWidth:1.0];
+    [downButtonLayer setBorderWidth:0.5];
     [downButtonLayer setBorderColor:[[UIColor grayColor] CGColor]];
 }
 
@@ -65,6 +65,22 @@
     ScreenView *terminal = [[ScreenView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight*3.0/13)];
     [self addSubview:terminal];
     
+    
+
+    //加隐藏按钮
+    _hideBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    //        btn.backgroundColor = [UIColor blackColor];
+    _hideBtn.frame = CGRectMake(20, 20, 24, 24);
+    
+//    [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    //shouqi图片
+    [_hideBtn setBackgroundImage:[UIImage imageNamed:@"keybord_hide"] forState:UIControlStateNormal];
+//    self.hideBtn = btn;
+    
+    [self addSubview:_hideBtn];
+//    [self addSubview:btn];
+    
+
     self.screenText = terminal;
 
     
@@ -91,6 +107,7 @@
     terminal.userInteractionEnabled = YES;
     //    设置最小字体
     terminal.minimumFontSize = 1;
+    
 //    terminal.minimumScaleFactor = 0.1;
     
    

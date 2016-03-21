@@ -7,12 +7,12 @@
 //
 
 #import "CalculatorViewController.h"
-#import "Calculator.h"
+//#import "Calculator.h"
 #import "ScreenView.h"
 #import "AppDelegate.h"
 #import "SubmitApproveViewController.h"
 @interface CalculatorViewController () <UITextFieldDelegate>
-@property (nonatomic, strong) Calculator *calculator;
+
 @property (nonatomic) NSMutableString *tempString;
 @property (nonatomic) NSMutableString *firstString;
 @property (nonatomic) BOOL flag;
@@ -33,7 +33,6 @@
     self.operator = [NSMutableString stringWithFormat:@"0"];
     self.calculator = [[Calculator alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.view = self.calculator;
-    
     
     
 }
@@ -86,7 +85,9 @@
     }
     
     self.calculator.screenText.text = self.tempString;
+    
 //    self.calculator.screenText.delegate = self;
+    
      NSLog(@"=====%@",self.tempString);
 }
 
@@ -401,56 +402,7 @@
 
 //正负键
 - (void) addSub: (UIButton *) sender
-{
-//    self.calculator.add.layer.borderWidth = 0;
-//    self.calculator.subtraction.layer.borderWidth = 0;
-//    self.calculator.multiplication.layer.borderWidth = 0;
-//    self.calculator.devide.layer.borderWidth = 0;
-//    double a = [self.tempString doubleValue];
-//    double b = [self.firstString doubleValue];
-//    if (self.flag && ([self.operator isEqualToString:@"＋"]||[self.operator isEqualToString:@"－"]||[self.operator isEqualToString:@"×"]||
-//                      [self.operator isEqualToString:@"÷"]||[self.operator isEqualToString:@"%"]||[self.operator isEqualToString:@"＝"]))
-//    {
-////        NSLog(@"%s %int",__FUNCTION__,__LINE__);
-////        NSLog(@"%lf %lf",a,b);
-//        if([self.operator isEqualToString:@"＋"])
-//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b+a];
-//        else if([self.operator isEqualToString:@"－"])
-//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b-a];
-//        else if([self.operator isEqualToString:@"×"])
-//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b*a];
-//        else if ([self.operator isEqualToString:@"÷"])
-//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b/a];
-//        else if([self.operator isEqualToString:@"%"])
-//            self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b];
-//        
-//        self.calculator.screenText.text = [self subzero:self.firstString];
-//        self.tempString = [NSMutableString string];
-//    }
-//    if([self.operator isEqualToString:@"0"])
-//    {
-//        b = a;
-//        b = [self.firstString doubleValue] + a ;
-//    }
-//    else
-//    {
-//        b = [self.firstString doubleValue] ;
-//    }
-//    self.firstString = [NSMutableString stringWithFormat:@"%.14lf",b * (-1)];
-//    self.calculator.screenText.text = [self subzero:self.firstString];
-//    self.tempString = [NSMutableString string];
-//    self.flag = NO;
-//    self.operator = [NSMutableString stringWithFormat:@"+/-"];
-    
-    
-    
-//    if (self.delegate) {
-//        [self.delegate deleteBtnClick];
-//        
-//    }
-//    
-    
-    
+{    
     if(self.tempString.length > 1)
     {
         self.calculator.screenText.text = [self.calculator.screenText.text substringToIndex: self.calculator.screenText.text.length-1];
@@ -573,29 +525,18 @@
 //    self.calculator.screenText.delegate = self;
     [super viewDidLoad];
     
+    [self.calculator.hideBtn addTarget:self action:@selector(hideCalculator) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
+//隐藏键盘的单击事件
 
-
-#pragma mark -- ScreenView的代理方法
-
-//- (void)deleteNum
-//{
-//    if(self.tempString.length > 1)
-//    {
-//        self.calculator.screenText.text = [self.calculator.screenText.text substringToIndex: self.calculator.screenText.text.length-1];
-//        self.tempString = [NSMutableString stringWithFormat:@"%@",self.calculator.screenText.text];
-//    }
-//    else if (self.tempString.length == 1)
-//    {
-//        self.calculator.screenText.text = @"0";
-//        self.tempString = [NSMutableString string];
-//    }
-//    
-//    NSLog(@"=====%@",self.tempString);
-//    
-//}
-
+- (void)hideCalculator
+{
+    if (self.delegate) {
+        [self.delegate hideCalculatorScreenText];
+    }
+}
 
 - (void)didReceiveMemoryWarning
 {

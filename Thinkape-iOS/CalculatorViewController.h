@@ -7,18 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Calculator.h"
 @protocol  CalculatorResultDelegate<NSObject>
 -(void)sender:(NSString *)str;
 
 -(void)deleteBtnClick;
 
+- (void)hideCalculatorScreenText;
 
 @end
 @interface CalculatorViewController : UIViewController
 
 @property(nonatomic,assign) id<CalculatorResultDelegate>delegate;
 
-
+@property (nonatomic, strong) Calculator *calculator;
 
 
 @end
