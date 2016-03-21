@@ -974,7 +974,9 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     self.textfield.tag = textField.tag;
 
      KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:self.tagValue];
+    
     NSString * category=[NSString stringWithFormat:@"%@",layoutModel.Name];
+   
     NSLog(@"===%@",layoutModel.Name);
     
     if ([category rangeOfString:@"金额"].location !=NSNotFound) {
@@ -1170,7 +1172,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         }else{
             [self.cell_data setObject:cell.contentText forKey:layoutModel.key];
         }
-        
+       
         NSString *value = [self.tableViewDic objectForKey:layoutModel.key];
         value = value.length >0 ? value :@"";
         NSLog(@"值%@",value);
@@ -1287,7 +1289,18 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
    if (self.isretern==NO) {
     
        for (KindsLayoutModel *layout in self.layoutArray) {
-           if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil) {
+           if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil||layout.IsMust==YES) {
+             
+               
+               
+                 
+                       
+
+             
+                   
+
+               
+               
             
            }else {
             
@@ -1329,6 +1342,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                                NSLog(@"msg分割=%@",[array objectAtIndex:i] );
                                self.textfield = [self.cell_data objectForKey:field];
                                self.textfield.text = self.namestr;
+                               
                             
                                [self.XMLParameterDic setObject:self.messageid forKey:field];
                            
