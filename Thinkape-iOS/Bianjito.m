@@ -43,6 +43,7 @@
 @property(nonatomic,strong)UIBarButtonItem *item;
 @property(nonatomic,strong)UIBarButtonItem *items;
 @property(nonatomic,strong)NSString *stringall;
+@property(nonatomic,strong)NSMutableArray *recolpend;
 @end
 
 @implementation Bianjito
@@ -262,8 +263,15 @@
         }
         
         cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
+      
         
-         self.stringall = [self.Dictns objectForKey:layoutModel.fieldname];
+        
+       
+        self.recolpend = [NSMutableArray arrayWithArray:_dataArr];
+        
+        _datar = [NSMutableDictionary dictionaryWithDictionary:self.Dictns];
+        
+         self.stringall = [_datar objectForKey:layoutModel.fieldname];
         
         cell.detailtext.text= self.stringall;
         cell.detailtext.tag=indexPath.row;
@@ -391,15 +399,14 @@
                         
                         
                             _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-                        self.Dictns =[NSMutableDictionary dictionaryWithDictionary:_datar];
+                            self.Dictns =[NSMutableDictionary dictionaryWithDictionary:_datar];
                         
-                             self.stringall = [_datar objectForKey:layoutModel.fieldname];
-                             label.text = self.stringall;
+                             label.text = [self.Dictns objectForKey:layoutModel.fieldname];
                         
                         
                         
                             
-                        
+                       // [self.tableview reloadData];
             
                         
                         
@@ -578,7 +585,7 @@
     
     _indexRow = indexPath.row;
     if (self.imageview.selected==NO) {
-        if (indexPath.row==0||indexPath.row==YES) {
+        if (indexPath.row==0||indexPath.row==1) {
             return;
         }
     }
@@ -591,9 +598,11 @@
     if (self.imageview.selected==YES) {
         
         _indexRow = indexPath.row-2;
-        self.Dictns = [NSMutableDictionary dictionaryWithDictionary:_datar];
         
-        self.Dictns = [_dataArr objectAtIndex:_indexRow];
+               
+       
+        
+       
        
         [self.tableview reloadData];
         NSLog(@"点的以二次");
@@ -603,7 +612,7 @@
     {
         [ada removeFromSuperview];
         
-        
+        self.isbool=NO;
         [self.tableview reloadData];
         
         NSLog(@"点的以一次");
@@ -627,14 +636,15 @@
     NSInteger tag = view.tag;
     NSLog(@"%@=%@=%lu",name,ID,tag);
     NSLog(@"tag值%lu",self.textfield.tag);
-    //   CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
+     CostLayoutModel *model =[self.costLayoutArray safeObjectAtIndex:_index];
     
-    MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
+    MiXimodel *layoutModel = [model.fileds safeObjectAtIndex:self.textfield.tag];
     NSLog(@"键值：%@=%@",layoutModel.fieldname,name);
     
     
     
     
+//    _datar = [NSMutableDictionary dictionaryWithDictionary:self.Dictns];
     
     [self.Dictns setObject:name forKey:layoutModel.fieldname];
     NSLog(@"字典：%@",_datar);
@@ -662,7 +672,7 @@
         isSinglal =model2.issingle;
         
         [self kindsDataSource:model2];
-        
+       
         [self.Dictns setObject:self.textfield.text forKey:model2.fieldname];
         
           
