@@ -242,8 +242,6 @@
     NSString *cellid = @"cell";
     StayApprovalViewCell *cell = (StayApprovalViewCell *)[tableView dequeueReusableCellWithIdentifier:cellid];
     
-    
-
     if ([ac isEqualToString:@"GetMyApproved"]) {
         id unkonwModel = [self.dataArray safeObjectAtIndex:indexPath.row];
         if ([unkonwModel isKindOfClass:[StayApprovalModel class]]) {

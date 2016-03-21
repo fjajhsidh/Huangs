@@ -35,11 +35,11 @@
 //        
 //        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
 ////        btn.backgroundColor = [UIColor blackColor];
-//        btn.frame = CGRectMake(10, 15, 40, 30);
+//        btn.frame = CGRectMake(20, 20, 24, 24);
 //        
 //        [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
 //        
-//        [btn setBackgroundImage:[UIImage imageNamed:@"input_delete"] forState:UIControlStateNormal];
+//        [btn setBackgroundImage:[UIImage imageNamed:@"shouqi"] forState:UIControlStateNormal];
 //    
 //        [self addSubview:btn];
         
@@ -52,7 +52,7 @@
 //- (void)btnClick:(UIButton *)sender
 //{
 //    if (self.delegate) {
-//        [self.delegate  deleteNum];
+//        [self.delegate  hideCalculator];
 //        
 //    }
 //    

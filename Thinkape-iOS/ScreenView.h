@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 //@protocol btnClickDelegate  <NSObject>
-//
-//- (void)deleteNum;
-//
+
+//- (void)hideCalculator;
+
 //@end
 
 

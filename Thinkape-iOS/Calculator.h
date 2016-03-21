@@ -30,4 +30,7 @@
 @property (nonatomic, strong) UIButton * confirm;
 @property (nonatomic, strong) UIButton * zero;
 @property (nonatomic, strong) UIButton * point;
+
+@property (nonatomic,strong) UIButton *hideBtn;
+
 @end

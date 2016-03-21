@@ -7,12 +7,12 @@
 //
 
 #import "CalculatorViewController.h"
-#import "Calculator.h"
+//#import "Calculator.h"
 #import "ScreenView.h"
 #import "AppDelegate.h"
 #import "SubmitApproveViewController.h"
 @interface CalculatorViewController () <UITextFieldDelegate>
-@property (nonatomic, strong) Calculator *calculator;
+
 @property (nonatomic) NSMutableString *tempString;
 @property (nonatomic) NSMutableString *firstString;
 @property (nonatomic) BOOL flag;
@@ -33,7 +33,6 @@
     self.operator = [NSMutableString stringWithFormat:@"0"];
     self.calculator = [[Calculator alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.view = self.calculator;
-    
     
     
 }
@@ -86,7 +85,9 @@
     }
     
     self.calculator.screenText.text = self.tempString;
+    
 //    self.calculator.screenText.delegate = self;
+    
      NSLog(@"=====%@",self.tempString);
 }
 
@@ -573,29 +574,18 @@
 //    self.calculator.screenText.delegate = self;
     [super viewDidLoad];
     
+    [self.calculator.hideBtn addTarget:self action:@selector(hideCalculator) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
+//隐藏键盘的单击事件
 
-
-#pragma mark -- ScreenView的代理方法
-
-//- (void)deleteNum
-//{
-//    if(self.tempString.length > 1)
-//    {
-//        self.calculator.screenText.text = [self.calculator.screenText.text substringToIndex: self.calculator.screenText.text.length-1];
-//        self.tempString = [NSMutableString stringWithFormat:@"%@",self.calculator.screenText.text];
-//    }
-//    else if (self.tempString.length == 1)
-//    {
-//        self.calculator.screenText.text = @"0";
-//        self.tempString = [NSMutableString string];
-//    }
-//    
-//    NSLog(@"=====%@",self.tempString);
-//    
-//}
-
+- (void)hideCalculator
+{
+    if (self.delegate) {
+        [self.delegate hideCalculatorScreenText];
+    }
+}
 
 - (void)didReceiveMemoryWarning
 {
