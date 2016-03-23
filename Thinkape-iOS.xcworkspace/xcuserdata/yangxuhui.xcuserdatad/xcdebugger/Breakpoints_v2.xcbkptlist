@@ -393,7 +393,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "802"
             endingLineNumber = "802"
-            landmarkName = "-savetext:"
+            landmarkName = "-isPureInt:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

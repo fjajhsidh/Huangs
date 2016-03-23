@@ -309,13 +309,16 @@
 //    if (self.editstart==YES) {
     
    
+    
+    _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+    
+    app.dict = _datar;
+    app.indexpage = _index;
+    app.indexcor = _indexRow;
+    if (indexPath.row==_indexRow) {
         _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-        app.dict = _datar;
-        
-        if (indexPath.row==_indexRow) {
-            _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-            app.dict =_datar;
-            label.text = [_datar objectForKey:layoutModel.fieldname];
+        app.dict =_datar;
+        label.text = [_datar objectForKey:layoutModel.fieldname];
             
         }
     }
@@ -339,8 +342,14 @@
     vc.costarrdate=_costDataArr;
     
     [self.navigationController pushViewController:vc animated:YES];
-    
-}
+    }
+
+
+
+
+
+
+
 
 
 -(void)buttonaction
