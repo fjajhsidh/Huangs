@@ -67,7 +67,10 @@
 
 @property(nonatomic,assign)BOOL ishideto;
 @property(nonatomic,copy)NSString *str;
+
 //wo
+
+@property (nonatomic,strong)NSMutableArray *bigCost;
 
 @end
 
