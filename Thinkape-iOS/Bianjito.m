@@ -319,11 +319,12 @@
             
         }
     }
-    if (self.editstart==NO) {
+    if (self.editstart == NO) {
         _dataArr = [_costall safeObjectAtIndex:_index];
         _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
         
 //    }
+        
 //    if (self.editstart==NO) {
 //        _dataArr = [_costall safeObjectAtIndex:_index];
 //        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
