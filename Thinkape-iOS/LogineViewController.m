@@ -181,7 +181,7 @@
                             
                              NSDictionary *dier = [[DataManager shareManager] objectoftect:usermsg];
                               NSDictionary *dicerv = [dier objectForKey:@"UserMsg"];
-                              AppDelegate *apper = [UIApplication sharedApplication].delegate;
+                              AppDelegate *apper = (AppDelegate *)[UIApplication sharedApplication].delegate;
                              apper.idert =dicerv;
                               
                               

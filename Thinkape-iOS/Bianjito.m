@@ -68,11 +68,6 @@
     
     self.navigationItem.rightBarButtonItem=item;
     
-    
-    
-    
-    
-    
 }
 
 
@@ -116,8 +111,8 @@
     bottomScroll.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:bottomScroll];
 }
-- (void)costDetail:(UIButton *)btn{
-    
+- (void)costDetail:(UIButton *)btn
+{
     _index = btn.tag;
     
     [self itemLength];
@@ -134,6 +129,7 @@
     
     return array.count + 2;
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -156,8 +152,7 @@
         title.font = [UIFont systemFontOfSize:15];
         title.text = model.name;
         title.textColor = [UIColor whiteColor];
-        
-        
+
         [bgView addSubview:title];
         
     }
@@ -172,9 +167,9 @@
                 label = [[UILabel alloc] initWithFrame:CGRectMake(35, 8, 40, 15)];
                 button=[[UIButton alloc] initWithFrame:CGRectMake(10, 8, 40, 15)];
             }
-            else
-                
-            label = [[UILabel alloc] initWithFrame:CGRectMake(40+speace + (itemWidth + speace) * (i-1), 8, itemWidth, 15)];
+            else{
+                label = [[UILabel alloc] initWithFrame:CGRectMake(40+speace + (itemWidth + speace) * (i-1), 8, itemWidth, 15)];
+            }
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:13];
             label.tag = i;
@@ -192,106 +187,45 @@
             {
                 if (label.tag == 0) {
                     label.text = @"序号";
-                    
                 }
                 else
                 {
                     LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag - 1];
-                    
-                    
                     label.text = layoutModel.name;
-                    
-                    
-                    
                 }
                 
                 if (button.tag==1) {
-                    
                     [button setTitle:@"操作" forState:UIControlStateNormal];
                 }
-                
             }
             else
             {
                 if (label.tag == 0) {
                     label.text = [NSString stringWithFormat:@"%ld",indexPath.row - 1];
-                    
-                }
-                
-                else{
-                    
-                    
-
-//                    
-//                
-                    
-                    
-                  
-                    
-                    
-                    //判断传值是否经过传值而过来的字典
+                }else{
                     LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
                     _costall = _costDataArr;
-                    
-                    _dataArr = [_costDataArr safeObjectAtIndex:_index];
-                     _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-                    NSString *cc =[_datar objectForKey:layoutModel.fieldname];
-                    
-                    label.text =cc;
-                  
-                    
-                        
-                                                      
-                       
-                        
-                        
-                        
-                        
-              
-                        
-                 
-                    
-                    
-//                    
-//                    if (_isPage !=_index) {
-//                        LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
-//                        _costall = _costDataArr;
-//                        
-//                        
-//                        if (self.editnew.count==0) {
-//                            
-//                            _dataArr = [_costDataArr safeObjectAtIndex:_index];
-//                            
-//                        }else
-//                        {
-//                            
-//                            //                        NSMutableDictionary *adc =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
-//                            //
-//                            //                        NSMutableArray *sad =[NSMutableArray arrayWithArray:_dataArr];
-//                            //                        [sad replaceObjectAtIndex:_indexRow withObject:adc];
-//                            
-//                            _dataArr = self.arrayDict;
-//                            
-//                            //                          _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-//                            
-//                        }
-//                        
-//                        
-//                        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-//                        
-//                        NSString *cc = [_datar objectForKey:layoutModel.fieldname];
-//                        
-//                        
-//                        label.text =cc;
-//                        //    [self savetoarray:cc];
-//                        
-//
-//                    }
-//                    
-                    
-                    
-                    
-                    
+                    _dataArr = [_costall safeObjectAtIndex:_index];
+                    _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                    //判断传值是否经过传值而过来的字典
+                    if (_index==0) {
+                        if (self.editstart==YES) {
+                            //通过我的点的行数，值就会带到那行
+                            //                       if (indexPath.row==_indexRow+2) {
+                            
+                            NSMutableDictionary *adc =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
+                            
+                            NSMutableArray *sad =[NSMutableArray arrayWithArray:_dataArr];
+                            [sad replaceObjectAtIndex:_indexRow withObject:adc];
+                            _dataArr = sad;
+                            _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                            NSString *cc = [_datar objectForKey:layoutModel.fieldname];
+                      
+                            label.text =cc;
+                            [self savetoarray:cc];
+
+                        }
+                    }
                     
                     NSLog(@"_datar====%@",_datar);
                     NSLog(@"%@",label.text);
@@ -299,20 +233,11 @@
                     NSLog(@"_datar====%@",_datar);
                     NSLog(@"%@",label.text);
                     
-                    
-                  //  if (self.editstart==NO||self.isstrart==NO) {
-                        
-                        
-//                        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-                      //  label.text = [_datar objectForKey:layoutModel.fieldname];
-                        
-                        
-                        
-                 //   }
-                    
-                    
-                    
-                  
+                    if (self.editstart==NO||self.isstrart==NO) {
+                        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+                        label.text = [_datar objectForKey:layoutModel.fieldname];
+                    }
+                    NSLog(@"%@",label.text);
                     
                 }
                 if (button.tag==1) {
@@ -330,14 +255,13 @@
         else
             //序号的背景
             bgView.backgroundColor = [UIColor whiteColor];
-        
-        
-        
     }
     
     return cell;
     
 }
+
+
 -(void)saveto:(NSMutableDictionary *)save
 {
     NSDictionary *dic =@{@"sda":save};
@@ -372,19 +296,12 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
     if (indexPath.row==1||indexPath.row==0) {
-        
         return;
-        
     }
-    
-    
-    
-    
+
     CostLayoutModel *model = [self.costLayoutArray safeObjectAtIndex:_index];
-    AppDelegate *app =[UIApplication sharedApplication].delegate;
+    AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
     
     
     LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
@@ -393,23 +310,18 @@
     
    
         _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-        
         app.dict = _datar;
-        app.indexcor = _indexRow;
-        app.indexpage = _index;
-    
-    
-//        if (indexPath.row==_indexRow) {
-//            
-//            _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-//            
-//            app.dict = _datar;
-//            
-//           
-//            
-//        }
-    
         
+        if (indexPath.row==_indexRow) {
+            _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+            app.dict =_datar;
+            label.text = [_datar objectForKey:layoutModel.fieldname];
+            
+        }
+    }
+    if (self.editstart==NO) {
+        _dataArr = [_costall safeObjectAtIndex:_index];
+        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
         
 //    }
 //    if (self.editstart==NO) {
@@ -445,6 +357,7 @@
     else
         return 50.0f;
 }
+
 
 /*
  #pragma mark - Navigation

@@ -162,7 +162,8 @@
         self.tableViewWidth2.constant = width2 + 24;
     }
 
-    }
+    
+}
    
 #pragma mark - UITableView Delegate && DataSource
 
@@ -175,7 +176,8 @@
 //        NSArray *array = [_costDataArr2 safeObjectAtIndex:_index2];
 //        return array.count + 2;
 //    }
-    return nil;
+
+        return nil;
 }
 
 

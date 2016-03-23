@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MixiViewController : UIViewController
-@property(nonatomic,assign)int index;
+@property(nonatomic,assign)long index;
 @property(nonatomic,strong)NSMutableArray *costatrraylost;
 @property(nonatomic,strong)NSMutableArray *costarrdate;
 @property(nonatomic,strong)NSString *dexcel;

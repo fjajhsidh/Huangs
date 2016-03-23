@@ -453,7 +453,6 @@
             [deleteBtn addTarget:self action:@selector(deleteImages:) forControlEvents:UIControlEventTouchUpInside];
             [btn addSubview:deleteBtn];
             //            }
-            
         }
         count += _imagedatarry.count;
         for (int i = _updatearry.count; i < count; i++) {
@@ -465,7 +464,6 @@
             [btn addTarget:self action:@selector(showSelectImage:) forControlEvents:UIControlEventTouchUpInside];
             btn.tag = 2024+ i;
             [bgView addSubview:btn];
-            
             //            if ([self isUnCommint]) {
             UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             [deleteBtn setFrame:CGRectMake(imageWidth - 32, 0, 32, 32)];
@@ -501,7 +499,6 @@
         //        }
         
     }
-    
     
 }
 - (void)requestKindsDataSource:(MiXimodel *)model dataVer:(NSString *)Dataver{
@@ -631,9 +628,6 @@
         
         
     }
-    //    else
-    
-    //    {
     else
     {
         
@@ -644,13 +638,8 @@
         //            int row = count / 3 + 1;
         int row = count / 3+1;
         height= (speace + imageWidth) * row;
-        NSLog(@"cell的高度%d",height);
-        
-        //            return (speace + imageWidth) * row;
-        
-        
-        
-        
+        NSLog(@"cell的高度%ld",height);
+
         return height;
         
     }
@@ -658,7 +647,8 @@
     
 }
 
-- (CGFloat )fixStr:(NSString *)str{
+- (CGFloat )fixStr:(NSString *)str
+{
     CGRect frame = [str boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.frame) - 115, 99999) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil];
     return  frame.size.height >=0 ? frame.size.height : 20;
 }
@@ -686,6 +676,7 @@
         [self presentViewController:picker animated:YES completion:nil];
     }
 }
+
 - (NSString *)bate64ForImage:(UIImage *)image{
     UIImage *_originImage = image;
     NSData *_data = UIImageJPEGRepresentation(_originImage, 0.5f);

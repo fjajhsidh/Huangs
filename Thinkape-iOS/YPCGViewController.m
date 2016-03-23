@@ -153,7 +153,7 @@
     }
     
     UILabel *label = (UILabel *)[_bottomView viewWithTag:12];
-    label.text = [NSString stringWithFormat:@"已选择%d个项目同时处理",_selectArr.count];
+    label.text = [NSString stringWithFormat:@"已选择%ld个项目同时处理",_selectArr.count];
 }
 
 - (void)editItem{
@@ -179,7 +179,7 @@
 - (void)resetStatues{
     // 底部视图消失时，重置选择数组
     [_selectArr removeAllObjects];
-    _selectLabel.text = [NSString stringWithFormat:@"已选择%d个项目同时处理",_selectArr.count];
+    _selectLabel.text = [NSString stringWithFormat:@"已选择%ld个项目同时处理",_selectArr.count];
 }
 
 #pragma mark - UITableView Delegate && DataSource
@@ -244,15 +244,18 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return 95.0f;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return NO;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     SubmitApproveViewController *subvc = [self.storyboard instantiateViewControllerWithIdentifier:@"EditCGVC"];
     subvc.type = 1;
     subvc.editModel = [self.dataArray safeObjectAtIndex:indexPath.row];
@@ -264,7 +267,8 @@
 
 #pragma mark - UIAlertView Delegate
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
     if (buttonIndex == 1) {
         if (alertView.tag == 3000000) {
             [self saveCGToBill:[self billsidParamater] ac:@"DeleteSspCG"];

@@ -23,14 +23,14 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
-
-
 @property (weak, nonatomic) IBOutlet UILabel *name;
 @property (weak, nonatomic) IBOutlet UILabel *decs;
 @property (weak, nonatomic) IBOutlet UILabel *money;
 @property (weak, nonatomic) IBOutlet UIImageView *markImage;
 @property (weak, nonatomic) IBOutlet UIButton *selectBtn;
 @property (weak, nonatomic) IBOutlet UILabel *flowStatue;
+
+
 @property (nonatomic , assign) BOOL close;
 
 @property (nonatomic,assign,getter=isEdit) BOOL edit;

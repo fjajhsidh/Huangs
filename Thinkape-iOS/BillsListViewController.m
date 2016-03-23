@@ -217,11 +217,9 @@
     
     //wo 未完成列表的审核状态
     
-    AppDelegate * app=[UIApplication sharedApplication].delegate;
+    AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     app.flowstatus=model.flowstatus;
-    
-    
-    
+
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
@@ -242,9 +240,8 @@
                 }];
                 
                 //wo
-                AppDelegate *app=[UIApplication sharedApplication].delegate;
+                AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
                 app.zhuanStr=[NSString stringWithFormat:@"%ld",sender.tag];
-                
                 
                 switch (sender.tag) {
                     case 10:

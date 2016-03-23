@@ -23,7 +23,8 @@
 #import "DatePickerView.h"
 #import "MiXimodel.h"
 #import "CTToastTipView.h"
-#import "BianJiViewController.h"
+
+
 #import <QuickLook/QLPreviewItem.h>
 #import <QuickLook/QLPreviewController.h>
 #import "UIImage+SKPImage.h"
@@ -73,6 +74,7 @@
     }
     return _datemeory;
 }
+
 -(NSMutableDictionary *)dicz
 {
     if (!_dicz) {
@@ -83,11 +85,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
     UIButton *iconb =[[UIButton alloc] initWithFrame:CGRectMake(5, 0, 40, 40)];
     [iconb setBackgroundImage:[UIImage imageNamed:@"back3.png"] forState:UIControlStateNormal];
     [iconb addTarget:self action:@selector(pulltoreturn) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *back =[[UIBarButtonItem alloc] initWithCustomView:iconb];
     self.navigationItem.leftBarButtonItem=back;
+    
+    
+    
+    
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
     
     self.textfield=[[UITextField alloc] initWithFrame:CGRectMake(140, 5, 170, 30)];
     self.textfield.textAlignment=NSTextAlignmentCenter;
@@ -110,23 +118,15 @@
     [btn setBackgroundColor:[UIColor colorWithRed:0.70 green:0.189 blue:0.213 alpha:1.000]];
     [btn addTarget:self action:@selector(savetolist) forControlEvents:UIControlEventTouchUpInside];
     
-    
-    
     [self.view addSubview:btn];
     
-    AppDelegate *appe = [UIApplication sharedApplication].delegate;
-    
-    
-    
+    AppDelegate *appe = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     self.dict2 = [NSMutableDictionary dictionaryWithDictionary:appe.dict];
-    
-    
-    
-    
-    
-    
+
 }
+
+//返回上一层
 -(void)pulltoreturn
 {
     NSArray *temArray =self.navigationController.viewControllers;
@@ -135,8 +135,10 @@
             [self.navigationController popToViewController:ter animated:YES];
         }
     }
-    
+
 }
+
+
 -(NSString *)filePath{
     NSString *documentsPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
     NSString *filePath =[documentsPath stringByAppendingPathComponent:@"Leo.txt"];
@@ -160,36 +162,24 @@
     if (indexPath.row != self.coster.fileds.count) {
         return 40;
         
-        
-    }
-    
-    else
-        
-    {
+    }else{
         
         //            NSInteger count = _imagedatarry.count + _updatearry.count;
         NSInteger count = _imageupdate.count;
         CGFloat speace = 15.0f;
         CGFloat imageWidth = (SCREEN_WIDTH - 4*speace) / 3.0f;
         //            int row = count / 3 + 1;
-        int row = count / 3+1;
+        NSInteger row = count / 3+1;
         height= (speace + imageWidth) * row;
-        NSLog(@"cell的高度%d",height);
+        NSLog(@"cell的高度%ld",height);
         
         //            return (speace + imageWidth) * row;
         
         
     }
-    
-    
-    
-    
     return height;
     
 }
-
-
-
 
 -(void)requestminxi
 {
@@ -357,21 +347,20 @@
         [bgView removeFromSuperview];
         [self addItems:bgView];
         [cell.contentView addSubview:bgView];
-        
-        
     }
     
     cell.selectionStyle=UITableViewCellAccessoryNone;
-    
-    
-    
+
     return cell;
     
 }
+
 - (CGFloat )fixStr:(NSString *)str{
     CGRect frame = [str boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.frame) - 115, 99999) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil];
     return  frame.size.height >=0 ? frame.size.height : 20;
 }
+
+
 - (void)addItems:(UIView *)view{
     
     for (UIView *subView in bgView.subviews) {
@@ -671,16 +660,14 @@
     MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
     NSLog(@"键值：%@=%@",layoutModel.fieldname,name);
     
-    
-    
     [self.dict2 setObject:name forKey:layoutModel.fieldname];
     NSLog(@"字典：%@",self.dict2);
-    
-    
     
     [view closed];
     [self.tableview reloadData];
 }
+
+
 //- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
 //    NSString *idStr = @"";
 //    NSString *nameStr = @"";
@@ -706,36 +693,60 @@
 
 
 
+
 #pragma mark-UItextFieldDelegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     //    self.tableview.bounces=NO;
     //   CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
     NSLog(@"tag值：%lu",textField.tag);
-    
+
     self.textfield.tag=textField.tag;
     MiXimodel *model2 =[self.coster.fileds safeObjectAtIndex:textField.tag];
     
     if (![model2.datasource isEqualToString:@"0"]&&![model2.sqldatatype isEqualToString:@"date"]) {
-        
-        
+    
         isSinglal =model2.issingle;
+        //调用隐藏点选框的操作：
+        [self removeViewFromSuperview];
         
         [self kindsDataSource:model2];
         [self.dict2 setObject:textField.text forKey:model2.fieldname];
         return NO;
-    }else
+    }else{
         if ([model2.sqldatatype isEqualToString:@"date"]){
-            
+            [self removeViewFromSuperview];
             [self addDatePickerView:textField.tag date:textField.text];
             [self.dict2 setObject:textField.text forKey:model2.fieldname];
+            
             return NO;
         }
-        else
+        else{
             
+            [self removeViewFromSuperview];
             return YES;
-    
+        }
+    }
 }
+
+
+- (void)removeViewFromSuperview
+{
+    for (UIView *view0 in self.view.subviews) {
+        if ([view0 isKindOfClass:[KindsItemsView class]]) {
+            [view0 removeFromSuperview];
+        }
+    }
+}
+
+
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"dddddd");
+}
+
+
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
     MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
@@ -769,6 +780,8 @@
     float val;
     return[scan scanFloat:&val] && [scan isAtEnd];
 }
+
+
 - (void)addDatePickerView:(NSInteger)tag date:(NSString *)date{
     if (!self.datePickerView) {
         self.datePickerView = [[[NSBundle mainBundle] loadNibNamed:@"DatePickerView" owner:self options:nil] lastObject];
@@ -788,6 +801,7 @@
         //        [weaker.datePickerView closeView:nil];
         //
         //        [weaker.tableview reloadData];
+        
         NSLog(@"数组%@",weaker.costatrraylost);
         
         MiXimodel *layout =[weaker.costatrraylost safeObjectAtIndex:tag];
@@ -830,8 +844,6 @@
                     
                 }
             }];
-            
-            
             
         }
         else
@@ -888,9 +900,8 @@
             callBack(modelArr);
         });
     });
-    
-    
 }
+
 - (void)initItemView:(NSArray *)arr tag:(NSInteger)tag{
     KindsItemsView *itemView;
     itemView = [[[NSBundle mainBundle] loadNibNamed:@"KindsItems" owner:self options:nil] lastObject];
@@ -916,6 +927,7 @@
                          
                      }];
 }
+
 - (void)saveItemsToDB:(NSArray *)arr callbakc:(void (^)(NSArray *modelArr))callBack{
     NSMutableArray *modelArr = [[NSMutableArray alloc] init];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -935,10 +947,14 @@
 }
 
 
-- (NSString *)uid{
+- (NSString *)uid
+{
     return [DataManager shareManager].uid;
 }
-- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
+
+- (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view
+{
+    
     NSString *idStr = @"";
     NSString *nameStr = @"";
     NSInteger tag = view.tag;

@@ -11,7 +11,7 @@
 @interface Bianjiviewtableview : ParentsViewController
 @property(nonatomic,strong)NSMutableArray *costArray;
 @property(nonatomic,strong)NSMutableArray *costArr;
-@property(nonatomic,assign)int indexto;
+@property(nonatomic,assign)long indexto;
 @property(nonatomic,strong)NSMutableArray *updateimage;
 @property(nonatomic,strong)NSMutableArray *imagedate;
 

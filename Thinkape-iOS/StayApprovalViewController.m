@@ -440,7 +440,7 @@
     }
 
     UILabel *label = (UILabel *)[_bottomView viewWithTag:12];
-    label.text = [NSString stringWithFormat:@"已选择%d个项目同时处理",_selectArr.count];
+    label.text = [NSString stringWithFormat:@"已选择%ld个项目同时处理",_selectArr.count];
 }
 
 #pragma mark - Button Action
@@ -534,7 +534,7 @@
 - (void)resetStatues{
     // 底部视图消失时，重置选择数组
     [_selectArr removeAllObjects];
-    _selectLabel.text = [NSString stringWithFormat:@"已选择%d个项目同时处理",_selectArr.count];
+    _selectLabel.text = [NSString stringWithFormat:@"已选择%ld个项目同时处理",_selectArr.count];
 }
 
 - (IBAction)moreAgreeApprove:(id)sender {
