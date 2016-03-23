@@ -35,6 +35,7 @@
 @property(nonatomic,strong)NSMutableDictionary * acceptAddDict;//新增明细接收的字典
 @property(nonatomic,strong)NSMutableDictionary * acceptEditorDict;//编辑明细接受的字典
 @property(nonatomic,strong)NSDictionary *idert;
-
+@property(nonatomic,assign)NSInteger indexcor;
+@property(nonatomic,assign)NSInteger indexpage;
 @end
 

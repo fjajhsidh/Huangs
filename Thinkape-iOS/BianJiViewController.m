@@ -67,7 +67,7 @@
 @property(nonatomic,assign)BOOL ishideto;
 @property(nonatomic,copy)NSString *str;
 //wo
-
+@property(nonatomic,strong)NSMutableArray *bigCost;
 
 
 
@@ -85,6 +85,7 @@
     BOOL commintBills;
     NSString *sspid;
 }
+
 - (id)initWithCoder:(NSCoder *)aDecoder{
     self = [super initWithCoder:aDecoder];
     if (self) {
@@ -93,6 +94,7 @@
     }
     return self;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -210,7 +212,7 @@
                           
                           _uploadArr = [NSMutableArray arrayWithArray:[[responseObject objectForKey:@"msg"] objectForKey:@"upload"]];
                           
-                          [self.tableview reloadData];
+                         [self.tableview reloadData];
                           [SVProgressHUD dismiss];
                           
                       }
@@ -508,7 +510,7 @@
         rowHeight = 80;
     else
     {
-        rowHeight=70;
+        rowHeight=90;
     }
     
     
@@ -663,6 +665,7 @@
     
     
     if (![self isPureInt:textField.text] && [model.sqldatatype isEqualToString:@"number"] && textField.text.length != 0) {
+        
         [SVProgressHUD showInfoWithStatus:@"请输入数字"];
         textField.text = @"";
     }
@@ -1313,15 +1316,96 @@
 {
     //    CostDetailViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CostDetailVC"];
     Bianjito *vc = [[Bianjito alloc] init];
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSInteger indx = app.indexcor;
+    NSInteger indexpate = app.indexpage;
+    vc.costLayoutArray = _costLayoutArray2;
+
+  
     
-    vc.costLayoutArray = self.costLayoutArray2;
-    vc.costDataArr = self.costData2;
+    vc.index = (int)btn.tag;
+    if (self.oldDicts.count==0||self.wenDicts.count==0) {
+       
+        vc.costDataArr = _costData2;
     
-    vc.index = btn.tag;
+       
+    } else
+    {
+        
+        if (self.bigCost.count==0) {
+         
+            self.bigCost = [NSMutableArray arrayWithArray:_costData2];
+            NSMutableArray *datearray = [self.bigCost safeObjectAtIndex:indexpate];
+            //修改的字典
+            NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
+            //新增的字典
+            NSMutableDictionary *reset = [NSMutableDictionary dictionaryWithDictionary:self.wenDicts];
+            
+            
+            NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
+            
+            [alet replaceObjectAtIndex:indx withObject:NewDic];
+          
+            
+            [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
+            
+            [self saveto];
+            //可以删掉
+            vc.costDataArr = self.bigCost;
+            
+                    }
+        if (self.bigCost.count!=0) {
+            [self readtodate];
+          
+            
+            NSMutableArray *datearray = [self.bigCost safeObjectAtIndex:indexpate];
+            //修改的字典
+            NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
+            //新增的字典
+            NSMutableDictionary *reset = [NSMutableDictionary dictionaryWithDictionary:self.wenDicts];
+            
+            NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
+            /// 有问题
+           
+          
+           [alet replaceObjectAtIndex:indx withObject:NewDic];
+      
+            [alet addObject:reset];
+           
+            
+            [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
+            [self saveto];
+            //可以删掉
+            vc.costDataArr = self.bigCost;
+            
+        }
+        
+     //  vc.costDataArr = self.bigCost;
+        
+        
+    }
+   
+    
+    
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
-
-
+-(void)saveto
+{
+    NSDictionary *dic =@{@"sda":self.bigCost};
+    [dic writeToFile:[self filePath] atomically:YES];
+}
+-(void)readtodate
+{
+    NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
+   self.bigCost= [dic objectForKey:@"sda"];
+}
+-(NSString *)filePath{
+    NSString *documentsPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
+    NSString *filePath =[documentsPath stringByAppendingPathComponent:@"HuiBs.txt"];
+    NSLog(@"文件夹位置%@",filePath);
+    return filePath;
+}
 - (NSString *)appendStr:(NSArray *)arr{
     
     NSMutableString *returnStr = [NSMutableString string];

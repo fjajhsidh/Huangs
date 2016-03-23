@@ -42,6 +42,7 @@
 #import "CTAssetsPickerController.h"
 #import "ImageModel.h"
 #import "DataManager.h"
+#import "BianJiViewController.h"
 @interface Bianjiviewtableview ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property(nonatomic,assign)int countu;
@@ -797,14 +798,8 @@
 - (IBAction)savetext:(id)sender {
     
     
-    Bianjito *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
-    if (bi.index==0) {
-        bi.isbool=YES;
-        
-        
-        
-        bi.editnew = self.dict1;
-    }
+    BianJiViewController *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
+    bi.wenDicts = [NSMutableDictionary dictionaryWithDictionary:self.dict1];
     
     
     

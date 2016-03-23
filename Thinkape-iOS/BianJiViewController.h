@@ -25,6 +25,7 @@
 @property (nonatomic , copy) void (^callback)();
 @property(nonatomic,assign)int selectedion;//记录单据界面
 @property(nonatomic,assign)NSInteger type;
-
+@property(nonatomic,strong)NSMutableDictionary *oldDicts;
+@property(nonatomic,strong)NSMutableDictionary *wenDicts;
 
 @end

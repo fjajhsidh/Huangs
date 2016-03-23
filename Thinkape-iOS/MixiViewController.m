@@ -23,13 +23,14 @@
 #import "DatePickerView.h"
 #import "MiXimodel.h"
 #import "CTToastTipView.h"
-
+#import "BianJiViewController.h"
 #import <QuickLook/QLPreviewItem.h>
 #import <QuickLook/QLPreviewController.h>
 #import "UIImage+SKPImage.h"
 #import "CTAssetsPickerController.h"
 #import "ImageModel.h"
 #import "DataManager.h"
+#import "BianJiViewController.h"
 @interface MixiViewController ()<UITextFieldDelegate,KindsItemsViewDelegate,UINavigationControllerDelegate,SDPhotoBrowserDelegate,UIActionSheetDelegate,QLPreviewControllerDataSource,QLPreviewControllerDelegate,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 
@@ -82,7 +83,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
+    UIButton *iconb =[[UIButton alloc] initWithFrame:CGRectMake(5, 0, 40, 40)];
+    [iconb setBackgroundImage:[UIImage imageNamed:@"back3.png"] forState:UIControlStateNormal];
+    [iconb addTarget:self action:@selector(pulltoreturn) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *back =[[UIBarButtonItem alloc] initWithCustomView:iconb];
+    self.navigationItem.leftBarButtonItem=back;
     
     self.textfield=[[UITextField alloc] initWithFrame:CGRectMake(140, 5, 170, 30)];
     self.textfield.textAlignment=NSTextAlignmentCenter;
@@ -120,6 +125,16 @@
     
     
     
+    
+}
+-(void)pulltoreturn
+{
+    NSArray *temArray =self.navigationController.viewControllers;
+    for (UIViewController *ter in temArray) {
+        if ([ter isKindOfClass:[Bianjito class]]) {
+            [self.navigationController popToViewController:ter animated:YES];
+        }
+    }
     
 }
 -(NSString *)filePath{
@@ -184,33 +199,30 @@
 -(void)savetolist
 {
     
-    Bianjito *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+  BianJiViewController  *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
     
+    bi.oldDicts = [NSMutableDictionary dictionaryWithDictionary:self.dict2];
     
-    
-    if (bi.index==0) {
-        
-        bi.editstart=YES;
-        
-        
-        bi.editnew=self.dict2;
-        NSMutableArray *arraout =[_costarrdate safeObjectAtIndex:bi.index];
-        NSMutableArray *ceser =[NSMutableArray arrayWithArray:arraout];
-        [ceser replaceObjectAtIndex:bi.indexRow withObject:bi.editnew];
-        
-        bi.arrayDict=ceser;
-        //
-        
-        
-    }else
-    {
-        bi.isstrart = YES;
-        bi.editxiao=self.dict2;
-    }
+     
+
     
     [self.navigationController popToViewController:bi animated:YES];
     
-    NSLog(@"=======%@",self.dict2);
+   
+    
+        //
+        
+        
+//    }
+//    else
+//    {
+//      //  bi.isstrart = YES;
+//        bi.editxiao=self.dict2;
+//    }
+//    
+
+    
+
     
     
     //    [self.navigationController pushViewController:bianji animated:YES ];
