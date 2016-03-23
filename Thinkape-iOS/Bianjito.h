@@ -16,7 +16,7 @@
 @property(nonatomic,strong)NSMutableArray *updateimage;
 @property(nonatomic,strong)NSMutableArray *imagedate;
 
-@property (nonatomic,assign) int index;
+@property (nonatomic,assign) long index;
 //wo
 @property(nonatomic,strong) NSString * selectType;
 @property(nonatomic,strong)NSMutableDictionary * acceptAddDict;//新增明细接收的字典

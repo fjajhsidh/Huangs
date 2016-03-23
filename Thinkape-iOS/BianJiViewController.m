@@ -38,6 +38,7 @@
 #import "BillsListViewController.h"
 @interface BianJiViewController ()<UITableViewDataSource,UITableViewDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIAlertViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UIActionSheetDelegate,KindsItemsViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
+
 @property (strong,nonatomic) NSMutableArray *mainLayoutArray; // 主表 布局视图
 
 @property (strong,nonatomic) NSMutableArray *costLayoutArray2;
@@ -68,12 +69,10 @@
 @property(nonatomic,copy)NSString *str;
 //wo
 
-
-
-
 @end
 
 @implementation BianJiViewController
+
 {
     NSString *delteImageID;
     UIView *bgView;
@@ -96,9 +95,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    
-    
     self.selectedion=1;
     
     UIButton *iconb =[[UIButton alloc] initWithFrame:CGRectMake(5, 0, 40, 40)];
@@ -107,8 +103,6 @@
     
     UIBarButtonItem *back =[[UIBarButtonItem alloc] initWithCustomView:iconb];
     self.navigationItem.leftBarButtonItem=back;
-    
-    
     
     self.title=@"编辑详情";
     
@@ -141,6 +135,7 @@
     if (self.kindsPickerView) {
         self.kindsPickerView = [[[NSBundle mainBundle] loadNibNamed:@"KindsPickerView" owner:self options:nil] lastObject];
         [self.kindsPickerView setFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
+       
         __block BianJiViewController *weakSelf = self;
         self.kindsPickerView.selectItemCallBack = ^(KindsModel *model){
             
@@ -440,7 +435,6 @@
     
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     
-    
     return cell;
     
 }
@@ -593,11 +587,6 @@
 
 
 
-
-
-
-
-
 -(void)aller
 {
     NSLog(@">>>>>>>");
@@ -618,11 +607,13 @@
     //    self.textstring=textField;
     NSIndexPath *path =[self.tableview indexPathForSelectedRow];
     NSLog(@"path值：%@",path);
-    BianjiTableViewCell *cell =[self.tableview cellForRowAtIndexPath:path];
+//    BianjiTableViewCell *cell =[self.tableview cellForRowAtIndexPath:path];
+    
     if (![model.datasource isEqualToString:@"0"]&&![model.sqldatatype isEqualToString:@"date"]) {
-        
-        
+    
         isSinglal =model.issingle;
+        
+        [self removeViewFromSuperview];
         
         [self kindsDataSource:model];
         
@@ -633,9 +624,7 @@
             
             //            self.textfield.font=[UIFont systemFontOfSize:13];
             
-            
-            
-            
+            [self removeViewFromSuperview];
             
             [self addDatePickerView:textField.tag date:textField.text];
             
@@ -646,28 +635,38 @@
         }
         else
             
+            [self removeViewFromSuperview];
             return YES;
     
     
+   
 }
+
+
+
+//调用方法避免选择框重叠
+- (void)removeViewFromSuperview
+{
+    for (UIView * view in self.view.subviews) {
+        if ([view isKindOfClass:[KindsItemsView class]]) {
+            [view removeFromSuperview];
+        }else if ([view isKindOfClass:[DatePickerView class]]){
+            [view removeFromSuperview];
+        }
+    }
+}
+
+
 
 
 //wo
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     LayoutModel *model = [self.mainLayoutArray safeObjectAtIndex:textField.tag];
     
-    
-    
-    
-    
-    
-    
     if (![self isPureInt:textField.text] && [model.sqldatatype isEqualToString:@"number"] && textField.text.length != 0) {
         [SVProgressHUD showInfoWithStatus:@"请输入数字"];
         textField.text = @"";
     }
-    
-    
     
     if ([textField.text length]>0) {
         unichar single = [textField.text characterAtIndex:0];
@@ -684,9 +683,6 @@
         [self.XMLParameterDic setObject:textField.text forKey:model.fieldname];
         [self.tableViewDic setObject:textField.text forKey:model.fieldname];
     }
-    
-    
-    
     
 }
 
@@ -714,9 +710,6 @@
                     
                 }
             }];
-            
-            
-            
         }
         else
         {
@@ -730,9 +723,6 @@
 }
 
 
-
-
-
 - (void)requestKindsDataSource:(LayoutModel *)model dataVer:(NSString *)Dataver{
     //model.dataver
     //[RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
@@ -741,8 +731,6 @@
     if ([model.datasource containsString:@"_code"]) {
         
         model.datasource =  [model.datasource stringByReplacingOccurrencesOfString:@"_code" withString:@""];
-        
-        
     }
     NSString *datesoure =[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource];
     [RequestCenter GetRequest:datesoure
@@ -1110,7 +1098,8 @@
     }
 }
 
-- (void)uploadClick:(UIButton *)btn{
+- (void)uploadClick:(UIButton *)btn
+{
     [self uploadImage:0];
 }
 
@@ -1424,8 +1413,6 @@
     return returnStr;
 }
 
-
-
 -(void)addFooterView
 {
     infoView = [[UIView alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT - 50 - textFiledHeight, SCREEN_WIDTH - 20, 50 + textFiledHeight)];
@@ -1466,24 +1453,9 @@
     gridmainid = _selectModel.gridmainid;
     programid = _selectModel.programid;
     
-    //    else
-    //    {
-    //        gridmainid = _editModel.GridMainID;
-    //        programid = _editModel.ProgramID;
-    //    }
-    
-    
     NSString *str = [NSString stringWithFormat:@"%@?ac=SaveEditData&u=%@&programid=%@&billid=%@&savestr=%@&rowver=%@",Web_Domain,self.uid,self.programeId,self.billid,xmlParameter,self.str];
-    
-    
-    // NSString * str=[NSString stringWithFormat:@"ac=&u=%@&programid=%@&billid=%@&SaveStr=%@&GridStr=%@&RowVer=%@",self.uid ,self.programeId,self.billid,xmlParameter];
+
     NSLog(@"上传的数据str : %@",str);
-    
-    //    if ([self.newflag isEqualToString:@"no"]) {
-    //        str = [NSString stringWithFormat:@"%@&sspid=%@",str,self.editModel.SspID];
-    //    }
-    
-    
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
@@ -1495,23 +1467,17 @@
                                                NSDictionary *dic = [responseObject objectForKey:@"msg"];
                                                NSString * ac2 = [NSString stringWithFormat:@"%@File",ac];
                                                sspid = [NSString stringWithFormat:@"%@",dic[@"sspid"]];
-                                               //                  if (_imagesArray.count != 0 || delteImageID.length != 0) {
-                                               //
-                                               //                      [self uploadImage:dic[@"sspid"] ac:ac2 inde:0];
-                                               //                  }
+                                      
                                                [self uploadImage:0];
                                                if (_imageArray.count != 0 || delteImageID.length != 0) {
                                                    
                                                    [self uploadImage:0];
                                                }
                                                else{
-                                                   
-                                                   
-                                                   
+                                            
                                                    if (commintBills==YES) {
                                                        if (self.type==0) {
                                                            [self saveCGToBill:sspid];
-                                                           
                                                        }
                                                        
                                                    }else
@@ -1522,7 +1488,6 @@
                                                        self.callback();
                                                    }
                                                }
-                                               
                                                
                                                [SVProgressHUD showSuccessWithStatus:@"提交数据成功"];
                                            }
@@ -1658,9 +1623,9 @@
     [self saveBills:@"SaveED"];
     
     [self uploadImage:0];
-    
-    
 }
+
+
 -(void)canletouch
 {
     

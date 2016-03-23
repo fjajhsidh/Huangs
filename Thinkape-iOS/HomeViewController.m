@@ -183,11 +183,6 @@
                           
                       }
             showLoadingStatus:YES];
-    
-    
-    
-    
-    
 }
 
 #pragma mark - Navigation
@@ -201,7 +196,7 @@
         [toVC setValue:[NSNumber numberWithBool:NO] forKey:@"undo"];
         self.istobe=NO;
         //wo
-        AppDelegate * app=[UIApplication sharedApplication].delegate;
+        AppDelegate * app= (AppDelegate *)[UIApplication sharedApplication].delegate;
         app.danJu=@"未完成审批";
     }
     if ([segue.identifier isEqualToString:@"complantToList"]) {
@@ -210,7 +205,7 @@
         [toVC setValue:[NSNumber numberWithBool:YES] forKey:@"undo"];
         self.istobe=YES;
         //wo
-        AppDelegate * app=[UIApplication sharedApplication].delegate;
+        AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         app.danJu=@"已完成审批";
     }
     

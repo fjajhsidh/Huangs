@@ -862,7 +862,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 }
 
 
-
 - (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index{
     // UIButton *imageView = (UIButton *)[bgView viewWithTag:index];
     if (browser.tag == 11) {
@@ -1007,7 +1006,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         isSingal = layoutModel.IsSingle;
       
         [self.kindsItemsView removeFromSuperview];
-        
         [self kindsDataSource:layoutModel];
        
         return NO;
@@ -1018,7 +1016,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         
         [self.kindsPickerView removeFromSuperview];
         [self.calculatorView removeFromSuperview];
-        
+    
         return NO;
     }
     else{
@@ -1270,10 +1268,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     }
 }
 
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    [self.tableView reloadData];
-//}
 
 #define mark -- scrollViewDelegate
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
@@ -1291,17 +1285,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
        for (KindsLayoutModel *layout in self.layoutArray) {
            if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil||layout.IsMust==YES) {
              
-               
-               
-                 
-                       
-
-             
-                   
-
-               
-               
-            
            }else {
             
 //               NSString *MobileSspEventByAuto = layout.MobileSspEventByAuto;
@@ -1381,16 +1364,9 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    
     NSLog(@"hah ");
-    
     [self setdefaults];
-    
-    
 //    [self setAuto];
-    
-    
-    
 //    [self.tableView reloadData];
 }
 
