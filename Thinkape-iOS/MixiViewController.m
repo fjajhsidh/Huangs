@@ -31,6 +31,7 @@
 #import "CTAssetsPickerController.h"
 #import "ImageModel.h"
 #import "DataManager.h"
+#import "BianJiViewController.h"
 @interface MixiViewController ()<UITextFieldDelegate,KindsItemsViewDelegate,UINavigationControllerDelegate,SDPhotoBrowserDelegate,UIActionSheetDelegate,QLPreviewControllerDataSource,QLPreviewControllerDelegate,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 
@@ -188,33 +189,30 @@
 -(void)savetolist
 {
     
-    Bianjito *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+  BianJiViewController  *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
     
+    bi.oldDicts = [NSMutableDictionary dictionaryWithDictionary:self.dict2];
     
-    
-    if (bi.index==0) {
-        
-        bi.editstart=YES;
-        
-        
-        bi.editnew=self.dict2;
-        NSMutableArray *arraout =[_costarrdate safeObjectAtIndex:bi.index];
-        NSMutableArray *ceser =[NSMutableArray arrayWithArray:arraout];
-        [ceser replaceObjectAtIndex:bi.indexRow withObject:bi.editnew];
-        
-        bi.arrayDict=ceser;
-        //
-        
-        
-    }else
-    {
-        bi.isstrart = YES;
-        bi.editxiao=self.dict2;
-    }
+     
+
     
     [self.navigationController popToViewController:bi animated:YES];
     
-    NSLog(@"=======%@",self.dict2);
+   
+    
+        //
+        
+        
+//    }
+//    else
+//    {
+//      //  bi.isstrart = YES;
+//        bi.editxiao=self.dict2;
+//    }
+//    
+
+    
+
     
     
     //    [self.navigationController pushViewController:bianji animated:YES ];

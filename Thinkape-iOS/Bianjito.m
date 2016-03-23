@@ -37,7 +37,7 @@
 {
     [self viewDidLoad];
     
-    
+    [self.tableview reloadData];
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
@@ -306,9 +306,9 @@
     
     LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
     _indexRow = indexPath.row-2;
-    if (self.editstart==YES) {
-        
-        
+//    if (self.editstart==YES) {
+    
+   
         _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
         app.dict = _datar;
         
@@ -323,8 +323,13 @@
         _dataArr = [_costall safeObjectAtIndex:_index];
         _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
         
-        app.dict = _datar;
-    }
+//    }
+//    if (self.editstart==NO) {
+//        _dataArr = [_costall safeObjectAtIndex:_index];
+//        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
+//        
+//        app.dict = _datar;
+//    }
     
     MixiViewController *vc =[[MixiViewController alloc] init];
     vc.index = _index;
