@@ -154,6 +154,8 @@
     
     [self addFooterView];
     
+    
+    
 }
 
 -(void)pulltoreturn
@@ -166,10 +168,6 @@
         }
     }
     
-    
-    //
-    //    [self.navigationController popToRootViewControllerAnimated:YES];
-    //
 }
 - (void)requestDataSource{
     
@@ -186,7 +184,14 @@
                           NSArray * costLayout = [[[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"] objectForKey:@"details"];
                           LayoutModel *l = [LayoutModel objectArrayWithKeyValuesArray:[mainLayout objectForKey:@"fields"]];
                           
+                          //tableView的数据源：
                           [_mainLayoutArray addObjectsFromArray:l];
+                          
+                          //10:币种   11：汇率
+                          [_mainLayoutArray removeObjectAtIndex:10];
+                          [_mainLayoutArray removeObjectAtIndex:10];
+                         
+                          
                           [_costLayoutArray2 addObjectsFromArray:[CostLayoutModel objectArrayWithKeyValuesArray:costLayout]];
                           NSMutableArray *dataArr = [[responseObject objectForKey:@"msg"] objectForKey:@"data"];
                           NSLog(@"dataArr.count:%lu",dataArr.count);
@@ -196,10 +201,16 @@
                           
                           self.str=[dict objectForKey:@"ver"];
                           NSLog(@"ver====%@",str);
+                          
+                          
+                          
                           self.tableViewDic=[NSMutableDictionary  dictionaryWithDictionary:_mainData[0]];
                           self.XMLParameterDic =[NSMutableDictionary dictionaryWithDictionary:_mainData[0]];
                           
+                          
+                          
                           NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
+                        
                           
                           //                          NSLog(@"%@=%@=%@",[self.tableViewDic class],[_mainData class],[dataArr class]);
                           //                          [self.tableViewDic setObject:_mainData forKey:dataArr];
@@ -297,6 +308,7 @@
 
 {
     BianjiTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    cell.textfield.placeholder = @"";
     
     if (!cell) {
         cell=[[[NSBundle mainBundle] loadNibNamed:@"BianjiTableViewCell" owner:self options:nil] lastObject];
@@ -320,19 +332,14 @@
         value = value.length>0?value:@"";
         
         cell.textfield.text= value;
-        value = [self.XMLParameterDic objectForKey:model.fieldname];
+        
+//        value = [self.XMLParameterDic objectForKey:model.fieldname];
         if (model.ismust==1&& indexPath.row!= _mainLayoutArray.count&&indexPath.row!=_mainLayoutArray.count+2) {
             cell.textfield.placeholder=@"不能为空";
         }
         
-        //        if ([model.fieldname isEqualToString:@"tpmemo"]) {
-        //            cell.leftlabel.text =[self filterHTML:[NSString stringWithFormat:@"%@",model.fieldname]];
-        //
-        //        }
-        //        if ([model.fieldname isEqualToString:@"tpmemo"]) {
-        //            cell.leftlabel.text=@"特批原因:";
-        //        }
-        //
+
+        
         
         if([model.name containsString:@"<"]){
             cell.leftlabel.text=[self filterHTML:[NSString stringWithFormat:@"%@",model.name]];
@@ -354,16 +361,16 @@
         cell.textfield.frame=CGRectMake((SCREEN_WIDTH-150)/2,0,SCREEN_WIDTH-50,40);
         if ([model.name isEqualToString:@"billscount"]) {
             cell.textfield.textColor = [UIColor grayColor];
-            
-            
             cell.textfield.keyboardType= UIKeyboardTypeDecimalPad;
             
         }
         if ([model.fieldname isEqualToString:@"memo"]) {
+            
             cell.textfield.placeholder=@"";
             
         }
         if ([model.isreadonly isEqualToString:@"0"]) {
+            cell.textfield.textColor = [UIColor blackColor];
             cell.textfield.enabled=YES;
             
         }else
@@ -377,8 +384,6 @@
             cell.leftlabel.textColor=[UIColor hex:@"f23f4e"];
             //        }
             
-            //
-            //
         }
         
         else
@@ -497,11 +502,7 @@
         rowHeight = [self fixStr:[mainDataDic objectForKey:model.fieldname]] + 20;
         
         rowHeight= self.textfield.frame.size.height+15;
-        
-        
-        
-        
-        
+    
     }
     else if(_mainLayoutArray.count == indexPath.row && _costLayoutArray2.count != 0 )
         rowHeight = 80;
@@ -509,12 +510,7 @@
     {
         rowHeight=90;
     }
-    
-    
-    
-    
-    
-    
+
     return rowHeight;
     
 }
@@ -575,7 +571,7 @@
         i++;
         [self.XMLParameterDic setObject:idStr forKey:layoutModel.fieldname];
         [self.XMLParameterDic setObject:nameStr forKey:layoutModel.fieldname];
-        [self.tableview reloadData];
+//        [self.tableview reloadData];
         //        self.textfield.text=nameStr;
         //        self.ishideto =YES;
         NSLog(@"FFFFFFFFFFFFFFFFFFFF%@",self.textstring.text);
@@ -602,7 +598,7 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
-    self.tableview.bounces=NO;
+//    self.tableview.bounces=NO;
     self.textfield.tag=textField.tag;
     LayoutModel *model = [self.mainLayoutArray safeObjectAtIndex:textField.tag];
     
@@ -686,9 +682,13 @@
             
             //            }
         }
-        [self.XMLParameterDic setObject:textField.text forKey:model.fieldname];
-        [self.tableViewDic setObject:textField.text forKey:model.fieldname];
+//        [self.XMLParameterDic setObject:textField.text forKey:model.fieldname];
+//        [self.tableViewDic setObject:textField.text forKey:model.fieldname];
     }
+    
+    [self.XMLParameterDic setObject:textField.text forKey:model.fieldname];
+    [self.tableViewDic setObject:textField.text forKey:model.fieldname];
+    
     
 }
 
@@ -1105,8 +1105,10 @@
 }
 
 
+//点击保存之后，上传图片调用：
+- (void)uploadImage:(NSInteger)index
 
-- (void)uploadImage:(NSInteger)index{
+{
     NSString *fbyte = @"";  //图片bate64
     
     fbyte = [self bate64ForImage:[_imageArray safeObjectAtIndex:index]];
@@ -1118,15 +1120,23 @@
     str = [NSString stringWithFormat:@"%@&delpicid=%@",str,delteImageID];
     
     NSLog(@"图片的地址str : %@",str);
-    [SVProgressHUD showWithMaskType:2];
+    
+    
+//    [SVProgressHUD showWithMaskType:2];
+    
+    
     [[AFHTTPRequestOperationManager manager] POST:str
                                        parameters:_imageArray.count != 0? @{@"FByte":fbyte} : nil
                                           success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                               //看看能不能删掉
                                               //                                              if ([[responseObject objectForKey:@"msg"] isEqualToString:@"ok"]) {
                                               
-                                    [SVProgressHUD dismiss];
+                                              
+//
+                                              [SVProgressHUD dismiss];
                                               if (index + 1 < _imageArray.count) {
+                               
+                                                  
                                                   [self uploadImage:index + 1];
                                               }
                                               if (index + 1 == _imageArray.count - 1) {
@@ -1193,6 +1203,7 @@
     browser.tag = 11;
     [browser show]; // 展示图片浏览器
 }
+
 
 
 - (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index{
@@ -1267,7 +1278,8 @@
     return [NSURL fileURLWithPath:[[RequestCenter defaultCenter] filePath]];
 }
 
-- (UIScrollView *)costScrollView{
+- (UIScrollView *)costScrollView
+{
     
     UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, 80)];
     scroll.tag = 203;
@@ -1388,9 +1400,6 @@
         
         
     }
-   
-    
-    
     
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -1432,88 +1441,67 @@
     int val;
     return[scan scanInt:&val] && [scan isAtEnd];
 }
+
 #pragma mark---单据报错提示
-- (NSString *)XMLParameter{
+
+- (NSString *)XMLParameter
+{
     NSMutableString *xmlStr = [NSMutableString string];
+    
+    //XMLParameterDic
+    //tableViewDic   字段
+    
     int i = 0;
-    for (LayoutModel *layoutModel in self.mainLayoutArray) {
-        //id 值
-        if ([layoutModel.fieldname containsString:@"_show"]) {
-            layoutModel.fieldname = [layoutModel.fieldname stringByReplacingOccurrencesOfString:@"_show" withString:@""];
-        }
-        
+    for (LayoutModel *layoutModel in _mainLayoutArray) {
         NSString *value = [self.XMLParameterDic objectForKey:layoutModel.fieldname];
-        NSString *strs =[NSString stringWithFormat:@"%@%@",layoutModel.fieldname,@"_show"];
+
+        //id 值
+        NSString *str0 = [[NSString alloc]initWithString:layoutModel.fieldname];
         
-        if (value != nil) {
+        if ([layoutModel.fieldname containsString:@"_show"]) {
             
+            str0 = [layoutModel.fieldname stringByReplacingOccurrencesOfString:@"_show" withString:@""];
+            value = [self.XMLParameterDic objectForKey:[NSString stringWithFormat:@"%@%@",layoutModel.fieldname,@"_id"]];
         }else{
-            value = [self.XMLParameterDic objectForKey:strs];
-        }
         
-        //text值
+        }
+//        
+//        NSString *strs =[NSString stringWithFormat:@"%@%@",layoutModel.fieldname,@"_show"];
+        
         NSString *ids = [self.tableViewDic objectForKey:layoutModel.fieldname];
-        if (ids != nil) {
-            
-        }else{
-            ids = [self.tableViewDic objectForKey:strs];
-        }
-        
-        //        if (layoutModel.isreadonly && value.length == 0&&i !=0) {
-        
-        if (layoutModel.ismust==1||ids.length ==0 ) {
-            
-            
+    
+        if (layoutModel.ismust == 1 && ids.length == 0 && i != 0) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.name]];
-            NSLog(@"提示的字%@",layoutModel.name);
-             return nil;
+            return nil;
+            NSLog(@"hhq");
+        }else{
+            
         }
-       
+
         if (ids.length != 0) {
             
             if (![layoutModel.datasource isEqualToString:@"0"]&&![layoutModel.datasource isEqualToString:@""]) {
                 if([layoutModel.datasource containsString:@"9999"]){
                     
-                    [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.fieldname,ids];
+                    [xmlStr appendFormat:@"%@=\"%@\" ",str0,ids];
                     
                 }else{
-                    value = [self.XMLParameterDic objectForKey:[NSString stringWithFormat:@"%@%@",strs,@"_id"]];
-                    [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.fieldname,value];
-                    
-                    //                    if ([xmlStr stringByReplacingOccurrencesOfString:@"_show" withString:@""]) {
-                    //                        [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.fieldname,value];
-                    //                    }
+
+                    [xmlStr appendFormat:@"%@=\"%@\" ",str0,value];
                     
                 }
             }else{
-                [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.fieldname,ids];
+                [xmlStr appendFormat:@"%@=\"%@\" ",str0,ids];
             }
-            
-            //            if (i != self.mainLayoutArray.count-1 ) {
-            //                if (i != self.mainLayoutArray.count) {
-            //
-            //                    [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.fieldname,ids];
-            //
-            //                }else{
-            //
-            //                    [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.fieldname,ids];
-            //                    if ([xmlStr stringByReplacingOccurrencesOfString:@"_show" withString:@""]) {
-            //                        [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.fieldname,value];
-            //                    }
-            //
-            //                }
-            //            }else if (i != 0){
-            //                [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.name]];
-            //                return nil;
-            //            }
-            
         }
        i++;
     }
     NSString *returnStr = [NSString stringWithFormat:@"<?xml version= \"1.0\" encoding=\"gb2312\"?><Root><Main %@></Main></Root>",xmlStr];
     NSLog(@"xmlStr : %@",returnStr);
     return returnStr;
+        
 }
+
 
 -(void)addFooterView
 {
@@ -1541,8 +1529,12 @@
     [infoView addSubview:backBatn];
 }
 #pragma mark----保存到草稿
-- (void)saveBills:(NSString *)ac{
+- (void)saveBills:(NSString *)ac
+{
     NSString *xmlParameter = [self XMLParameter];
+    
+    NSLog(@"%@",xmlParameter);
+    
     if (xmlParameter.length == 0) {
         
         return;
@@ -1561,42 +1553,27 @@
     NSLog(@"上传的数据str : %@",str);
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
     AFHTTPRequestOperation *op = [manager POST:[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
                                     parameters:nil
                                        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                            
+                                           [self uploadImage:0];
                                            
-                                           if ([[responseObject objectForKey:@"msg"] isKindOfClass:[NSDictionary class]]) {
-                                               NSDictionary *dic = [responseObject objectForKey:@"msg"];
-                                               NSString * ac2 = [NSString stringWithFormat:@"%@File",ac];
-                                               sspid = [NSString stringWithFormat:@"%@",dic[@"sspid"]];
-                                      
-                                               [self uploadImage:0];
-                                               if (_imageArray.count != 0 || delteImageID.length != 0) {
-                                                   
-                                                   [self uploadImage:0];
-                                               }
-                                               else{
-                                            
-                                                   if (commintBills==YES) {
-                                                       if (self.type==0) {
-                                                           [self saveCGToBill:sspid];
-                                                       }
-                                                       
-                                                   }else
-                                                   {
-                                                       [self.navigationController popViewControllerAnimated:YES];
-                                                   }
-                                                   if (self.callback) {
-                                                       self.callback();
-                                                   }
-                                               }
-                                               
-                                               [SVProgressHUD showSuccessWithStatus:@"提交数据成功"];
+                                           if (self.callback) {
+                                               self.callback();
                                            }
-                                           else
-                                               [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
+
                                            
+                                           [SVProgressHUD showSuccessWithStatus:@"提交数据成功"];
+                                           [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
+                                
+                                           NSArray *temArray =self.navigationController.viewControllers;
+                                           for (UIViewController *ter in temArray) {
+                                               if ([ter isKindOfClass:[BillsListViewController class]]) {
+                                                   [self.navigationController popToViewController:ter animated:YES];
+                                               }
+                                           }
+   
                                        }
                                        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                            
@@ -1604,7 +1581,7 @@
     [op setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         NSLog(@"totle %lld",totalBytesWritten);
     }];
-    
+
 }
 
 #pragma 图片递交为二进制
@@ -1723,16 +1700,23 @@
     //        self.newflag=@"no";
     //    }
     //    [self saveBills:@"SaveCG"];
+    
+    //保存字段：
     [self saveBills:@"SaveED"];
     
-    [self uploadImage:0];
+    //保存图片
+//    [self uploadImage:0];
 }
 
-
+//取消按钮的点击事件：
 -(void)canletouch
 {
-    
-    
+    NSArray *array = self.navigationController.viewControllers;
+    for (UIViewController *VC in array) {
+        if ([VC isKindOfClass:[BillsDetailViewController class]]) {
+            [self.navigationController popToViewController:VC animated:YES];
+        }
+    }
 }
 /*
  #pragma mark - Navigation

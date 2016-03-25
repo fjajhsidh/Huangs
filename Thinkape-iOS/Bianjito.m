@@ -151,6 +151,8 @@
     width = (itemWidth + speace) * model.fileds.count +100+ speace;
     self.tableview2.constant = width + 24;
 }
+
+#pragma mark -- tabelViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSArray *array = [_costDataArr safeObjectAtIndex:_index ];
     
@@ -182,7 +184,8 @@
         title.font = [UIFont systemFontOfSize:15];
         title.text = model.name;
         title.textColor = [UIColor whiteColor];
-        
+
+   
         [bgView addSubview:title];
         
     }
@@ -263,9 +266,6 @@
                 if (button.tag==1) {
                     [button setTitle:@"删除" forState:UIControlStateNormal];
                     [button addTarget:self action:@selector(buttonaction:) forControlEvents:UIControlEventTouchUpInside];
-                    button.tag = indexPath.row-2;
-                    
-                    
                     [bgView addSubview:button];
                     
                 }
@@ -331,8 +331,6 @@
     _indexRow = indexPath.row-2;
 //    if (self.editstart==YES) {
     
-   
-    
     _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
     
     app.dict = _datar;
@@ -345,8 +343,9 @@
         app.dict =_datar;
         label.text = [_datar objectForKey:layoutModel.fieldname];
             
-        }
-    
+        
+    }
+
     MixiViewController *vc =[[MixiViewController alloc] init];
     vc.index = _index;
     
@@ -354,26 +353,22 @@
     vc.costarrdate=_costDataArr;
     
     [self.navigationController pushViewController:vc animated:YES];
-    }
+
+}
 
 
 
-
-
-//删除cell的废弃方法
 -(void)buttonaction:(UIButton *)sender
 {
     
-  //  [self.costDataArr removeAllObjects];
-  
     NSMutableArray *Costarry  =[NSMutableArray arrayWithArray:_costDataArr];
     NSMutableArray *dateer = [Costarry safeObjectAtIndex:_index];
     NSMutableArray *aler  =[NSMutableArray arrayWithArray:dateer];
     AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
     NSLog(@"button%ld",sender.tag);
     int select = app.indexpage;
-
-   [aler removeObjectAtIndex:sender.tag];
+    
+    [aler removeObjectAtIndex:sender.tag];
     
     [Costarry replaceObjectAtIndex:select withObject:aler];
     _costDataArr= Costarry;

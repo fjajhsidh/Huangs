@@ -37,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [SVProgressHUD showWithStatus:@"正在加载。。。" maskType:1];
+//    [SVProgressHUD showWithStatus:@"正在加载。。。" maskType:1];
     
     [self createUI];
     
@@ -48,7 +48,7 @@
 {
     [super viewWillAppear:animated];
 
-    [self requestData];
+//    [self requestData];
     
 }
 
@@ -68,10 +68,7 @@
       
         
         _versionText = dict[@"version"];
-        
-//        [self createUI];
-        
-        
+
         _versionLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 280, SCREEN_WIDTH-20, 50)];
         _versionLabel.text = [NSString stringWithFormat:@"当前版本号：%@",_versionText];
         _versionLabel.textAlignment = NSTextAlignmentCenter;
@@ -113,9 +110,9 @@
     
     
     //
-//    _versionLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 280, SCREEN_WIDTH-20, 50)];
-//    _versionLabel.text = [NSString stringWithFormat:@"当前版本号：%@",_versionText];
-//    _versionLabel.textAlignment = NSTextAlignmentCenter;
+    _versionLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 280, SCREEN_WIDTH-20, 50)];
+    _versionLabel.text = [NSString stringWithFormat:@"当前版本号：1.1.1"];
+    _versionLabel.textAlignment = NSTextAlignmentCenter;
     
     //
     _urlLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 325, SCREEN_WIDTH-20, 50)];
@@ -143,7 +140,7 @@
     [_myScrollView addSubview:_thinkApeLabel];
     [_myScrollView addSubview:_openLabel];
     
-//    [_myScrollView addSubview:_versionLabel];
+    [_myScrollView addSubview:_versionLabel];
     
     [_myScrollView addSubview:_urlLabel];
     [_myScrollView addSubview:_weixinLabel];
