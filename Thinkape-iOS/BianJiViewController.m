@@ -45,7 +45,7 @@
 
 @property (strong,nonatomic) NSMutableArray *pathFlow; // 审批流程
 @property (nonatomic,strong) NSMutableArray *mainData;
-@property (nonatomic,strong) NSMutableArray *costData2;
+
 @property (nonatomic,strong) NSMutableArray *uploadArr;
 @property (strong, nonatomic) NSMutableArray *layoutArray;
 @property (nonatomic,strong) UITextField *beizhuText;
@@ -1104,10 +1104,7 @@
     }
 }
 
-- (void)uploadClick:(UIButton *)btn
-{
-    [self uploadImage:0];
-}
+
 
 - (void)uploadImage:(NSInteger)index{
     NSString *fbyte = @"";  //图片bate64
@@ -1127,7 +1124,8 @@
                                           success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                               //看看能不能删掉
                                               //                                              if ([[responseObject objectForKey:@"msg"] isEqualToString:@"ok"]) {
-                                              [SVProgressHUD dismiss];
+                                              
+                                    [SVProgressHUD dismiss];
                                               if (index + 1 < _imageArray.count) {
                                                   [self uploadImage:index + 1];
                                               }
@@ -1309,14 +1307,16 @@
     //    CostDetailViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CostDetailVC"];
     Bianjito *vc = [[Bianjito alloc] init];
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    //cell的行数
     NSInteger indx = app.indexcor;
+    //页数
     NSInteger indexpate = app.indexpage;
     vc.costLayoutArray = _costLayoutArray2;
-
+    
   
     
     vc.index = (int)btn.tag;
-    if (self.oldDicts.count==0||self.wenDicts.count==0) {
+    if (self.oldDicts.count==0&&self.wenDicts.count==0) {
        
         vc.costDataArr = _costData2;
     
@@ -1331,12 +1331,14 @@
             //修改的字典
             NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
             //新增的字典
-            NSMutableDictionary *reset = [NSMutableDictionary dictionaryWithDictionary:self.wenDicts];
+           
             
             
             NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
-            
-            [alet replaceObjectAtIndex:indx withObject:NewDic];
+            if (NewDic.count!= 0) {
+                   [alet replaceObjectAtIndex:indx withObject:NewDic];
+            }
+         
           
             
             [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
@@ -1355,14 +1357,24 @@
             NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
             //新增的字典
             NSMutableDictionary *reset = [NSMutableDictionary dictionaryWithDictionary:self.wenDicts];
+           
             
             NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
             /// 有问题
-           
+            if (NewDic.count !=0) {
+                 [alet replaceObjectAtIndex:indx withObject:NewDic];
+            }
+       
+            if (self.isaddka==YES) {
+                if (reset.count !=0) {
+                    
+                    [alet addObject:reset];
+                }
+                self.isaddka=NO;
+            }
           
-           [alet replaceObjectAtIndex:indx withObject:NewDic];
-      
-            [alet addObject:reset];
+         
+           
            
             
             [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
@@ -1449,12 +1461,14 @@
         
         //        if (layoutModel.isreadonly && value.length == 0&&i !=0) {
         
-        if (layoutModel.ismust==1&&ids.length==0 ) {
-            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.name]];
+        if (layoutModel.ismust==1||ids.length ==0 ) {
             
-            return nil;
+            
+            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.name]];
+            NSLog(@"提示的字%@",layoutModel.name);
+             return nil;
         }
-        
+       
         if (ids.length != 0) {
             
             if (![layoutModel.datasource isEqualToString:@"0"]&&![layoutModel.datasource isEqualToString:@""]) {
@@ -1492,8 +1506,9 @@
             //                [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.name]];
             //                return nil;
             //            }
+            
         }
-        i++;
+       i++;
     }
     NSString *returnStr = [NSString stringWithFormat:@"<?xml version= \"1.0\" encoding=\"gb2312\"?><Root><Main %@></Main></Root>",xmlStr];
     NSLog(@"xmlStr : %@",returnStr);
@@ -1529,13 +1544,14 @@
 - (void)saveBills:(NSString *)ac{
     NSString *xmlParameter = [self XMLParameter];
     if (xmlParameter.length == 0) {
+        
         return;
     }
     NSString *gridmainid;
     NSString *programid;
     
-    NSString *appStr =@"Data";
-    NSString * ac1 = [NSString stringWithFormat:@"%@%@",ac,appStr];
+//    NSString *appStr =@"Data";
+//    NSString * ac1 = [NSString stringWithFormat:@"%@%@",ac,appStr];
     
     gridmainid = _selectModel.gridmainid;
     programid = _selectModel.programid;
