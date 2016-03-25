@@ -124,6 +124,8 @@
     width = (itemWidth + speace) * model.fileds.count +100+ speace;
     self.tableview2.constant = width + 24;
 }
+
+#pragma mark -- tabelViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSArray *array = [_costDataArr safeObjectAtIndex:_index ];
     
@@ -153,6 +155,7 @@
         title.text = model.name;
         title.textColor = [UIColor whiteColor];
 
+   
         [bgView addSubview:title];
         
     }
@@ -168,7 +171,7 @@
                 button=[[UIButton alloc] initWithFrame:CGRectMake(10, 8, 40, 15)];
             }
             else{
-                label = [[UILabel alloc] initWithFrame:CGRectMake(40+speace + (itemWidth + speace) * (i-1), 8, itemWidth, 15)];
+                label = [[UILabel alloc] initWithFrame:CGRectMake(40+speace + (itemWidth + speace) * (i-1), 14, itemWidth, 15)];
             }
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:13];
@@ -242,7 +245,7 @@
                 }
                 if (button.tag==1) {
                     [button setTitle:@"删除" forState:UIControlStateNormal];
-                    [button addTarget:self action:@selector(buttonaction) forControlEvents:UIControlEventTouchUpInside];
+                    [button addTarget:self action:@selector(buttonaction:) forControlEvents:UIControlEventTouchUpInside];
                     [bgView addSubview:button];
                     
                 }
@@ -308,8 +311,6 @@
     _indexRow = indexPath.row-2;
 //    if (self.editstart==YES) {
     
-   
-    
     _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
     
     app.dict = _datar;
@@ -320,21 +321,9 @@
         app.dict =_datar;
         label.text = [_datar objectForKey:layoutModel.fieldname];
             
-        }
+        
     }
-    if (self.editstart == NO) {
-        _dataArr = [_costall safeObjectAtIndex:_index];
-        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-        
-//    }
-        
-//    if (self.editstart==NO) {
-//        _dataArr = [_costall safeObjectAtIndex:_index];
-//        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-//        
-//        app.dict = _datar;
-//    }
-    
+
     MixiViewController *vc =[[MixiViewController alloc] init];
     vc.index = _index;
     
@@ -342,19 +331,21 @@
     vc.costarrdate=_costDataArr;
     
     [self.navigationController pushViewController:vc animated:YES];
-    }
+
+}
 
 
 
-
-
-
-
-
-
--(void)buttonaction
+-(void)buttonaction:(UIButton *)sender
 {
     
+    UITableViewCell *cell = (UITableViewCell *)[[sender superview] superview];
+    
+    NSIndexPath *path  = [_tableview indexPathForCell:cell];
+    
+    NSLog(@"%ld",path.row);
+    
+
     [self.costDataArr removeAllObjects];
     [self.tableview reloadData];
     

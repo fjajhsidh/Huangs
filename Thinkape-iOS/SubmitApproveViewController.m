@@ -418,6 +418,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 
 //递交申请
 - (void)saveBills:(NSString *)ac{
+    //t
     NSString *xmlParameter = [self XMLParameter];
     if (xmlParameter.length == 0) {
         return;
@@ -488,11 +489,9 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                                        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                            
                                        }];
-    
-    
-    
-    
+
     [op setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+        
         NSLog(@"totle %lld",totalBytesWritten);
     }];
     
@@ -738,6 +737,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     
 }
 
+//扫描字符串
 - (BOOL)isPureInt:(NSString*)string{
     //  [NSScanner scannerWithString:string];
     NSScanner* scan = [NSScanner scannerWithString:string];
@@ -747,7 +747,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 
 
 #pragma mark - UIActionSheetDelegate
-
+//调用相机，访问相册，取消
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     
@@ -767,7 +767,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     
 }
 
-
+#pragma mark   UIImagePickerControllerDelegate   调用相机：
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -935,7 +935,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     return _encodedImageStr;
 }
 
-
+//判断输入值是否为空
 - (NSString *)XMLParameter
 {
     NSMutableString *xmlStr = [NSMutableString string];

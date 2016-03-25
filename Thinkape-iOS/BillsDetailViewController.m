@@ -1033,6 +1033,7 @@
  *
  *  @param type type 0:现实输入框 1： 不显示输入框
  */
+
 - (void)resizeFootViewFrame:(NSInteger)type{
     if (type == 0) {
         textFiledHeight = 30;
@@ -1235,6 +1236,8 @@
     }
    
 }
+
+//
 
 - (void)uploadClick:(UIButton *)btn{
     [self uploadImage:0];
