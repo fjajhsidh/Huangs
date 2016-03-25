@@ -27,5 +27,6 @@
 @property(nonatomic,assign)NSInteger type;
 @property(nonatomic,strong)NSMutableDictionary *oldDicts;
 @property(nonatomic,strong)NSMutableDictionary *wenDicts;
-
+@property(nonatomic,assign)BOOL isaddka;
+@property (nonatomic,strong) NSMutableArray *costData2;
 @end

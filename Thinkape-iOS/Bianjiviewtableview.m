@@ -92,6 +92,9 @@
     self.textfield.textAlignment=NSTextAlignmentCenter;
     self.textfield.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
     _coster=[self.costArray safeObjectAtIndex:_indexto];
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    app.indexpage = _indexto;
+    
     
 }
 
@@ -790,8 +793,9 @@
     
     
     BianJiViewController *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
+    bi.isaddka = YES;
     bi.wenDicts = [NSMutableDictionary dictionaryWithDictionary:self.dict1];
-    
+   
     
     
     

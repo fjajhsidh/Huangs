@@ -45,7 +45,7 @@
 
 @property (strong,nonatomic) NSMutableArray *pathFlow; // 审批流程
 @property (nonatomic,strong) NSMutableArray *mainData;
-@property (nonatomic,strong) NSMutableArray *costData2;
+
 @property (nonatomic,strong) NSMutableArray *uploadArr;
 @property (strong, nonatomic) NSMutableArray *layoutArray;
 @property (nonatomic,strong) UITextField *beizhuText;
@@ -1319,14 +1319,16 @@
     //    CostDetailViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CostDetailVC"];
     Bianjito *vc = [[Bianjito alloc] init];
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    //cell的行数
     NSInteger indx = app.indexcor;
+    //页数
     NSInteger indexpate = app.indexpage;
     vc.costLayoutArray = _costLayoutArray2;
-
+    
   
     
     vc.index = (int)btn.tag;
-    if (self.oldDicts.count==0||self.wenDicts.count==0) {
+    if (self.oldDicts.count==0&&self.wenDicts.count==0) {
        
         vc.costDataArr = _costData2;
     
@@ -1341,12 +1343,14 @@
             //修改的字典
             NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
             //新增的字典
-            NSMutableDictionary *reset = [NSMutableDictionary dictionaryWithDictionary:self.wenDicts];
+           
             
             
             NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
-            
-            [alet replaceObjectAtIndex:indx withObject:NewDic];
+            if (NewDic.count!= 0) {
+                   [alet replaceObjectAtIndex:indx withObject:NewDic];
+            }
+         
           
             
             [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
@@ -1365,14 +1369,24 @@
             NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
             //新增的字典
             NSMutableDictionary *reset = [NSMutableDictionary dictionaryWithDictionary:self.wenDicts];
+           
             
             NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
             /// 有问题
-           
+            if (NewDic.count !=0) {
+                 [alet replaceObjectAtIndex:indx withObject:NewDic];
+            }
+       
+            if (self.isaddka==YES) {
+                if (reset.count !=0) {
+                    
+                    [alet addObject:reset];
+                }
+                self.isaddka=NO;
+            }
           
-           [alet replaceObjectAtIndex:indx withObject:NewDic];
-      
-            [alet addObject:reset];
+         
+           
            
             
             [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
@@ -1480,7 +1494,7 @@
                 [xmlStr appendFormat:@"%@=\"%@\" ",str0,ids];
             }
         }
-        i++;
+       i++;
     }
     NSString *returnStr = [NSString stringWithFormat:@"<?xml version= \"1.0\" encoding=\"gb2312\"?><Root><Main %@></Main></Root>",xmlStr];
     NSLog(@"xmlStr : %@",returnStr);
@@ -1522,13 +1536,14 @@
     NSLog(@"%@",xmlParameter);
     
     if (xmlParameter.length == 0) {
+        
         return;
     }
     NSString *gridmainid;
     NSString *programid;
     
-    NSString *appStr =@"Data";
-    NSString * ac1 = [NSString stringWithFormat:@"%@%@",ac,appStr];
+//    NSString *appStr =@"Data";
+//    NSString * ac1 = [NSString stringWithFormat:@"%@%@",ac,appStr];
     
     gridmainid = _selectModel.gridmainid;
     programid = _selectModel.programid;

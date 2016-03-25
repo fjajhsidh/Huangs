@@ -12,6 +12,7 @@
 #import "Bianjiviewtableview.h"
 #import "AppDelegate.h"
 #import "MixiViewController.h"
+#import "BianJiViewController.h"
 @interface Bianjito ()
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableview2;
@@ -19,10 +20,13 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
 @property(nonatomic,strong)NSMutableArray *dataArr;
-@property(nonatomic,assign)int firstindex;
+@property(nonatomic,assign)NSInteger firstindex;
 @property(nonatomic,assign)BOOL ishandan;
 @property(nonatomic,strong) NSMutableArray *costall;
 @property(nonatomic,strong) NSMutableArray *asdc;
+@property(nonatomic,assign)BOOL isDElegate;
+
+
 @end
 
 @implementation Bianjito
@@ -32,12 +36,13 @@
     CGFloat itemWidth;
     CGFloat speace;
     UILabel *label;
+    UIView *editView;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [self viewDidLoad];
-    
     [self.tableview reloadData];
+    
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
@@ -53,35 +58,57 @@
     [self layoutScroll];
     self.scrollview.bounces=NO;
     self.navigationController.navigationBarHidden=NO;
-    if (self.editstart==YES) {
-        [self.tableview reloadData];
-    }
-    
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+   
+    app.indexpage = _index;
+    [self addLeftNavgation];
     
     
 }
 -(void)addRightNavgation{
     UIButton *imageview = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     [imageview setBackgroundImage:[UIImage imageNamed:@"jiaban_white.png"] forState:UIControlStateNormal];
+    
     [imageview addTarget:self action:@selector(appcer) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *item =[[UIBarButtonItem alloc] initWithCustomView:imageview];
     
     self.navigationItem.rightBarButtonItem=item;
     
 }
+-(void)addLeftNavgation
+{
+    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 45, 45)];
+    [leftButton setTitle:@"完成" forState:UIControlStateNormal];
+    [leftButton addTarget:self action:@selector(leftbuttonaction) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftitem =[[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    self.navigationItem.leftBarButtonItem=leftitem;
+    
+}
+-(void)leftbuttonaction
+{
 
+    BianJiViewController *bianji = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+    if (self.isDElegate==YES) {
+        bianji.costData2 = _costDataArr;
+        
+    }
+    [self.navigationController popToViewController:bianji animated:YES];
+}
 
 -(void)appcer
 {
+
+
     
     Bianjiviewtableview *vc =[Bianjiviewtableview new];
     vc.indexto = _index;
     vc.costArray=self.costLayoutArray;
     vc.costArr=self.costDataArr;
     [self.navigationController pushViewController:vc animated:YES];
-    
-    
 }
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -142,15 +169,18 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellid];
     }
     cell.backgroundColor = [UIColor clearColor];
+    cell.tag=indexPath.row;
     for (UIView *subView in cell.contentView.subviews) {
         [subView removeFromSuperview];
     }
+   
     if (indexPath.row == 0) {
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(12, 17, width, 30)];
+      
         bgView.backgroundColor = [UIColor colorWithRed:0.275 green:0.557 blue:0.914 alpha:1.000];
         [cell.contentView addSubview:bgView];
         
-        UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(13, 7.5, width, 15)];
+        UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(13, 14, width, 15)];
         title.font = [UIFont systemFontOfSize:15];
         title.text = model.name;
         title.textColor = [UIColor whiteColor];
@@ -159,7 +189,7 @@
         [bgView addSubview:title];
         
     }
-    
+    //
     else{
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(12, 0, width, 50)];
         bgView.tag = 304;
@@ -167,8 +197,8 @@
             //            UILabel *label;
             UIButton *button;
             if (i == 0 ) {
-                label = [[UILabel alloc] initWithFrame:CGRectMake(35, 8, 40, 15)];
-                button=[[UIButton alloc] initWithFrame:CGRectMake(10, 8, 40, 15)];
+                label = [[UILabel alloc] initWithFrame:CGRectMake(35,14, 40, 15)];
+                button=[[UIButton alloc] initWithFrame:CGRectMake(10, 14, 40, 15)];
             }
             else{
                 label = [[UILabel alloc] initWithFrame:CGRectMake(40+speace + (itemWidth + speace) * (i-1), 14, itemWidth, 15)];
@@ -177,8 +207,8 @@
             label.font = [UIFont systemFontOfSize:13];
             label.tag = i;
             label.textColor = [UIColor colorWithHexString:@"333333"];
-            
-            button=[[UIButton alloc] initWithFrame:CGRectMake(bgView.frame.origin.x-speace+(itemWidth+speace)*(i-1)-10, 8, itemWidth, 15)];
+            label.textAlignment = NSTextAlignmentCenter;
+            button=[[UIButton alloc] initWithFrame:CGRectMake(bgView.frame.origin.x-speace+(itemWidth+speace)*(i-1)-10, 14, itemWidth, 15)];
             //            button.font=[UIFont systemFontOfSize:13];
             button.titleLabel.font = [UIFont systemFontOfSize:13];
             button.tag=i;
@@ -198,50 +228,40 @@
                 }
                 
                 if (button.tag==1) {
+                    
                     [button setTitle:@"操作" forState:UIControlStateNormal];
+                    
+                   
                 }
             }
             else
             {
                 if (label.tag == 0) {
                     label.text = [NSString stringWithFormat:@"%ld",indexPath.row - 1];
+                    
+                   
                 }else{
+                   
                     LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
-                    _costall = _costDataArr;
-                    _dataArr = [_costall safeObjectAtIndex:_index];
+                   
+                    if (self.editstart==NO) {
+                        
+                    
+                    _dataArr = [_costDataArr safeObjectAtIndex:_index];
+                    }
+                    //删除表单
+                    if (self.isDElegate==YES) {
+                       _dataArr = [_costDataArr safeObjectAtIndex:_index];
+                    }
                     _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-                    //判断传值是否经过传值而过来的字典
-                    if (_index==0) {
-                        if (self.editstart==YES) {
-                            //通过我的点的行数，值就会带到那行
-                            //                       if (indexPath.row==_indexRow+2) {
-                            
-                            NSMutableDictionary *adc =[NSMutableDictionary dictionaryWithDictionary:self.editnew];
-                            
-                            NSMutableArray *sad =[NSMutableArray arrayWithArray:_dataArr];
-                            [sad replaceObjectAtIndex:_indexRow withObject:adc];
-                            _dataArr = sad;
-                            _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-                            NSString *cc = [_datar objectForKey:layoutModel.fieldname];
-                      
-                            label.text =cc;
-                            [self savetoarray:cc];
+                    
+                    NSString *cc =[_datar objectForKey:layoutModel.fieldname];
+                   
+                   
+                    label.text =cc;
+                    
 
-                        }
-                    }
-                    
-                    NSLog(@"_datar====%@",_datar);
-                    NSLog(@"%@",label.text);
-                    
-                    NSLog(@"_datar====%@",_datar);
-                    NSLog(@"%@",label.text);
-                    
-                    if (self.editstart==NO||self.isstrart==NO) {
-                        _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
-                        label.text = [_datar objectForKey:layoutModel.fieldname];
-                    }
-                    NSLog(@"%@",label.text);
-                    
+         
                 }
                 if (button.tag==1) {
                     [button setTitle:@"删除" forState:UIControlStateNormal];
@@ -314,7 +334,9 @@
     _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
     
     app.dict = _datar;
-    app.indexpage = _index;
+    //页数
+   
+    //cell的行数
     app.indexcor = _indexRow;
     if (indexPath.row==_indexRow) {
         _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
@@ -349,7 +371,18 @@
     [self.costDataArr removeAllObjects];
     [self.tableview reloadData];
     
+    [Costarry replaceObjectAtIndex:select withObject:aler];
+    _costDataArr= Costarry;
+        
+    
+//
+  
+    self.isDElegate = YES;
+    
+    [self.tableview reloadData];
+
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
