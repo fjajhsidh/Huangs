@@ -361,22 +361,18 @@
 -(void)buttonaction:(UIButton *)sender
 {
     
-    UITableViewCell *cell = (UITableViewCell *)[[sender superview] superview];
+    NSMutableArray *Costarry  =[NSMutableArray arrayWithArray:_costDataArr];
+    NSMutableArray *dateer = [Costarry safeObjectAtIndex:_index];
+    NSMutableArray *aler  =[NSMutableArray arrayWithArray:dateer];
+    AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSLog(@"button%ld",sender.tag);
+    int select = app.indexpage;
     
-    NSIndexPath *path  = [_tableview indexPathForCell:cell];
-    
-    NSLog(@"%ld",path.row);
-    
-
-    [self.costDataArr removeAllObjects];
-    [self.tableview reloadData];
+    [aler removeObjectAtIndex:sender.tag];
     
     [Costarry replaceObjectAtIndex:select withObject:aler];
     _costDataArr= Costarry;
-        
-    
-//
-  
+
     self.isDElegate = YES;
     
     [self.tableview reloadData];
