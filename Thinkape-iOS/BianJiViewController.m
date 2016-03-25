@@ -1328,7 +1328,7 @@
   
     
     vc.index = (int)btn.tag;
-    if (self.oldDicts.count==0&&self.wenDicts.count==0) {
+    if (self.oldDicts.count==0&&self.wenDicts.count==0&&self.isdeletes==NO) {
        
         vc.costDataArr = _costData2;
     

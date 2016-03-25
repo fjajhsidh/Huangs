@@ -92,6 +92,7 @@
         bianji.costData2 = _costDataArr;
         
     }
+    bianji.isdeletes=YES;
     [self.navigationController popToViewController:bianji animated:YES];
 }
 
@@ -266,6 +267,7 @@
                 if (button.tag==1) {
                     [button setTitle:@"删除" forState:UIControlStateNormal];
                     [button addTarget:self action:@selector(buttonaction:) forControlEvents:UIControlEventTouchUpInside];
+                     button.tag = indexPath.row-2;
                     [bgView addSubview:button];
                     
                 }
