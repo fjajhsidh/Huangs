@@ -905,7 +905,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         [weakSelf.tableViewDic setObject:date forKey:layoutModel.key];
         [weakSelf.datePickerView closeView:nil];
         
-       
         if ([layoutModel.MobileSspEventByAuto isEqualToString:@""]||layoutModel.MobileSspEventByAuto==nil) {
 
     
@@ -1006,12 +1005,15 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         isSingal = layoutModel.IsSingle;
       
         [self.kindsItemsView removeFromSuperview];
+        [self.datePickerView removeFromSuperview];
         [self kindsDataSource:layoutModel];
        
         return NO;
     }
   
     else if ([layoutModel.SqlDataType isEqualToString:@"date"]){
+        [self.datePickerView removeFromSuperview];
+        
         [self addDatePickerView:textField.tag date:textField.text];
         
         [self.kindsPickerView removeFromSuperview];
@@ -1024,7 +1026,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         [self.kindsItemsView removeFromSuperview];
         [self.kindsPickerView removeFromSuperview];
         [self.calculatorView removeFromSuperview];
-        
+        [self.datePickerView removeFromSuperview];
          return YES;
         
     }
@@ -1101,10 +1103,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     }else {
         
         [self setAuto:layoutModel];
-        
     }
-
-    
     [self.tableView reloadData];
 
 }

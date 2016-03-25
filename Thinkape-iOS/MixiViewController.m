@@ -193,12 +193,7 @@
     
     bi.oldDicts = [NSMutableDictionary dictionaryWithDictionary:self.dict2];
     
-     
-    
-    
     [self.navigationController popToViewController:bi animated:YES];
-    
-   
     
         //
         
@@ -790,7 +785,7 @@
     
     
     
-    __block MixiViewController *weaker=self;
+    __block MixiViewController * weaker = self;
     self.datePickerView.selectDateBack = ^(NSString *date){
         
         //    NSInteger tag = weaker.datePickerView.tag;
