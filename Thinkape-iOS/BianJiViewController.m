@@ -1328,7 +1328,7 @@
   
     
     vc.index = (int)btn.tag;
-    if (self.oldDicts.count==0&&self.wenDicts.count==0) {
+    if (self.oldDicts.count==0&&self.wenDicts.count==0&&self.isdeletes==NO) {
        
         vc.costDataArr = _costData2;
     
@@ -1342,7 +1342,7 @@
             NSMutableArray *datearray = [self.bigCost safeObjectAtIndex:indexpate];
             //修改的字典
             NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
-            //新增的字典
+            
            
             
             
