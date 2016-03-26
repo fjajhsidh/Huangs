@@ -88,10 +88,12 @@
 {
 
     BianJiViewController *bianji = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+    
     if (self.isDElegate==YES) {
         bianji.costData2 = _costDataArr;
         
     }
+    
     bianji.isdeletes=YES;
     [self.navigationController popToViewController:bianji animated:YES];
 }

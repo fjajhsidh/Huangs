@@ -1384,7 +1384,9 @@
                 }
                 self.isaddka=NO;
             }
-          
+            if (self.isdeletes==YES) {
+                
+            }
          
            
            
