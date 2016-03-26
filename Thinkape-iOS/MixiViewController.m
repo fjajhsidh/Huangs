@@ -232,12 +232,6 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-    //    self.tableviewDic = [self.costarrdate safeObjectAtIndex:0];
-    //
-    // CostLayoutModel *model = [self.costatrraylost safeObjectAtIndex:_index];
-    
     MiXimodel *layoutModel =[self.Tositoma
                              safeObjectAtIndex:indexPath.row];
     
@@ -254,70 +248,14 @@
     
     cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
     
-    
-    //    cell.detailtext.text =[self.dict2 objectForKey:layoutModel.fieldname];
-    //    if ([self.selectAcceptType isEqualToString:@"add"]) {
-    //
-    //
-    //             cell.detailtext.text= [self.add objectForKey:layoutModel.fieldname];
-    //
-    //
-    //        if (layoutModel.ismust) {
-    //
-    //            cell.detailtext.placeholder=@"请输入不能为空";
-    //
-    //        }else
-    //        {
-    //            cell.detailtext.text= @"";
-    //        }
-    //        if ([layoutModel.fieldname isEqualToString:@"billmoney"]) {
-    //            cell.detailtext.text = @"";
-    //        }
-    //        if ([layoutModel.fieldname isEqualToString:@"ybmoney"]) {
-    //            cell.detailtext.text=@"";
-    //
-    //        }
-    //
-    //        [_dicz setObject:cell.detailtext.text forKey:layoutModel.fieldname];
-    
-    //    }else
-    //    if ([self.selectAcceptType isEqualToString:@"editor"]){
-    
+
     cell.detailtext.text= [self.dict2 objectForKey:layoutModel.fieldname];
     
     if ([layoutModel.sqldatatype isEqualToString:@"number"]) {
         cell.detailtext.keyboardType =UIKeyboardTypeDecimalPad ;
     }
     
-    //    NSString *value = [self.tableViewDic objectForKey:layoutModel.key];
-    //    value = value.length >0 ? value :@"";
-    //    self.dict2 =[NSMutableDictionary dictionary];
-    //    AppDelegate *acer =
-    //
-    //    self.dict2=acer.dict;
-    
-    //    layoutModel.fieldname=@"";
-    
-    //    [self.dict2 removeObjectForKey:layoutModel.fieldname];
-    //    cell.detailtext.frame= CGRectMake((SCREEN_WIDTH-150)/2,0,300,40);
-    
-    
-    
-    
-    //    [self.tableviewDic setObject:cell.detailtext.text forKey:layoutModel.fieldname];
-    
-    
-    
-    //    if ([layoutModel.fieldname isEqualToString:@"itemid_show"]||[layoutModel.fieldname isEqualToString:@"costtypeid_show"]||[layoutModel.fieldname isEqualToString:@"memo"]) {
-    //        cell.detailtext.placeholder=@"";
-    //
-    //
-    //    }else
-    //    {
-    //        cell.detailtext.placeholder=@"不能为空";
-    //
-    //    }
-    //
+
     cell.detailtext.delegate=self;
     cell.detailtext.tag=indexPath.row;
     
@@ -337,7 +275,7 @@
         NSInteger count = _imageupdate.count + _updateImage.count;
         CGFloat speace = 15.0f;
         CGFloat imageWidth = (SCREEN_WIDTH - 36 -4*speace) / 3.0f;
-        int row = count / 3 + 1;
+        long row = count / 3 + 1;
         [bgView setFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (speace + imageWidth) * row)];
         [bgView removeFromSuperview];
         [self addItems:bgView];
@@ -787,7 +725,9 @@
     
     
     __block MixiViewController * weaker = self;
-    self.datePickerView.selectDateBack = ^(NSString *date){
+//    self.datePickerView.tag = tag;
+    
+    self.datePickerView.selectDateCallBack = ^(NSString *date){
         
         //    NSInteger tag = weaker.datePickerView.tag;
         //        LayoutModel *layout =[weaker.mainLayoutArray safeObjectAtIndex:tag];
@@ -798,14 +738,19 @@
         //
         //        [weaker.tableview reloadData];
         
+        
+ 
+        
         NSLog(@"数组%@",weaker.costatrraylost);
         
-        MiXimodel *layout =[weaker.costatrraylost safeObjectAtIndex:tag];
+        MiXimodel *layout =[weaker.coster.fileds safeObjectAtIndex:tag];
         
         [weaker.dict2 setObject:date forKey:layout.fieldname];
         
         
         [weaker.datePickerView closeView:nil];
+        [weaker.tableview reloadData];
+        
         
     };
     [self.tableview reloadData];
