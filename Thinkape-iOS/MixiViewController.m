@@ -193,12 +193,7 @@
     
     bi.oldDicts = [NSMutableDictionary dictionaryWithDictionary:self.dict2];
     
-     
-    
-    
     [self.navigationController popToViewController:bi animated:YES];
-    
-   
     
         //
         
@@ -557,6 +552,7 @@
     return _encodedImageStr;
 }
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+
 {
     [picker dismissViewControllerAnimated:YES completion:nil];
     NSLog(@"info:%@",info);
@@ -566,6 +562,7 @@
     [_imageupdate addObject:image];
     [self.tableview reloadData];
 }
+
 - (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets{
     [picker dismissViewControllerAnimated:YES completion:nil];
     id class = [assets lastObject];
@@ -580,7 +577,6 @@
     SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
     
     browser.sourceImagesContainerView = nil;
-    
     browser.imageCount = _imageupdate.count;
     
     browser.currentImageIndex = btn.tag - 2024 - _updateImage.count;
@@ -790,7 +786,7 @@
     
     
     
-    __block MixiViewController *weaker=self;
+    __block MixiViewController * weaker = self;
     self.datePickerView.selectDateBack = ^(NSString *date){
         
         //    NSInteger tag = weaker.datePickerView.tag;

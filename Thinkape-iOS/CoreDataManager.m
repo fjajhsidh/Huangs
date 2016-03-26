@@ -13,6 +13,7 @@ static CoreDataManager *manager = nil;
 @interface CoreDataManager ()
 
 @property (nonatomic,strong) NSManagedObjectContext *context;
+@property (nonatomic,strong) NSLock *lock;
 
 @end
 
@@ -126,6 +127,11 @@ static CoreDataManager *manager = nil;
 - (void)updateModelForTable:(NSString *)tableName sql:(NSString *)key data:(NSDictionary *)dic{
 //    [_context reset];
     // 先查找需要更新的元素 然后替换
+    
+    @synchronized(self) {
+        
+        [_lock lock];
+    
     NSManagedObject *model = [[self search:tableName sql:key context:_context] lastObject];
     if (model == nil) {
         [self insertDataForTable:tableName data:dic];
@@ -140,6 +146,10 @@ static CoreDataManager *manager = nil;
         if (!success) {
             [NSException raise:@"访问数据库错误" format:@"%@", [error localizedDescription]];
         }
+    }
+        
+        [_lock unlock];
+        
     }
 }
 
