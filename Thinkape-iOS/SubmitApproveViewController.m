@@ -1282,7 +1282,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
    if (self.isretern==NO) {
     
        for (KindsLayoutModel *layout in self.layoutArray) {
-           if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil||layout.IsMust==YES) {
+           if ([layout.MobileSspDefaultValue isEqualToString:@""]||layout.MobileSspDefaultValue==nil) {
              
            }else {
             
@@ -1364,7 +1364,8 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 -(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     NSLog(@"hah ");
-    [self setdefaults];
+//    [self setdefaults];
+    
 //    [self setAuto];
 //    [self.tableView reloadData];
 }
@@ -1394,6 +1395,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     {
         cdepname = @"";
     }
+    
     NSString *iroleid;
     if ([aler objectForKey:@"#iroleid"]!=nil ) {
         iroleid= [aler objectForKey:@"#iroleid"];
@@ -1436,6 +1438,18 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     {
         cusername = @"";
     }
+    
+    NSString *cuid;
+    if ([aler objectForKey:@"#uid"]!= nil) {
+        cuid  = [aler objectForKey:@"#uid"];
+    }else{
+        cuid = @"";
+    }
+    
+    
+    
+    
+    
    
     if ([mobel containsString:@"{"]) {
         
@@ -1475,7 +1489,10 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
     mobel = [mobel stringByReplacingOccurrencesOfString:@"#crolename" withString:crolename];
     mobel = [mobel stringByReplacingOccurrencesOfString:@"#cusercode" withString:cusercode];
     mobel = [mobel stringByReplacingOccurrencesOfString:@"#cusername" withString:cusername];
-
+    
+    
+    mobel = [mobel stringByReplacingOccurrencesOfString:@"#uid" withString:cuid];
+    
     return mobel;
 }
 
