@@ -58,6 +58,7 @@
 @property (strong, nonatomic) KindsPickerView *kindsPickerView;
 @property(nonatomic,strong)NSMutableDictionary *tableviewDic;
 @property(nonatomic,strong)CostLayoutModel *coster;
+@property(nonatomic,assign)NSMutableArray *bigcoster;
 
 
 @end
@@ -793,9 +794,21 @@
     
     
     BianJiViewController *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
+    //新增
     bi.isaddka = YES;
     bi.wenDicts = [NSMutableDictionary dictionaryWithDictionary:self.dict1];
-   
+    //新增和删除
+    NSMutableArray *sa = [NSMutableArray arrayWithArray:_costArr];
+    
+    if (self.hudong==YES) {
+        NSMutableArray *mecert = [self.bigcoster safeObjectAtIndex:_indexto];
+        NSMutableArray *delearr = [NSMutableArray arrayWithArray:mecert];
+        
+        [self.bigcoster replaceObjectAtIndex:_indexto withObject:delearr];
+    }
+    
+    
+    bi.costData2 =sa;
     
     
     

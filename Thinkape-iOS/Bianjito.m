@@ -88,11 +88,15 @@
 {
 
     BianJiViewController *bianji = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+    
     if (self.isDElegate==YES) {
         bianji.costData2 = _costDataArr;
         
     }
+    //删除
     bianji.isdeletes=YES;
+    
+    bianji.isChanges=YES;
     [self.navigationController popToViewController:bianji animated:YES];
 }
 
@@ -105,6 +109,8 @@
     vc.indexto = _index;
     vc.costArray=self.costLayoutArray;
     vc.costArr=self.costDataArr;
+    vc.hudong=self.isDElegate;
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -353,7 +359,8 @@
     
     vc.costatrraylost=self.costLayoutArray;
     vc.costarrdate=_costDataArr;
-    
+    vc.hudong=self.isDElegate;
+    vc.indexsele=self.iscellindes;
     [self.navigationController pushViewController:vc animated:YES];
 
 }
@@ -369,16 +376,17 @@
     AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
     NSLog(@"button%ld",sender.tag);
     int select = app.indexpage;
-    
-    [aler removeObjectAtIndex:sender.tag];
+    self.iscellindes= sender.tag;
+    [aler removeObjectAtIndex:self.iscellindes];
     
     [Costarry replaceObjectAtIndex:select withObject:aler];
     _costDataArr= Costarry;
         
+    app.iscella=self.iscellindes;
     
-
+    
   
-    self.isDElegate = YES;
+     self.isDElegate = YES;
     
     [self.tableview reloadData];
 

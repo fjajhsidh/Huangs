@@ -30,4 +30,5 @@
 @property(nonatomic,assign)BOOL isaddka;
 @property(nonatomic,strong) NSMutableArray *costData2;
 @property(nonatomic,assign)BOOL isdeletes;
+@property(nonatomic,assign)BOOL isChanges;
 @end

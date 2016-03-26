@@ -17,5 +17,6 @@
 @property(nonatomic,strong)NSMutableDictionary *dict2;
 //wo
 @property(nonatomic,strong)NSString * selectAcceptType;
-
+@property(nonatomic,assign)BOOL hudong;
+@property(nonatomic,assign)int indexsele;
 @end
