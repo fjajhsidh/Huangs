@@ -1364,7 +1364,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 -(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     NSLog(@"hah ");
-//    [self setdefaults];
+    [self setdefaults];
     
 //    [self setAuto];
 //    [self.tableView reloadData];

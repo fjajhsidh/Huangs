@@ -107,7 +107,10 @@ static AccountModel *accountModel = nil;
 }
 
 - (void)cleanLocalCache{
-    [SVProgressHUD show];
+//    [SVProgressHUD show];
+    
+    [SVProgressHUD showSuccessWithStatus:@"OK"];
+    
     dispatch_group_t group = dispatch_group_create();
     dispatch_queue_t queue = dispatch_queue_create("**test.rongfzh.yc", DISPATCH_QUEUE_CONCURRENT);
     dispatch_barrier_async(queue, ^{
@@ -132,9 +135,14 @@ static AccountModel *accountModel = nil;
         [manager removeItemAtPath:[NSString stringWithFormat:@"%@/Documents/cache",NSHomeDirectory()] error:nil];
     });
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        [SVProgressHUD dismiss];
+        [self performSelector:@selector(showSuccess) withObject:nil afterDelay:1.0];
     });
 
 }
+
+- (void)showSuccess{
+    [SVProgressHUD dismiss];
+}
+
 
 @end
