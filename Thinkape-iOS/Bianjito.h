@@ -37,5 +37,6 @@
 @property(nonatomic,assign)NSInteger indexRow;
 @property(nonatomic,assign)NSInteger indexRowss;
 @property(nonatomic,assign)BOOL isPage;
-
+//点击cell的行数
+@property(nonatomic,assign)int iscellindes;
 @end

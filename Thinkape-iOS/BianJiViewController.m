@@ -1277,7 +1277,7 @@
 - (id <QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index{
     return [NSURL fileURLWithPath:[[RequestCenter defaultCenter] filePath]];
 }
-
+//金额数字
 - (UIScrollView *)costScrollView
 {
     
@@ -1304,7 +1304,9 @@
         UILabel *totleMoney = [[UILabel alloc] initWithFrame:CGRectMake(0, 37, 57, 15)];
         totleMoney.textColor = [UIColor whiteColor];
         totleMoney.font = [UIFont systemFontOfSize:15];
+        //金额数字
         totleMoney.text = model.TotalMoney;
+        
         totleMoney.textAlignment = NSTextAlignmentCenter;
         [btn addSubview:totleMoney];
         
@@ -1337,8 +1339,12 @@
     {
         
         if (self.bigCost.count==0) {
-         
+            
+           
+            
             self.bigCost = [NSMutableArray arrayWithArray:_costData2];
+            
+           
             NSMutableArray *datearray = [self.bigCost safeObjectAtIndex:indexpate];
             //修改的字典
             NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
@@ -1347,9 +1353,15 @@
             
             
             NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
-            if (NewDic.count!= 0) {
-                   [alet replaceObjectAtIndex:indx withObject:NewDic];
-            }
+            
+                if (self.isdeletes==NO) {
+                    if (NewDic.count!= 0) {
+                        [alet replaceObjectAtIndex:indx withObject:NewDic];
+                    }
+                }
+            
+           
+           
          
           
             
@@ -1364,6 +1376,8 @@
             [self readtodate];
           
             
+                self.bigCost = [NSMutableArray arrayWithArray:_costData2];
+            
             NSMutableArray *datearray = [self.bigCost safeObjectAtIndex:indexpate];
             //修改的字典
             NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
@@ -1373,25 +1387,45 @@
             
             NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
             /// 有问题
-            if (NewDic.count !=0) {
-                 [alet replaceObjectAtIndex:indx withObject:NewDic];
-            }
-       
-            if (self.isaddka==YES) {
-                if (reset.count !=0) {
-                    
-                    [alet addObject:reset];
-                }
-                self.isaddka=NO;
-            }
-            if (self.isdeletes==YES) {
+           
                 
+            
+            if (self.isdeletes==NO) {
+                if (NewDic.count !=0) {
+                    [alet replaceObjectAtIndex:indx withObject:NewDic];
+                }
             }
-         
+           
+            if (self.isdeletes==NO) {
+                if (self.isaddka==YES) {
+                    if (reset.count !=0) {
+                        
+                        [alet addObject:reset];
+                    }
+                    self.isaddka=NO;
+                }
+            }
+          
+            
+          
            
            
             
-            [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
+         //  [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
+            //实验删除
+            
+                
+            
+            if (self.isdeletes==YES) {
+                self.bigCost= [NSMutableArray arrayWithArray:_costData2];
+                self.isdeletes=NO;
+                
+            }else
+            {
+                [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
+            }
+
+            
             [self saveto];
             //可以删掉
             vc.costDataArr = self.bigCost;

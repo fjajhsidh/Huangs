@@ -37,5 +37,6 @@
 @property(nonatomic,strong)NSDictionary *idert;
 @property(nonatomic,assign)NSInteger indexcor;
 @property(nonatomic,assign)NSInteger indexpage;
+@property(nonatomic,assign)NSInteger iscella;
 @end
 

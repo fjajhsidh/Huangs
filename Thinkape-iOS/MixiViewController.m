@@ -54,6 +54,7 @@
 @property(nonatomic,strong)NSMutableDictionary *editor;
 @property(nonatomic,assign)BOOL issee;
 @property(nonatomic,assign)int *IsPage;
+@property(nonatomic,strong)NSMutableArray *bigCount;
 @end
 
 @implementation MixiViewController
@@ -192,7 +193,21 @@
   BianJiViewController  *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
     
     bi.oldDicts = [NSMutableDictionary dictionaryWithDictionary:self.dict2];
-    
+    //修改和删除
+     self.bigCount = [NSMutableArray arrayWithArray:_costarrdate];
+    if (self.hudong==YES) {
+       
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        int indexa = app.iscella;
+        NSMutableArray *mecert = [self.bigCount safeObjectAtIndex:_index];
+        NSMutableArray *delearr = [NSMutableArray arrayWithArray:mecert];
+       
+        [self.bigCount replaceObjectAtIndex:_index withObject:delearr];
+        
+        
+    }
+    bi.isChanges=YES;
+    bi.costData2=self.bigCount;
     [self.navigationController popToViewController:bi animated:YES];
     
         //
