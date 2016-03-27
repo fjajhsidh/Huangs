@@ -23,8 +23,6 @@
 #import "DatePickerView.h"
 #import "MiXimodel.h"
 #import "CTToastTipView.h"
-
-
 #import <QuickLook/QLPreviewItem.h>
 #import <QuickLook/QLPreviewController.h>
 #import "UIImage+SKPImage.h"
@@ -32,7 +30,9 @@
 #import "ImageModel.h"
 #import "DataManager.h"
 #import "BianJiViewController.h"
-@interface MixiViewController ()<UITextFieldDelegate,KindsItemsViewDelegate,UINavigationControllerDelegate,SDPhotoBrowserDelegate,UIActionSheetDelegate,QLPreviewControllerDataSource,QLPreviewControllerDelegate,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate>
+#import "CalculatorViewController.h"
+#import "calculatorView.h"
+@interface MixiViewController ()<UITextFieldDelegate,KindsItemsViewDelegate,UINavigationControllerDelegate,SDPhotoBrowserDelegate,UIActionSheetDelegate,QLPreviewControllerDataSource,QLPreviewControllerDelegate,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,CalculatorResultDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 
 
@@ -55,6 +55,10 @@
 @property(nonatomic,assign)BOOL issee;
 @property(nonatomic,assign)int *IsPage;
 @property(nonatomic,strong)NSMutableArray *bigCount;
+@property(nonatomic,assign)NSInteger tagver;
+@property(nonatomic,strong)CalculatorViewController *calculatorvc;
+@property(nonatomic,strong)calculatorView *calculator;
+@property(nonatomic,strong)KindsItemsView *kindsItemsView;
 @end
 
 @implementation MixiViewController
@@ -86,7 +90,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    _delaysContentTouches=NO;
     UIButton *iconb =[[UIButton alloc] initWithFrame:CGRectMake(5, 0, 40, 40)];
     [iconb setBackgroundImage:[UIImage imageNamed:@"back3.png"] forState:UIControlStateNormal];
     [iconb addTarget:self action:@selector(pulltoreturn) forControlEvents:UIControlEventTouchUpInside];
@@ -98,9 +102,8 @@
     
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
     
-    self.textfield=[[UITextField alloc] initWithFrame:CGRectMake(140, 5, 170, 30)];
-    self.textfield.textAlignment=NSTextAlignmentCenter;
-    self.textfield.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
+    self.textfield=[[UITextField alloc]init];
+    
     _selectModel=[[KindsModel alloc] init];
     self.tableviewDic=[NSMutableDictionary dictionary];
     _imageupdate=[NSMutableArray array];
@@ -124,7 +127,9 @@
     AppDelegate *appe = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     self.dict2 = [NSMutableDictionary dictionaryWithDictionary:appe.dict];
-
+    self.calculatorvc=[[CalculatorViewController alloc]init];
+    self.calculatorvc.delegate=self;
+    self.textfield.delegate=self;
 }
 
 //返回上一层
@@ -189,7 +194,12 @@
 #pragma mark-提交
 -(void)savetolist
 {
-    
+    UITextField *text =[[UITextField alloc] init];
+    self.textfield=text;
+    self.textfield.text = [self XMLParameter];
+    if ([self.textfield.text isEqualToString:@""]) {
+        return;
+    }
   BianJiViewController  *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
     
     bi.oldDicts = [NSMutableDictionary dictionaryWithDictionary:self.dict2];
@@ -247,7 +257,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MiXimodel *layoutModel =[self.Tositoma
+    MiXimodel *layoutModel =[self.coster.fileds
                              safeObjectAtIndex:indexPath.row];
     
     //    _layoutModel =[self.Tositoma
@@ -269,7 +279,9 @@
     if ([layoutModel.sqldatatype isEqualToString:@"number"]) {
         cell.detailtext.keyboardType =UIKeyboardTypeDecimalPad ;
     }
-    
+    if (layoutModel.ismust==1) {
+        cell.detailtext.placeholder=@"请输入不能为零";
+    }
 
     cell.detailtext.delegate=self;
     cell.detailtext.tag=indexPath.row;
@@ -649,10 +661,45 @@
     //    self.tableview.bounces=NO;
     //   CostLayoutModel *model =[self.costatrraylost safeObjectAtIndex:_index];
     NSLog(@"tag值：%lu",textField.tag);
-
-    self.textfield.tag=textField.tag;
-    MiXimodel *model2 =[self.coster.fileds safeObjectAtIndex:textField.tag];
+    self.tagver=textField.tag;
+   
+   
+    self.textfield = textField;
+    MiXimodel *model2 =[self.coster.fileds safeObjectAtIndex:self.tagver];
+    NSString *cater =[NSString stringWithFormat:@"%@",model2.name];
+    if ([cater rangeOfString:@"金额"].location !=NSNotFound) {
+        
+        CGRect frame=CGRectMake(0,[UIScreen mainScreen].bounds.size.height-250 , [UIScreen mainScreen].bounds.size.width, 250);
+        self.calculatorvc.view.frame=frame;
+        
+        //        textField.inputView=self.calculatorvc.view;
+        
+        [self.view addSubview:self.calculatorvc.view];
+        
+        [self.kindsItemsView removeFromSuperview];
+        [self.datePickerView removeFromSuperview];
+        
+        //[textField resignFirstResponder];
+        return NO;
+        
+        
+    }else{
+        
+        [self.calculatorView removeFromSuperview];
+        
+    }
     
+//    if (model2.datasource.length > 0) {
+//        
+//        //如果是1，就会弹出选择框：
+//        isSinglal = model2.issingle;
+//        
+//        [self.kindsItemsView removeFromSuperview];
+//        [self.datePickerView removeFromSuperview];
+//        [self kindsDataSource:model2];
+//        
+//        return NO;
+//    }
     if (![model2.datasource isEqualToString:@"0"]&&![model2.sqldatatype isEqualToString:@"date"]) {
     
         isSinglal =model2.issingle;
@@ -664,7 +711,7 @@
         return NO;
     }else{
         if ([model2.sqldatatype isEqualToString:@"date"]){
-            [self removeViewFromSuperview];
+            [self.datePickerView removeFromSuperview];
             [self addDatePickerView:textField.tag date:textField.text];
             [self.dict2 setObject:textField.text forKey:model2.fieldname];
             
@@ -698,23 +745,25 @@
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-    MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
+    MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:textField.tag];
     
-    if (![self isPureInt:textField.text] && [layoutModel.sqldatatype isEqualToString:@"number"] && textField.text.length != 0) {
+//    if (![self isPureInt:textField.text] && [layoutModel.sqldatatype isEqualToString:@"number"] && textField.text.length != 0) {
+//        
+//        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
+//        textField.text = @"";
+//    }
+    
+    if ([layoutModel.sqldatatype isEqualToString:@"number"]&&textField.text.length>0) {
         
-        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
-        textField.text = @"";
-    }
-    
-    if ([textField.text length]>0) {
         unichar single = [textField.text characterAtIndex:0];
         if ((single>='0'&&single<='9')||single=='.') {
             //            if ([textField.text length]==0) {
             if (single=='.') {
-                [SVProgressHUD showInfoWithStatus:@"开头不能是小数点点"];
+                [SVProgressHUD showInfoWithStatus:@"开头不能是小数点"];
                 textField.text=@"";
                 return NO;
             }
+            
         }
     }
     
@@ -722,6 +771,39 @@
     [self.dict2 setObject:textField.text forKey:layoutModel.fieldname];
     
     return YES;
+}
+-(void)sender:(NSString *)str{
+    
+    //    UITextField * textField=(UITextField *)[self.view viewWithTag:self.textfield.tag];
+    UITextField *textField =[[UITextField alloc] init];
+    textField = self.textfield;
+//    textField.tag = self.textfield.tag;
+//    textField.text = self.textfield.text;
+    
+    
+    NSLog(@"________%@",textField.text);
+    double number = [str doubleValue];
+    if (number == 0){
+        textField.text = @"";
+        
+    }else{
+        textField.text = str;
+        
+    }
+    NSLog(@"-----%@",str);
+    
+    [self.calculatorvc.view removeFromSuperview];
+    
+    self.tagver=textField.tag;
+    self.textfield.tag = textField.tag;
+    
+   MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
+    
+   
+    [self.dict2 setObject:str forKey:layoutModel.fieldname];
+    [self textFieldShouldEndEditing:textField];
+    
+      [self.tableview reloadData];
 }
 - (BOOL)isPureInt:(NSString*)string{
     
@@ -813,6 +895,36 @@
         
     }
 }
+//判断输入值是否为空
+- (NSString *)XMLParameter
+{
+    NSMutableString *xmlStr = [NSMutableString string];
+    int i = 0;
+    for (MiXimodel *layoutModel in self.coster.fileds) {
+        // NSString *value = [self.XMLParameterDic objectForKey:layoutModel.key];
+        //
+        NSString *value = [self.dict2 objectForKey:layoutModel.fieldname];
+        
+        if (layoutModel.ismust==1 && value.length == 0) {
+            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.name]];
+            return nil;
+        }
+        if (value.length != 0) {
+            if (i != self.costarrdate.count ) {
+                [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.fieldname,value];
+            }
+            else
+            {
+                [xmlStr appendFormat:@"%@=\"%@\"",layoutModel.fieldname,value];
+            }
+        }
+        
+        i++;
+    }
+    NSString *returnStr = [NSString stringWithFormat:@"<data %@></data>",xmlStr];
+    NSLog(@"xmlStr : %@",returnStr);
+    return returnStr;
+}
 - (void)requestKindsDataSource:(MiXimodel *)model dataVer:(NSString *)Dataver{
     //model.dataver
     //[RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
@@ -859,29 +971,31 @@
 }
 
 - (void)initItemView:(NSArray *)arr tag:(NSInteger)tag{
-    KindsItemsView *itemView;
-    itemView = [[[NSBundle mainBundle] loadNibNamed:@"KindsItems" owner:self options:nil] lastObject];
-    itemView.frame = CGRectMake(50, 100, SCREEN_WIDTH - 20, SCREEN_WIDTH - 20);
-    itemView.center = CGPointMake(SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0);
-    itemView.delegate = self;
-    itemView.isSingl=isSinglal;
+//    KindsItemsView *itemView;
+    self.kindsItemsView = [[[NSBundle mainBundle] loadNibNamed:@"KindsItems" owner:self options:nil] lastObject];
+    self.kindsItemsView.frame = CGRectMake(50, 100, SCREEN_WIDTH - 20, SCREEN_WIDTH - 20);
+    self.kindsItemsView.center = CGPointMake(SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0);
+    self.kindsItemsView.delegate = self;
+    self.kindsItemsView.isSingl=isSinglal;
     
-    itemView.transform =CGAffineTransformMakeTranslation(0, -SCREEN_HEIGHT / 2.0 - CGRectGetHeight(itemView.frame) / 2.0f);
-    itemView.dataArray = arr;
+    self.kindsItemsView.transform =CGAffineTransformMakeTranslation(0, -SCREEN_HEIGHT / 2.0 - CGRectGetHeight(self.kindsItemsView.frame) / 2.0f);
+    self.kindsItemsView.dataArray = arr;
     //    itemView.isSingl = isSinglal;
-    itemView.tag = tag;
-    [self.view addSubview:itemView];
+    self.kindsItemsView.tag = tag;
+    [self.view addSubview:self.kindsItemsView];
     [UIView animateWithDuration:1.0
                           delay:0
          usingSpringWithDamping:0.5
           initialSpringVelocity:0.6
                         options:UIViewAnimationOptionLayoutSubviews
                      animations:^{
-                         itemView.transform = CGAffineTransformMakeTranslation(0, 0);
+                         self.kindsItemsView.transform = CGAffineTransformMakeTranslation(0, 0);
                      }
                      completion:^(BOOL finished) {
                          
                      }];
+    [self.datePickerView removeFromSuperview];
+    [self.calculatorvc.view removeFromSuperview];
 }
 
 - (void)saveItemsToDB:(NSArray *)arr callbakc:(void (^)(NSArray *modelArr))callBack{
@@ -930,6 +1044,25 @@
     
     [self.dict2 setObject:nameStr forKey:layoutModel.fieldname];
     [self.tableview reloadData];
+}
+- (void)hideCalculatorScreenText
+{
+    
+    if (self.calculatorvc.view) {
+        
+        [self.calculatorvc.view removeFromSuperview];
+    }
+    
+    
+}
+- (void)deleteBtnClick
+{
+    
+    UITextField *textField =[[UITextField alloc] init];
+    textField = self.textfield;
+    
+       textField.text = @"";
+    
 }
 //
 - (void)didReceiveMemoryWarning {

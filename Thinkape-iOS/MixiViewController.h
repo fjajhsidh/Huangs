@@ -19,4 +19,6 @@
 @property(nonatomic,strong)NSString * selectAcceptType;
 @property(nonatomic,assign)BOOL hudong;
 @property(nonatomic,assign)int indexsele;
+@property (nonatomic , strong) UIView * calculatorView;
+@property(nonatomic) BOOL delaysContentTouches;
 @end

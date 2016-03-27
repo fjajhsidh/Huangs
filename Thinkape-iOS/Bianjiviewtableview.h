@@ -15,6 +15,7 @@
 @property(nonatomic,strong)NSMutableArray *updateimage;
 @property(nonatomic,strong)NSMutableArray *imagedate;
 @property(nonatomic,assign)BOOL hudong;
-
+@property (nonatomic , strong) UIView * calculatorView;
+@property(nonatomic) BOOL delaysContentTouches;
 @property(nonatomic,assign)int indexsele;
 @end

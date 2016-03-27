@@ -74,6 +74,7 @@
     
 //    [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     //shouqi图片
+
     [_hideBtn setBackgroundImage:[UIImage imageNamed:@"keybord_hide"] forState:UIControlStateNormal];
 //    self.hideBtn = btn;
     

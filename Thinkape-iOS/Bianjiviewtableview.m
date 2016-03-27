@@ -43,7 +43,9 @@
 #import "ImageModel.h"
 #import "DataManager.h"
 #import "BianJiViewController.h"
-@interface Bianjiviewtableview ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate,UITextFieldDelegate>
+#import "CalculatorViewController.h"
+#import "calculatorView.h"
+@interface Bianjiviewtableview ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate,UITextFieldDelegate,CalculatorResultDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property(nonatomic,assign)int countu;
 @property(nonatomic,strong)NSMutableArray *imagedatarry;
@@ -59,8 +61,10 @@
 @property(nonatomic,strong)NSMutableDictionary *tableviewDic;
 @property(nonatomic,strong)CostLayoutModel *coster;
 @property(nonatomic,assign)NSMutableArray *bigcoster;
-
-
+@property(nonatomic)NSInteger tagCount;
+@property(nonatomic,strong)CalculatorViewController *calculatorvc;
+@property(nonatomic,strong)calculatorView *calculator;
+@property(nonatomic,strong)KindsItemsView *kindsItemsView;
 @end
 
 @implementation Bianjiviewtableview
@@ -80,7 +84,7 @@
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)forBarMetrics:UIBarMetricsDefault];
     
     self.title=@"编辑明细";
-    
+    _delaysContentTouches=NO;
     self.tableview.bounces=YES;
     
     _selectModel=[[KindsModel alloc] init];
@@ -95,7 +99,8 @@
     _coster=[self.costArray safeObjectAtIndex:_indexto];
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     app.indexpage = _indexto;
-    
+    self.calculatorvc=[[CalculatorViewController alloc]init];
+    self.calculatorvc.delegate=self;
     
 }
 
@@ -157,20 +162,21 @@
             
             cell.detailtext.placeholder=@"请输入不能为空";
             
-        }else
-        {
-            cell.detailtext.text= @"";
         }
-        if ([layoutModel.sqldatatype isEqualToString:@"number"]) {
-            cell.detailtext.keyboardType =UIKeyboardTypeDecimalPad ;
-        }
-        if ([layoutModel.fieldname isEqualToString:@"billmoney"]) {
-            
-            cell.detailtext.text=@"";
-        }
-        if ([layoutModel.fieldname isEqualToString:@"ybmoney"]) {
-            cell.detailtext.text=@"";
-        }
+//        else
+//        {
+//            cell.detailtext.text= @"";
+//        }
+//        if ([layoutModel.sqldatatype isEqualToString:@"number"]) {
+//            cell.detailtext.keyboardType =UIKeyboardTypeDecimalPad ;
+//        }
+//        if ([layoutModel.fieldname isEqualToString:@"billmoney"]) {
+//            
+//            cell.detailtext.text=@"";
+//        }
+//        if ([layoutModel.fieldname isEqualToString:@"ybmoney"]) {
+//            cell.detailtext.text=@"";
+//        }
         cell.detailtext.delegate= self;
         cell.detailtext.tag=indexPath.row;
         
@@ -212,50 +218,87 @@
     NSLog(@"tag值：%lu",textField.tag);
     
     self.textfield.tag=textField.tag;
-    
-    MiXimodel *model2 =[self.coster.fileds safeObjectAtIndex:textField.tag];
-    
-    if (![model2.datasource isEqualToString:@"0"]) {
+    self.tagCount=textField.tag;
+    MiXimodel *model2 =[self.coster.fileds safeObjectAtIndex:self.tagCount];
+    NSString *catour =[NSString stringWithFormat:@"%@",model2.name];
+    if ([catour rangeOfString:@"金额"].location!=NSNotFound) {
+        CGRect frame=CGRectMake(0,[UIScreen mainScreen].bounds.size.height-250 , [UIScreen mainScreen].bounds.size.width, 250);
+        self.calculatorvc.view.frame=frame;
         
+        //        textField.inputView=self.calculatorvc.view;
+        
+        [self.view addSubview:self.calculatorvc.view];
+        
+        [self.kindsItemsView removeFromSuperview];
+        [self.datePickerView removeFromSuperview];
+        
+        //[textField resignFirstResponder];
+        return NO;
+
+    }else{
+        
+        [self.calculatorView removeFromSuperview];
+        
+    }
+
+    if (![model2.datasource isEqualToString:@"0"]&&![model2.sqldatatype isEqualToString:@"date"]) {
         
         isSinglal =model2.issingle;
+        //调用隐藏点选框的操作：
+        [self removeViewFromSuperview];
         
         [self kindsDataSource:model2];
-        
+        [self.dict1 setObject:textField.text forKey:model2.fieldname];
         return NO;
-    }else
+    }else{
         if ([model2.sqldatatype isEqualToString:@"date"]){
-            
+            [self.datePickerView removeFromSuperview];
             [self addDatePickerView:textField.tag date:textField.text];
+            [self.dict1 setObject:textField.text forKey:model2.fieldname];
             
             return NO;
         }
-        else
+        else{
             
+            [self removeViewFromSuperview];
             return YES;
+        }
+    }
+
     
+}
+- (void)removeViewFromSuperview
+{
+    for (UIView *view0 in self.view.subviews) {
+        if ([view0 isKindOfClass:[KindsItemsView class]]) {
+            [view0 removeFromSuperview];
+        }
+    }
 }
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-    MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
+    MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:textField.tag];
     
-    if (![self isPureInt:textField.text] && [layoutModel.sqldatatype isEqualToString:@"number"] && textField.text.length != 0) {
-        
-        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
-        textField.text = @"";
-    }
+//    if (![self isPureInt:textField.text] && [layoutModel.sqldatatype isEqualToString:@"number"] && textField.text.length != 0) {
+//        
+//        [SVProgressHUD showInfoWithStatus:@"请输入数字"];
+//        textField.text = @"";
+//    }
     
-    if ([textField.text length]>0) {
-        unichar single = [textField.text characterAtIndex:0];
-        if ((single>='0'&&single<='9')||single=='.') {
-            //            if ([textField.text length]==0) {
-            if (single=='.') {
-                [SVProgressHUD showInfoWithStatus:@"开头不能是小数点点"];
-                textField.text=@"";
-                return NO;
-            }
+    if ([layoutModel.sqldatatype isEqualToString:@"number"]&&textField.text.length>0) {
+       
+            unichar single = [textField.text characterAtIndex:0];
+            if ((single>='0'&&single<='9')||single=='.') {
+                //            if ([textField.text length]==0) {
+                if (single=='.') {
+                    [SVProgressHUD showInfoWithStatus:@"开头不能是小数点"];
+                    textField.text=@"";
+                    return NO;
+                }
+            
         }
     }
+    
     
     //    [self.dict2 setObject:textField.text forKey:layoutModel.fieldname];
     [self.dict1 setValue:textField.text forKey:layoutModel.fieldname];
@@ -271,7 +314,8 @@
     MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
     NSLog(@"键值：%@=%@",layoutModel.fieldname,name);
     
-    [self.dict1 setValue:name forKey:layoutModel.fieldname];
+    [self.dict1 setObject:name forKey:layoutModel.fieldname];
+    
     
     
     NSLog(@"字典：%@",self.dict1);
@@ -280,6 +324,40 @@
     [view closed];
     [self.tableview reloadData];
 }
+-(void)sender:(NSString *)str{
+    
+    //    UITextField * textField=(UITextField *)[self.view viewWithTag:self.textfield.tag];
+    UITextField *textField =[[UITextField alloc] init];
+    textField = self.textfield;
+    //    textField.tag = self.textfield.tag;
+    //    textField.text = self.textfield.text;
+    
+    
+    NSLog(@"________%@",textField.text);
+    double number = [str doubleValue];
+    if (number == 0){
+        textField.text = @"";
+        
+    }else{
+        textField.text = str;
+        
+    }
+    NSLog(@"-----%@",str);
+    
+    [self.calculatorvc.view removeFromSuperview];
+    
+    
+    self.textfield.tag = textField.tag;
+    
+    MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
+    
+    
+    [self.dict1 setObject:str forKey:layoutModel.fieldname];
+    [self textFieldShouldEndEditing:textField];
+    
+    [self.tableview reloadData];
+}
+
 - (void)selectItemArray:(NSArray *)arr view:(KindsItemsView *)view{
     NSString *idStr = @"";
     NSString *nameStr = @"";
@@ -298,8 +376,8 @@
         i++;
     }
     //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.key];
-    [self.dict1 setValue:nameStr forKey:layoutModel.fieldname];
     
+    [self.dict1 setObject:nameStr forKey:layoutModel.fieldname];
     [self.tableview reloadData];
 }
 - (void)addDatePickerView:(NSInteger)tag date:(NSString *)date{
@@ -369,7 +447,25 @@
     
     
 }
-
+- (void)hideCalculatorScreenText
+{
+    
+    if (self.calculatorvc.view) {
+        
+        [self.calculatorvc.view removeFromSuperview];
+    }
+    
+    
+}
+- (void)deleteBtnClick
+{
+    
+    UITextField *textField =[[UITextField alloc] init];
+    textField = self.textfield;
+    
+    textField.text = @"";
+    
+}
 - (void)kindsDataSource:(MiXimodel *)model{
     NSString *str1 = [NSString stringWithFormat:@"datasource like %@",[NSString stringWithFormat:@"\"%@\"",model.datasource]];
     NSInteger tag= [self.costArr indexOfObject:model];
@@ -571,25 +667,25 @@
     
 }
 - (void)initItemView:(NSArray *)arr tag:(NSInteger)tag{
-    KindsItemsView *itemView;
-    itemView = [[[NSBundle mainBundle] loadNibNamed:@"KindsItems" owner:self options:nil] lastObject];
-    itemView.frame = CGRectMake(50, 100, SCREEN_WIDTH - 20, SCREEN_WIDTH - 20);
-    itemView.center = CGPointMake(SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0);
-    itemView.delegate = self;
-    itemView.isSingl=isSinglal;
+   
+    self.kindsItemsView = [[[NSBundle mainBundle] loadNibNamed:@"KindsItems" owner:self options:nil] lastObject];
+    self.kindsItemsView.frame = CGRectMake(50, 100, SCREEN_WIDTH - 20, SCREEN_WIDTH - 20);
+    self.kindsItemsView.center = CGPointMake(SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0);
+    self.kindsItemsView.delegate = self;
+    self.kindsItemsView.isSingl=isSinglal;
     
-    itemView.transform =CGAffineTransformMakeTranslation(0, -SCREEN_HEIGHT / 2.0 - CGRectGetHeight(itemView.frame) / 2.0f);
-    itemView.dataArray = arr;
+    self.kindsItemsView.transform =CGAffineTransformMakeTranslation(0, -SCREEN_HEIGHT / 2.0 - CGRectGetHeight(self.kindsItemsView.frame) / 2.0f);
+    self.kindsItemsView.dataArray = arr;
     //    itemView.isSingl = isSinglal;
-    itemView.tag = tag;
-    [self.view addSubview:itemView];
+    self.kindsItemsView.tag = tag;
+    [self.view addSubview:self.kindsItemsView];
     [UIView animateWithDuration:1.0
                           delay:0
          usingSpringWithDamping:0.5
           initialSpringVelocity:0.6
                         options:UIViewAnimationOptionLayoutSubviews
                      animations:^{
-                         itemView.transform = CGAffineTransformMakeTranslation(0, 0);
+                         self.kindsItemsView.transform = CGAffineTransformMakeTranslation(0, 0);
                      }
                      completion:^(BOOL finished) {
                          
@@ -789,10 +885,40 @@
 - (id <QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index{
     return [NSURL fileURLWithPath:[[RequestCenter defaultCenter] filePath]];
 }
-
+- (NSString *)XMLParameter
+{
+    NSMutableString *xmlStr = [NSMutableString string];
+    int i = 0;
+    for (MiXimodel *layoutModel in self.coster.fileds) {
+        // NSString *value = [self.XMLParameterDic objectForKey:layoutModel.key];
+        //
+        NSString *value = [self.dict1 objectForKey:layoutModel.fieldname];
+        
+        if (layoutModel.ismust==1 && value.length == 0) {
+            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@不能为空",layoutModel.name]];
+            return nil;
+        }
+        if (value.length != 0) {
+            if (i != self.coster.fileds.count ) {
+                [xmlStr appendFormat:@"%@=\"%@\" ",layoutModel.fieldname,value];
+            }
+            else
+            {
+                [xmlStr appendFormat:@"%@=\"%@\"",layoutModel.fieldname,value];
+            }
+        }
+        
+        i++;
+    }
+    NSString *returnStr = [NSString stringWithFormat:@"<data %@></data>",xmlStr];
+    NSLog(@"xmlStr : %@",returnStr);
+    return returnStr;
+}
 - (IBAction)savetext:(id)sender {
-    
-    
+    self.textfield.text=[self XMLParameter];
+    if ([self.textfield.text isEqualToString:@""]||self.textfield.text==nil) {
+        return;
+    }
     BianJiViewController *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
     //新增
     bi.isaddka = YES;

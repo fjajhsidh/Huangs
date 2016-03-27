@@ -180,6 +180,7 @@
     for (UIView *subView in cell.contentView.subviews) {
         [subView removeFromSuperview];
     }
+    
    
     if (indexPath.row == 0) {
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(12, 17, width, 30)];
@@ -192,8 +193,9 @@
         title.text = model.name;
         title.textColor = [UIColor whiteColor];
 
-   
+     
         [bgView addSubview:title];
+        
         
     }
     //
@@ -240,6 +242,7 @@
                     
                    
                 }
+                
             }
             else
             {
@@ -328,6 +331,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row==1||indexPath.row==0) {
+        NSIndexPath *PATH =[self.tableview indexPathForSelectedRow];
+        UITableViewCell *cell = [self.tableview cellForRowAtIndexPath:PATH];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return;
     }
 
