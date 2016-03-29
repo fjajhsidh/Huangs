@@ -21,6 +21,7 @@
     NSString *ac; //GetMyWaiteApprove 待审批 GetMyApproved 已审批
     NSInteger tag;
     UIBarButtonItem *selectItem;
+    int a;
 }
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineLeftConstraint;
@@ -71,6 +72,7 @@
 // 加载未完成审批单据
 - (void)refreshUnApplyData{
     p = 0;
+   
     [self resetStatues];
     [self.dataArray removeAllObjects];
     [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=%@&u=%@&ukey=%@&pi=%d&ps=20",ac,self.uid,self.ukey,p]
@@ -81,25 +83,35 @@
                           [self.dataArray addObjectsFromArray:[UnApprovalModel objectArrayWithKeyValuesArray:[dataDic objectForKey:@"data"]]];
                           [self.tableView.header endRefreshing];
                           [self.tableView reloadData];
+                          
                       }
+     
                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                           
                           NSLog(@"%@",error);
                           
                           [self.tableView.header endRefreshing];
                       }
+     
             showLoadingStatus:NO];
+    
 }
 
 - (void)loadUnApplyMoreData{
-    p += 1;
+   p +=1;
+   
+    a= p-1;
+    
+  
+    
     [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=%@&u=%@&ukey=%@&pi=%d&ps=20",ac,self.uid,self.ukey,p]
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                           NSDictionary *dataDic = [responseObject objectForKey:@"msg"];
                           [self.dataArray addObjectsFromArray:[UnApprovalModel objectArrayWithKeyValuesArray:[dataDic objectForKey:@"data"]]];
-                          [self.tableView.footer endRefreshing];
                           [self.tableView reloadData];
+                          [self.tableView.footer endRefreshing];
+                          
                       }
                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                           [self.tableView.footer endRefreshing];
@@ -111,6 +123,7 @@
 - (void)refreshApplyData{
     //http://27.115.23.126:3032/ashx/mobile.ashx?ac=GetMyWaiteApprove&u=1&ukey=abc&pi=0&ps=2
     p = 0;
+    
     [self.dataArray removeAllObjects];
     NSString *str = [NSString stringWithFormat:@"ac=%@&u=%@&ukey=%@&pi=%d&ps=20",ac,self.uid,self.ukey,p];
     str =[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -123,8 +136,9 @@
                           
                           NSDictionary *dataDic = [responseObject objectForKey:@"msg"];
                           [self.dataArray addObjectsFromArray:[StayApprovalModel objectArrayWithKeyValuesArray:[dataDic objectForKey:@"data"]]];
-                          [self.tableView.header endRefreshing];
                           [self.tableView reloadData];
+                          [self.tableView.header endRefreshing];
+                          
                       }
                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                           [self.tableView.header endRefreshing];
@@ -135,6 +149,8 @@
 
 - (void)loadMoreData{
     p += 1;
+    
+   
     [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=%@&u=%@&ukey=%@&pi=%d&ps=20",ac,self.uid,self.ukey,p]
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -533,7 +549,7 @@
 
 - (void)resetStatues{
     // 底部视图消失时，重置选择数组
-    [_selectArr removeAllObjects];
+   // [_selectArr removeAllObjects];
     _selectLabel.text = [NSString stringWithFormat:@"已选择%ld个项目同时处理",_selectArr.count];
 }
 

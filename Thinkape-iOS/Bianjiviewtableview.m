@@ -316,8 +316,9 @@
     
     [self.dict1 setObject:name forKey:layoutModel.fieldname];
     
-    
-    
+    if (![layoutModel.datasource containsString:@"9999"]) {
+        [self.dict1 setObject:ID forKey:[NSString stringWithFormat:@"%@%@",layoutModel.fieldname,@"_id"]];
+    }
     NSLog(@"字典：%@",self.dict1);
     
     
@@ -911,6 +912,7 @@
         i++;
     }
     NSString *returnStr = [NSString stringWithFormat:@"<data %@></data>",xmlStr];
+    
     NSLog(@"xmlStr : %@",returnStr);
     return returnStr;
 }
@@ -923,6 +925,12 @@
     //新增
     bi.isaddka = YES;
     bi.wenDicts = [NSMutableDictionary dictionaryWithDictionary:self.dict1];
+    NSMutableArray *asd =[_costArr objectAtIndex:_indexto];
+    NSMutableArray *count =[NSMutableArray arrayWithArray:asd];
+    [count addObject:self.dict1];
+    
+    [_costArr replaceObjectAtIndex:_indexto withObject:count];
+    bi.costData2 = _costArr;
     //新增和删除
     NSMutableArray *sa = [NSMutableArray arrayWithArray:_costArr];
     

@@ -13,5 +13,9 @@
 @property (nonatomic,strong) NSString *photopath;
 @property (nonatomic,strong) NSString *TotalMoney;
 @property (nonatomic,strong) NSMutableArray *fileds;
+@property(nonatomic,strong) NSString *PrimaryKey;
+@property(nonatomic,strong) NSString *RelationKey;
+@property(nonatomic,strong) NSString *SqlTableName;
+@property(nonatomic,strong)NSString *gridmainid;
 
 @end

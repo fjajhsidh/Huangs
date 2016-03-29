@@ -69,5 +69,22 @@
       <ContextState
          contextName = "__47-[BianJiViewController addDatePickerView:date:]_block_invoke:BianJiViewController.m">
       </ContextState>
+      <ContextState
+         contextName = "-[BianJiViewController xmlser]:BianJiViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[mixi.datasource containsString:@&quot;9999&quot;]">
+            </PersistentString>
+            <PersistentString
+               value = "fielname.length">
+            </PersistentString>
+            <PersistentString
+               value = "dict objectForKey:@&quot;billmoney&quot;">
+            </PersistentString>
+            <PersistentString
+               value = "[mixi.datasource isEqualToString:@&quot;0&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

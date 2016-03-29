@@ -31,4 +31,8 @@
 @property(nonatomic,strong) NSMutableArray *costData2;
 @property(nonatomic,assign)BOOL isdeletes;
 @property(nonatomic,assign)BOOL isChanges;
+@property (nonatomic,strong)NSMutableArray *bigCost;
+//删除的字典
+@property(nonatomic,strong)NSMutableDictionary *dictarry;
+
 @end

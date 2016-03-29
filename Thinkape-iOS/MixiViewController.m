@@ -201,10 +201,20 @@
         return;
     }
   BianJiViewController  *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
-    
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    int indexa = app.indexcor;
     bi.oldDicts = [NSMutableDictionary dictionaryWithDictionary:self.dict2];
+    NSMutableArray *coun =[_costarrdate objectAtIndex:_index];
+    NSMutableArray *arr =[NSMutableArray arrayWithArray:coun];
+   
+    
+    [arr replaceObjectAtIndex:indexa withObject:self.dict2];
+    [_costarrdate replaceObjectAtIndex:_index withObject:arr];
+    bi.costData2 = _costarrdate;
+    
+    
     //修改和删除
-     self.bigCount = [NSMutableArray arrayWithArray:_costarrdate];
+//    bi.bigCost = [NSMutableArray arrayWithArray:_costarrdate];
     if (self.hudong==YES) {
        
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -213,11 +223,11 @@
         NSMutableArray *delearr = [NSMutableArray arrayWithArray:mecert];
        
         [self.bigCount replaceObjectAtIndex:_index withObject:delearr];
-        
+        bi.bigCost=self.bigCount;
         
     }
     bi.isChanges=YES;
-    bi.costData2=self.bigCount;
+   
     [self.navigationController popToViewController:bi animated:YES];
     
         //
@@ -622,6 +632,10 @@
     NSLog(@"键值：%@=%@",layoutModel.fieldname,name);
     
     [self.dict2 setObject:name forKey:layoutModel.fieldname];
+    if (![layoutModel.datasource containsString:@"9999"]) {
+        [self.dict2 setObject:ID forKey:[NSString stringWithFormat:@"%@%@",layoutModel.fieldname,@"_id"]];
+    }
+    
     NSLog(@"字典：%@",self.dict2);
     
     [view closed];

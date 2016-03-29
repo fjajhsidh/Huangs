@@ -39,4 +39,5 @@
 @property(nonatomic,assign)BOOL isPage;
 //点击cell的行数
 @property(nonatomic,assign)int iscellindes;
+@property(nonatomic,strong)NSMutableDictionary *dilct;
 @end

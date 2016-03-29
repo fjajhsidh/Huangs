@@ -34,7 +34,7 @@
 #import "DatePickerView.h"
 #import "Bianjito.h"
 #import "AppDelegate.h"
-
+#import "MiXimodel.h"
 #import "BillsListViewController.h"
 @interface BianJiViewController ()<UITableViewDataSource,UITableViewDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIAlertViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UIActionSheetDelegate,KindsItemsViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
@@ -67,11 +67,12 @@
 
 @property(nonatomic,assign)BOOL ishideto;
 @property(nonatomic,copy)NSString *str;
-
+@property(nonatomic,strong)NSMutableArray *dataArry;
 //wo
 
-@property (nonatomic,strong)NSMutableArray *bigCost;
 
+@property(nonatomic,strong)NSMutableDictionary *dictArray;
+@property(nonatomic,strong)CostLayoutModel *coster;
 @end
 
 @implementation BianJiViewController
@@ -153,6 +154,9 @@
     [self requestDataSource];
     
     [self addFooterView];
+//    [self readtodate];
+   
+    
     
     
     
@@ -1326,88 +1330,91 @@
     //页数
     NSInteger indexpate = app.indexpage;
     vc.costLayoutArray = _costLayoutArray2;
+    vc.index=indexpate;
     
-  
+    vc.costDataArr = _costData2;
+    [self.navigationController pushViewController:vc animated:YES];
+//    
+//    vc.index = (int)btn.tag;
+//    if (self.oldDicts.count==0&&self.wenDicts.count==0&&self.isdeletes==NO) {
+//       
+//        vc.costDataArr = _costData2;
+//    
+//       
+//    } else
+//    {
+//        
+//        if (self.bigCost.count==0) {
+//            
+//           
+//            
+//            self.bigCost = [NSMutableArray arrayWithArray:_costData2];
+//            
+//           
+//            NSMutableArray *datearray = [self.bigCost safeObjectAtIndex:indexpate];
+//            //修改的字典
+//            NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
+//            
+//           
+//            
+//            
+//            NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
+//            
+//                if (self.isdeletes==NO) {
+//                    if (NewDic.count!= 0) {
+//                        [alet replaceObjectAtIndex:indx withObject:NewDic];
+//                    }
+//                }
+//            
+//           
+//           
+//            
+//          
+//            
+//            [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
+//            NSMutableArray *date =[self.bigCost safeObjectAtIndex:indexpate];
+//            _dictArray =[date objectAtIndex:indx];
+//            [self saveto];
+//            //可以删掉
+//            vc.costDataArr = self.bigCost;
+//            
+//                    }
+//        if (self.bigCost.count!=0) {
+//            [self readtodate];
+//          
+//            
+//                self.bigCost = [NSMutableArray arrayWithArray:_costData2];
+//            
+//            NSMutableArray *datearray = [self.bigCost safeObjectAtIndex:indexpate];
+//            //修改的字典
+//            NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
+//            //新增的字典
+//            NSMutableDictionary *reset = [NSMutableDictionary dictionaryWithDictionary:self.wenDicts];
+//           
+//            
+//            NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
+//            /// 有问题
+//           
+//                
+//            
+//            if (self.isdeletes==NO) {
+//                if (NewDic.count !=0) {
+//                    [alet replaceObjectAtIndex:indx withObject:NewDic];
+//                }
+//            }
+//           
+//            if (self.isdeletes==NO) {
+//                if (self.isaddka==YES) {
+//                    if (reset.count !=0) {
+//                        
+//                        [alet addObject:reset];
+//                    }
+//                    self.isaddka=NO;
+//                }
+//            }
+//          
+//            
     
-    vc.index = (int)btn.tag;
-    if (self.oldDicts.count==0&&self.wenDicts.count==0&&self.isdeletes==NO) {
-       
-        vc.costDataArr = _costData2;
-    
-       
-    } else
-    {
-        
-        if (self.bigCost.count==0) {
-            
-           
-            
-            self.bigCost = [NSMutableArray arrayWithArray:_costData2];
-            
-           
-            NSMutableArray *datearray = [self.bigCost safeObjectAtIndex:indexpate];
-            //修改的字典
-            NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
-            
-           
-            
-            
-            NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
-            
-                if (self.isdeletes==NO) {
-                    if (NewDic.count!= 0) {
-                        [alet replaceObjectAtIndex:indx withObject:NewDic];
-                    }
-                }
-            
-           
-           
-         
-          
-            
-            [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
-            
-            [self saveto];
-            //可以删掉
-            vc.costDataArr = self.bigCost;
-            
-                    }
-        if (self.bigCost.count!=0) {
-            [self readtodate];
-          
-            
-                self.bigCost = [NSMutableArray arrayWithArray:_costData2];
-            
-            NSMutableArray *datearray = [self.bigCost safeObjectAtIndex:indexpate];
-            //修改的字典
-            NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
-            //新增的字典
-            NSMutableDictionary *reset = [NSMutableDictionary dictionaryWithDictionary:self.wenDicts];
-           
-            
-            NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
-            /// 有问题
-           
-                
-            
-            if (self.isdeletes==NO) {
-                if (NewDic.count !=0) {
-                    [alet replaceObjectAtIndex:indx withObject:NewDic];
-                }
-            }
-           
-            if (self.isdeletes==NO) {
-                if (self.isaddka==YES) {
-                    if (reset.count !=0) {
-                        
-                        [alet addObject:reset];
-                    }
-                    self.isaddka=NO;
-                }
-            }
-          
-            
-          
            
            
             
@@ -1416,28 +1423,44 @@
             
                 
             
-            if (self.isdeletes==YES) {
-                self.bigCost= [NSMutableArray arrayWithArray:_costData2];
-                self.isdeletes=NO;
-                
-            }else
-            {
-                [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
-            }
-
+//            if (self.isdeletes==YES) {
+//                self.bigCost= [NSMutableArray arrayWithArray:_costData2];
+//                [self saveto];
+//                
+//                self.isdeletes=NO;
+//                
+//            }else
+//            {
+//                [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
+//            }
+//            if (self.isdeletes==YES) {
+//            self.bigCost= [NSMutableArray arrayWithArray:_costData2];
+//            [self saveto];
+//                
+//            self.isdeletes=NO;
+//                                
+//            }
+//            [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
             
-            [self saveto];
+//            [self saveto];
             //可以删掉
-            vc.costDataArr = self.bigCost;
-            
-        }
+           // vc.costDataArr = self.bigCost;
+        
+       // }
+       
         
      //  vc.costDataArr = self.bigCost;
+       
         
         
-    }
-    
-    [self.navigationController pushViewController:vc animated:YES];
+        
+      
+        
+//    }
+
+   
+
+   
 }
 -(void)saveto
 {
@@ -1483,14 +1506,14 @@
 - (NSString *)XMLParameter
 {
     NSMutableString *xmlStr = [NSMutableString string];
-    
+    [self xmlser];
     //XMLParameterDic
     //tableViewDic   字段
-    
+   
     int i = 0;
     for (LayoutModel *layoutModel in _mainLayoutArray) {
         NSString *value = [self.XMLParameterDic objectForKey:layoutModel.fieldname];
-
+      
         //id 值
         NSString *str0 = [[NSString alloc]initWithString:layoutModel.fieldname];
         
@@ -1530,14 +1553,102 @@
                 [xmlStr appendFormat:@"%@=\"%@\" ",str0,ids];
             }
         }
-       i++;
+        i++;
     }
     NSString *returnStr = [NSString stringWithFormat:@"<?xml version= \"1.0\" encoding=\"gb2312\"?><Root><Main %@></Main></Root>",xmlStr];
     NSLog(@"xmlStr : %@",returnStr);
     return returnStr;
         
 }
-
+-(void)xmlser
+{
+    
+  
+    NSMutableString *string =[NSMutableString string];
+    [string appendFormat:@"%@",@"<Detail>"];
+    
+    int i=0;
+//    [self readtodate];
+    //删除的时候拿的数组
+//    if (self.isdeletes==YES) {
+//        self.bigCost =[NSMutableArray arrayWithArray:_costData2];
+//    }
+    _costData2;
+   
+//    for (int d =0; d<self.costLayoutArray2.count; d++) {
+//        _coster =[self.costLayoutArray2 objectAtIndex:d];
+//        
+//    }
+   
+    for (int i=0;i<_costLayoutArray2.count;i++) {
+        CostLayoutModel *model =[_costLayoutArray2 objectAtIndex:i];
+        NSString *groundmain =model.gridmainid;
+        NSMutableArray *fieldarray =model.fileds;
+        NSMutableArray *array =[_costData2 objectAtIndex:i];
+        for (int c= 0; c<array.count; c++) {
+            
+            [string appendFormat:@"<grid%@ ",groundmain];
+            
+            NSMutableDictionary *dict =[array objectAtIndex:c];
+            NSString *bildetal =[dict objectForKey:@"billdetailid"];
+            //增加
+            if (bildetal==nil||[bildetal isEqualToString:@""]) {
+                [string appendFormat:@"_state=\"%@\" ",@"added"];
+            }else
+            {
+                //修改
+                [string appendFormat:@"_state=\"%@\" billdetailid=\"%@\" ",@"modified",bildetal];
+            }
+            //删除
+            if (self.dictarry!=0) {
+                NSString *asd=[self.dictarry objectForKey:@"130102"];
+                NSLog(@"++++++++++%@",asd);
+            }
+            NSLog(@"=======%@",[dict objectForKey:@"billmoney"]);
+            
+            
+            for (MiXimodel *mixi in fieldarray) {
+                NSString *fielname =mixi.fieldname;
+                
+                NSString *value =[dict objectForKey:[NSString stringWithFormat:@"%@",mixi.fieldname]];
+                if (![mixi.datasource isEqualToString:@"0"]&&![mixi.datasource containsString:@"9999"]) {
+                    value = [dict objectForKey:[NSString stringWithFormat:@"%@%@",fielname,@"_id"]];
+                }
+                
+                if (value==nil||[value isEqualToString:@""]) {
+                    
+                }else
+                {
+                    if ([fielname containsString:@"_show"]) {
+                       fielname= [fielname stringByReplacingOccurrencesOfString:@"_show" withString:@""];
+                        
+                    }
+                    [string appendFormat:@"%@=\"%@\" ",fielname,value];
+                }
+            }
+            [string appendFormat:@" ></grid%@>",groundmain];
+        }
+    }
+    [string appendFormat:@"</Detail>"];
+    
+    NSLog(@"++++++++%@",string);
+    
+//    for (int i=0; i<_costData2.count; i++) {
+//        NSMutableArray *daarry = [_costData2 safeObjectAtIndex:i];
+//        for (int c=0; c<daarry.count; c++) {
+//            _dictArray = [daarry objectAtIndex:c];
+//            
+//          
+//        }
+//       
+//    }
+//    for (MiXimodel *model in _costData2) {
+//        NSString *value =[_dictArray objectForKey:model.fieldname];
+//        NSLog(@"++++++++++++++%@",value);
+//    }
+//    
+   
+}
 
 -(void)addFooterView
 {

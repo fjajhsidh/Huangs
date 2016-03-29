@@ -62,7 +62,7 @@
    
     app.indexpage = _index;
     [self addLeftNavgation];
-    
+    self.dilct =[NSMutableDictionary dictionary];
     
 }
 -(void)addRightNavgation{
@@ -97,7 +97,10 @@
     bianji.isdeletes=YES;
     
     bianji.isChanges=YES;
+    //删除的grid
+     bianji.dictarry = self.dilct;
     [self.navigationController popToViewController:bianji animated:YES];
+   
 }
 
 -(void)appcer
@@ -359,6 +362,7 @@
             
         
     }
+    
 
     MixiViewController *vc =[[MixiViewController alloc] init];
     vc.index = _index;
@@ -383,11 +387,26 @@
     NSLog(@"button%ld",sender.tag);
     int select = app.indexpage;
     self.iscellindes= sender.tag;
-    [aler removeObjectAtIndex:self.iscellindes];
-    
+    NSMutableDictionary *deleteDic =[aler safeObjectAtIndex:self.iscellindes];
     [Costarry replaceObjectAtIndex:select withObject:aler];
     _costDataArr= Costarry;
+    CostLayoutModel *model = [self.costLayoutArray safeObjectAtIndex:_index];
+ 
+    if([deleteDic objectForKey:@"billdetailid"]!=nil && ![[deleteDic objectForKey:@"billdetailid"] isEqualToString:@""]){
+        if([self.dilct objectForKey:model.gridmainid]!=nil && ![[self.dilct objectForKey:model.gridmainid] isEqualToString:@""]){
+            NSString *v = [self.dilct objectForKey:model.gridmainid];
+            [self.dilct setObject:[NSString stringWithFormat:@"%@,%@",v,[deleteDic objectForKey:@"billdetailid"]] forKey:model.gridmainid];
+        }else{
+            [self.dilct setObject:[deleteDic objectForKey:@"billdetailid"] forKey:model.gridmainid];
+        }
         
+        
+    }
+    
+    [aler removeObjectAtIndex:self.iscellindes];
+    
+    
+    
     app.iscella=self.iscellindes;
     
     
