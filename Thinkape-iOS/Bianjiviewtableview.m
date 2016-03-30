@@ -932,23 +932,24 @@
     [_costArr replaceObjectAtIndex:_indexto withObject:count];
     bi.costData2 = _costArr;
     //新增和删除
-    NSMutableArray *sa = [NSMutableArray arrayWithArray:_costArr];
+//    NSMutableArray *sa = [NSMutableArray arrayWithArray:_costArr];
     
-    if (self.hudong==YES) {
-        NSMutableArray *mecert = [self.bigcoster safeObjectAtIndex:_indexto];
-        NSMutableArray *delearr = [NSMutableArray arrayWithArray:mecert];
-        
-        [self.bigcoster replaceObjectAtIndex:_indexto withObject:delearr];
-    }
+//    if (self.hudong==YES) {
+//        NSMutableArray *mecert = [self.bigcoster safeObjectAtIndex:_indexto];
+//        NSMutableArray *delearr = [NSMutableArray arrayWithArray:mecert];
+//        
+//        [self.bigcoster replaceObjectAtIndex:_indexto withObject:delearr];
+//    }
+//    
     
-    
-    bi.costData2 =sa;
-    
-    
+//    bi.costData2 =sa;
+   
+    bi.dictarry=self.dictarry;
     
     [self.navigationController popToViewController:bi animated:YES];
     
 }
+
 - (BOOL)isPureInt:(NSString*)string{
     NSScanner* scan = [NSScanner scannerWithString:string];
     int val;

@@ -27,6 +27,7 @@
 @property(nonatomic,assign)BOOL isDElegate;
 
 
+
 @end
 
 @implementation Bianjito
@@ -62,7 +63,7 @@
    
     app.indexpage = _index;
     [self addLeftNavgation];
-    self.dilct =[NSMutableDictionary dictionary];
+//    self.dilct =[NSMutableDictionary dictionary];
     
 }
 -(void)addRightNavgation{
@@ -89,10 +90,10 @@
 
     BianJiViewController *bianji = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
     
-    if (self.isDElegate==YES) {
-        bianji.costData2 = _costDataArr;
-        
-    }
+    
+    bianji.costData2 = _costDataArr;
+    
+    
     //删除
     bianji.isdeletes=YES;
     
@@ -113,7 +114,7 @@
     vc.costArray=self.costLayoutArray;
     vc.costArr=self.costDataArr;
     vc.hudong=self.isDElegate;
-    
+    vc.dictarry=self.dilct;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -371,6 +372,10 @@
     vc.costarrdate=_costDataArr;
     vc.hudong=self.isDElegate;
     vc.indexsele=self.iscellindes;
+    if ([self.dilct allKeys].count>0) {
+         vc.dictarry = self.dilct;
+    }
+   
     [self.navigationController pushViewController:vc animated:YES];
 
 }
@@ -379,17 +384,21 @@
 
 -(void)buttonaction:(UIButton *)sender
 {
-    
+    AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
+    int select = app.indexpage;
+    //点击的行数
+    self.iscellindes= sender.tag;
+
     NSMutableArray *Costarry  =[NSMutableArray arrayWithArray:_costDataArr];
+    //小数组
     NSMutableArray *dateer = [Costarry safeObjectAtIndex:_index];
     NSMutableArray *aler  =[NSMutableArray arrayWithArray:dateer];
-    AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
+    
     NSLog(@"button%ld",sender.tag);
-    int select = app.indexpage;
-    self.iscellindes= sender.tag;
+    //点击的那个字典需要取id
     NSMutableDictionary *deleteDic =[aler safeObjectAtIndex:self.iscellindes];
-    [Costarry replaceObjectAtIndex:select withObject:aler];
-    _costDataArr= Costarry;
+//    [Costarry replaceObjectAtIndex:select withObject:aler];
+//    _costDataArr= Costarry;
     CostLayoutModel *model = [self.costLayoutArray safeObjectAtIndex:_index];
  
     if([deleteDic objectForKey:@"billdetailid"]!=nil && ![[deleteDic objectForKey:@"billdetailid"] isEqualToString:@""]){
@@ -406,7 +415,8 @@
     [aler removeObjectAtIndex:self.iscellindes];
     
     
-    
+    [Costarry replaceObjectAtIndex:_index withObject:aler];
+    _costDataArr = Costarry;
     app.iscella=self.iscellindes;
     
     
@@ -425,6 +435,7 @@
     else
         return 50.0f;
 }
+
 
 
 /*

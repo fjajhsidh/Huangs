@@ -100,7 +100,7 @@
 - (void)loadUnApplyMoreData{
    p +=1;
    
-    a= p-1;
+    
     
   
     

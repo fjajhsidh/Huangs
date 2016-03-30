@@ -210,22 +210,27 @@
     
     [arr replaceObjectAtIndex:indexa withObject:self.dict2];
     [_costarrdate replaceObjectAtIndex:_index withObject:arr];
+    if (self.dictarry!=0) {
+         bi.dictarry=self.dictarry;
+    }
+ 
     bi.costData2 = _costarrdate;
     
     
     //修改和删除
 //    bi.bigCost = [NSMutableArray arrayWithArray:_costarrdate];
-    if (self.hudong==YES) {
-       
-        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        int indexa = app.iscella;
-        NSMutableArray *mecert = [self.bigCount safeObjectAtIndex:_index];
-        NSMutableArray *delearr = [NSMutableArray arrayWithArray:mecert];
-       
-        [self.bigCount replaceObjectAtIndex:_index withObject:delearr];
-        bi.bigCost=self.bigCount;
-        
-    }
+//    if (self.hudong==YES) {
+//       
+//        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+//        int indexa = app.iscella;
+//        NSMutableArray *mecert = [self.bigCount safeObjectAtIndex:_index];
+//        NSMutableArray *delearr = [NSMutableArray arrayWithArray:mecert];
+//       
+//        [self.bigCount replaceObjectAtIndex:_index withObject:delearr];
+//        
+//        bi.bigCost=self.bigCount;
+//        
+//    }
     bi.isChanges=YES;
    
     [self.navigationController popToViewController:bi animated:YES];
@@ -1069,6 +1074,7 @@
     
     
 }
+
 - (void)deleteBtnClick
 {
     

@@ -21,4 +21,6 @@
 @property(nonatomic,assign)int indexsele;
 @property (nonatomic , strong) UIView * calculatorView;
 @property(nonatomic) BOOL delaysContentTouches;
+//删除的字典
+@property(nonatomic,strong)NSMutableDictionary *dictarry;
 @end

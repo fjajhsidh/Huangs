@@ -36,6 +36,7 @@
 #import "AppDelegate.h"
 #import "MiXimodel.h"
 #import "BillsListViewController.h"
+#import "MOEL.h"
 @interface BianJiViewController ()<UITableViewDataSource,UITableViewDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIAlertViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UIActionSheetDelegate,KindsItemsViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 
@@ -62,17 +63,21 @@
 @property(nonatomic,strong)NSMutableDictionary *XMLParameterDic;
 @property(nonatomic,strong)UITextField *textfield;
 @property(nonatomic,strong)UITextField *textstring;
-@property(nonatomic,strong)NSString *textfiece;
+
 @property(nonatomic,strong)NSMutableArray *arrytext;
 
 @property(nonatomic,assign)BOOL ishideto;
 @property(nonatomic,copy)NSString *str;
 @property(nonatomic,strong)NSMutableArray *dataArry;
+//删除的grad
+@property(nonatomic,copy) NSString *delete;
+@property(nonatomic,strong)NSMutableDictionary *deledict;
 //wo
 
 
 @property(nonatomic,strong)NSMutableDictionary *dictArray;
 @property(nonatomic,strong)CostLayoutModel *coster;
+@property(nonatomic,strong)NSMutableString *valueStr;
 @end
 
 @implementation BianJiViewController
@@ -155,10 +160,12 @@
     
     [self addFooterView];
 //    [self readtodate];
+    self.dictarry =[NSMutableDictionary dictionary];
+    self.deledict =[NSMutableDictionary dictionary];
+   //保存删除字表id
+    
+
    
-    
-    
-    
     
 }
 
@@ -186,6 +193,7 @@
                           
                           NSDictionary * mainLayout = [[[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"] objectForKey:@"main"];
                           NSArray * costLayout = [[[responseObject objectForKey:@"msg"] objectForKey:@"fieldconf"] objectForKey:@"details"];
+                          
                           LayoutModel *l = [LayoutModel objectArrayWithKeyValuesArray:[mainLayout objectForKey:@"fields"]];
                           
                           //tableView的数据源：
@@ -197,6 +205,12 @@
                          
                           
                           [_costLayoutArray2 addObjectsFromArray:[CostLayoutModel objectArrayWithKeyValuesArray:costLayout]];
+                          for (int i=0; i<_costLayoutArray2.count; i++) {
+                              CostLayoutModel *model =[_costLayoutArray2 safeObjectAtIndex:i];
+                              
+                              [self.deledict setObject:[NSString stringWithFormat:@":%@:%@:%@",model.SqlTableName,model.PrimaryKey,model.RelationKey] forKey:model.gridmainid];
+                          }
+                          
                           NSMutableArray *dataArr = [[responseObject objectForKey:@"msg"] objectForKey:@"data"];
                           NSLog(@"dataArr.count:%lu",dataArr.count);
                           _mainData =[dataArr safeObjectAtIndex:0];
@@ -1323,6 +1337,7 @@
 -(void)costDetails:(UIButton *)btn
 {
     //    CostDetailViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CostDetailVC"];
+   
     Bianjito *vc = [[Bianjito alloc] init];
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     //cell的行数
@@ -1330,9 +1345,11 @@
     //页数
     NSInteger indexpate = app.indexpage;
     vc.costLayoutArray = _costLayoutArray2;
-    vc.index=indexpate;
+    vc.index=btn.tag;
     
     vc.costDataArr = _costData2;
+   
+    vc.dilct = self.dictarry;
     [self.navigationController pushViewController:vc animated:YES];
 //    
 //    vc.index = (int)btn.tag;
@@ -1494,7 +1511,22 @@
     
     return returnStr;
 }
-
+-(void)saveDict
+{
+    NSDictionary *dic =@{@"Dict":self.dictarry};
+    [dic writeToFile:[self filePathdict] atomically:YES];
+}
+-(void)readtodict
+{
+    NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
+    self.dictarry= [dic objectForKey:@"Dict"];
+}
+-(NSString *)filePathdict{
+    NSString *documentsPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
+    NSString *filePath =[documentsPath stringByAppendingPathComponent:@"XuHui.txt"];
+    NSLog(@"文件夹位置%@",filePath);
+    return filePath;
+}
 - (BOOL)isPureInt:(NSString*)string{
     NSScanner* scan = [NSScanner scannerWithString:string];
     int val;
@@ -1506,7 +1538,7 @@
 - (NSString *)XMLParameter
 {
     NSMutableString *xmlStr = [NSMutableString string];
-    [self xmlser];
+    
     //XMLParameterDic
     //tableViewDic   字段
    
@@ -1555,25 +1587,25 @@
         }
         i++;
     }
-    NSString *returnStr = [NSString stringWithFormat:@"<?xml version= \"1.0\" encoding=\"gb2312\"?><Root><Main %@></Main></Root>",xmlStr];
+    NSString *returnStr = [NSString stringWithFormat:@"<?xml version= \"1.0\" encoding=\"gb2312\"?><Root><Main %@ currentprogramid=\"%@\"></Main>",xmlStr,self.programeId];
     NSLog(@"xmlStr : %@",returnStr);
     return returnStr;
         
 }
--(void)xmlser
+-(NSString *)xmlser
 {
     
   
     NSMutableString *string =[NSMutableString string];
     [string appendFormat:@"%@",@"<Detail>"];
     
-    int i=0;
+    
 //    [self readtodate];
     //删除的时候拿的数组
 //    if (self.isdeletes==YES) {
 //        self.bigCost =[NSMutableArray arrayWithArray:_costData2];
 //    }
-    _costData2;
+    
    
 //    for (int d =0; d<self.costLayoutArray2.count; d++) {
 //        _coster =[self.costLayoutArray2 objectAtIndex:d];
@@ -1593,17 +1625,14 @@
             NSString *bildetal =[dict objectForKey:@"billdetailid"];
             //增加
             if (bildetal==nil||[bildetal isEqualToString:@""]) {
-                [string appendFormat:@"_state=\"%@\" ",@"added"];
+                [string appendFormat:@"_state=\"%@\" billdetailid=\"0\" ",@"added"];
             }else
             {
                 //修改
                 [string appendFormat:@"_state=\"%@\" billdetailid=\"%@\" ",@"modified",bildetal];
             }
             //删除
-            if (self.dictarry!=0) {
-                NSString *asd=[self.dictarry objectForKey:@"130102"];
-                NSLog(@"++++++++++%@",asd);
-            }
+           
             NSLog(@"=======%@",[dict objectForKey:@"billmoney"]);
             
             
@@ -1632,7 +1661,7 @@
     [string appendFormat:@"</Detail>"];
     
     NSLog(@"++++++++%@",string);
-    
+    return string;
 //    for (int i=0; i<_costData2.count; i++) {
 //        NSMutableArray *daarry = [_costData2 safeObjectAtIndex:i];
 //        for (int c=0; c<daarry.count; c++) {
@@ -1678,10 +1707,34 @@
 #pragma mark----保存到草稿
 - (void)saveBills:(NSString *)ac
 {
+   
     NSString *xmlParameter = [self XMLParameter];
+    NSString *xmlParmixi =[self xmlser];
+    self.valueStr=[[NSMutableString alloc] init];
+    NSLog(@"++++++++++_______%@",xmlParmixi);
     
+    
+        for (NSString *stz in self.deledict.allKeys) {
+            self.delete =stz;
+            NSString *value = [self.dictarry objectForKey:self.delete];
+            if (value==nil||[value isEqualToString:@""]) {
+                value=@"";
+                
+            }
+            NSString *valued=[self.deledict objectForKey:self.delete];
+            NSString *val =[NSString stringWithFormat:@"%@:%@%@/",self.delete,value,valued];
+            [self.valueStr appendFormat:val];
+            
+            
+            
+            //       NSString *adx =[se]
+            
+        }
+    
+    
+    NSLog(@"__++++++++++++%@",self.valueStr);
     NSLog(@"%@",xmlParameter);
-    
+    NSLog(@"%@",self.delete);
     if (xmlParameter.length == 0) {
         
         return;
@@ -1695,23 +1748,37 @@
     gridmainid = _selectModel.gridmainid;
     programid = _selectModel.programid;
     
-    NSString *str = [NSString stringWithFormat:@"%@?ac=SaveEditData&u=%@&programid=%@&billid=%@&savestr=%@&rowver=%@",Web_Domain,self.uid,self.programeId,self.billid,xmlParameter,self.str];
+    NSString *str = [NSString stringWithFormat:@"%@?ac=SaveEditData&u=%@&programid=%@&Billid=%@&SaveStr=%@ %@</Root>&GridStr=%@&RowVer=%@",Web_Domain,self.uid,self.programeId,self.billid,xmlParameter,xmlParmixi,self.valueStr,self.str];
+    
 
     NSLog(@"上传的数据str : %@",str);
+    
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     AFHTTPRequestOperation *op = [manager POST:[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
                                     parameters:nil
                                        success:^(AFHTTPRequestOperation *operation, id responseObject) {
                             
-                                           [self uploadImage:0];
+//                                           [self uploadImage:0];
                                            
+                                           NSString *af =[responseObject objectForKey:@"error"];
+                                           long a = [af integerValue];
+                                           if (a !=0) {
+//                                                [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
+                                             
+                                               
+                                            [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
+                                               return;
+                                           }
+                                           [self uploadImage:0];
+
                                            if (self.callback) {
                                                self.callback();
                                            }
 
                                            
                                            [SVProgressHUD showSuccessWithStatus:@"提交数据成功"];
+                                           
                                            [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
                                 
                                            NSArray *temArray =self.navigationController.viewControllers;
@@ -1720,10 +1787,12 @@
                                                    [self.navigationController popToViewController:ter animated:YES];
                                                }
                                            }
+                                           
    
                                        }
                                        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                           
+                                          
+                                          
                                        }];
     [op setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         NSLog(@"totle %lld",totalBytesWritten);
