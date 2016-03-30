@@ -25,7 +25,7 @@
 @property(nonatomic,strong) NSMutableArray *costall;
 @property(nonatomic,strong) NSMutableArray *asdc;
 @property(nonatomic,assign)BOOL isDElegate;
-
+@property (nonatomic,strong) NSMutableArray *moneyArray;
 
 
 @end
@@ -53,6 +53,7 @@
     itemWidth = 80;
     speace = 20;
     
+    _moneyArray = [[NSMutableArray alloc]init];
     
     [self addRightNavgation];
     [self itemLength];
@@ -60,10 +61,9 @@
     self.scrollview.bounces=NO;
     self.navigationController.navigationBarHidden=NO;
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-   
     app.indexpage = _index;
+    
     [self addLeftNavgation];
-
     
 }
 -(void)addRightNavgation{
@@ -85,36 +85,58 @@
     self.navigationItem.leftBarButtonItem=leftitem;
     
 }
+
+//点击左边删除按钮调用
 -(void)leftbuttonaction
 {
 
     BianJiViewController *bianji = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
-    
-    
     bianji.costData2 = _costDataArr;
-    
     
     //删除
     
+    for (NSArray *items in _costDataArr) {
+        NSString *billmoney;
+        long money = 0;
+        long totalMoney =0;
+        for (NSDictionary *dict in items) {
+            billmoney = [dict objectForKey:@"billmoney"];
+            money = [billmoney longLongValue];
+//            money += money;
+            totalMoney = money + totalMoney;
+        }
+
+        
+        NSString * moneyStr0 = [NSString stringWithFormat:@"%ld",totalMoney];
+        [_moneyArray addObject:moneyStr0];
+       
+        
+    }
     
+    
+    bianji.isdeletes=YES;
     bianji.isChanges=YES;
     //删除的grid
-     bianji.dictarry = self.dilct;
+    
+    bianji.dictarry = self.dilct;
+    
+    bianji.moneyArray = [NSMutableArray arrayWithArray:_moneyArray];
+    
     [self.navigationController popToViewController:bianji animated:YES];
    
 }
 
 -(void)appcer
 {
-
-
-    
     Bianjiviewtableview *vc =[Bianjiviewtableview new];
     vc.indexto = _index;
     vc.costArray=self.costLayoutArray;
     vc.costArr=self.costDataArr;
     vc.hudong=self.isDElegate;
     vc.dictarry=self.dilct;
+    
+    vc.btnIndex = self.index;
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -196,10 +218,8 @@
         title.font = [UIFont systemFontOfSize:15];
         title.text = model.name;
         title.textColor = [UIColor whiteColor];
-
-     
-        [bgView addSubview:title];
         
+        [bgView addSubview:title];
         
     }
     
@@ -269,12 +289,7 @@
                     _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
                     
                     NSString *cc =[_datar objectForKey:layoutModel.fieldname];
-                   
-                   
                     label.text =cc;
-                    
-
-         
                 }
                 if (button.tag==1) {
                     [button setTitle:@"删除" forState:UIControlStateNormal];
@@ -337,6 +352,18 @@
     vc.costarrdate=_costDataArr;
     vc.hudong=self.isDElegate;
     vc.indexsele=self.iscellindes;
+    
+    vc.oldMoney = self.oldMoney;
+    vc.preMoney =  [_costDataArr[_index][indexPath.row-2] objectForKey:@"billmoney"];
+    AppDelegate * delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+  
+    vc.btnIndex = delegate.indexpage;
+    
+    
+    
+    
+    
     if ([self.dilct allKeys].count>0) {
          vc.dictarry = self.dilct;
     }

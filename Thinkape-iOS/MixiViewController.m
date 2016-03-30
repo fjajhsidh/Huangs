@@ -151,7 +151,21 @@
     if ([self.textfield.text isEqualToString:@""]) {
         return;
     }
-  BianJiViewController  *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
+  
+    
+    //判断金额是否一致
+    if ([self.dict2 objectForKey:@"ybmoney"] != nil) {
+        if (![[self.dict2 objectForKey:@"billmoney"] isEqualToString:[self.dict2 objectForKey:@"ybmoney"]]) {
+            [SVProgressHUD showErrorWithStatus:@"金额不一致，请重新输入"];
+            return;
+        }
+    }
+    
+    
+    
+    
+    
+    BianJiViewController  *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     int indexa = app.indexcor;
     bi.oldDicts = [NSMutableDictionary dictionaryWithDictionary:self.dict2];
@@ -168,6 +182,15 @@
     bi.costData2 = _costarrdate;
 
     bi.isChanges=YES;
+    bi.isTransform = YES;
+    
+    bi.changeIndex = _btnIndex;
+    
+    
+    double number = [[bi.oldDicts objectForKey:@"billmoney"] doubleValue] - [ _preMoney doubleValue ] + [_oldMoney doubleValue] ;
+  
+    bi.changeMoney = [NSString stringWithFormat:@"%.2lf",number];
+    
    
     [self.navigationController popToViewController:bi animated:YES];
 

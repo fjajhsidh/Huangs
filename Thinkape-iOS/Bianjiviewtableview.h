@@ -20,4 +20,9 @@
 @property(nonatomic,assign)int indexsele;
 //删除的单据
 @property(nonatomic,strong)NSMutableDictionary *dictarry;
+
+
+
+
+@property (nonatomic,assign)int btnIndex;
 @end

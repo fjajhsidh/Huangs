@@ -21,7 +21,8 @@
     NSString *ac; //GetMyWaiteApprove 待审批 GetMyApproved 已审批
     NSInteger tag;
     UIBarButtonItem *selectItem;
-    int a;
+    NSInteger _number;
+    
 }
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineLeftConstraint;
@@ -57,7 +58,13 @@
        [self refreshUnApplyData];
     }];
     self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-         [self loadUnApplyMoreData];
+        
+        if (_number != 0 && self.dataArray.count >= _number && [ac isEqualToString:@"GetMyWaiteApprove"]) {
+            [self.tableView.footer endRefreshing];
+        }else{
+            [self loadUnApplyMoreData];
+        }
+
     }];
     [self.tableView.header beginRefreshing];
 }
@@ -99,15 +106,13 @@
 
 - (void)loadUnApplyMoreData{
    p +=1;
-   
-    
-    
-  
     
     [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=%@&u=%@&ukey=%@&pi=%d&ps=20",ac,self.uid,self.ukey,p]
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                           NSDictionary *dataDic = [responseObject objectForKey:@"msg"];
+                          _number = [[dataDic objectForKey:@"total"] integerValue];
+                          
                           [self.dataArray addObjectsFromArray:[UnApprovalModel objectArrayWithKeyValuesArray:[dataDic objectForKey:@"data"]]];
                           [self.tableView reloadData];
                           [self.tableView.footer endRefreshing];
@@ -485,7 +490,14 @@
                             [self refreshUnApplyData];
                         };
                         self.tableView.footer.refreshingBlock = ^{
-                            [self loadUnApplyMoreData];
+                            if (_number != 0 && self.dataArray.count >= _number && [ac isEqualToString:@"GetMyWaiteApprove"]) {
+                                
+                                [self.tableView.footer endRefreshing];
+                                
+                            }else{
+                                
+                                [self loadUnApplyMoreData];
+                            }
                         };
                     }
                         break;

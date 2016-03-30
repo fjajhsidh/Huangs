@@ -582,11 +582,27 @@
     NSLog(@"xmlStr : %@",returnStr);
     return returnStr;
 }
+
+
+//点击新增：
+
 - (IBAction)savetext:(id)sender {
     self.textfield.text=[self XMLParameter];
     if ([self.textfield.text isEqualToString:@""]||self.textfield.text==nil) {
         return;
     }
+    
+    
+    //金额不一样：
+    if ([self.dict1 objectForKey:@"ybmoney"] != nil) {
+        if (![[self.dict1 objectForKey:@"billmoney"] isEqualToString:[self.dict1 objectForKey:@"ybmoney"]]) {
+            [SVProgressHUD showErrorWithStatus:@"金额不一致，请重新输入"];
+            return;
+        }
+    }
+    
+    
+    
     BianJiViewController *bi =[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
     //新增
    
@@ -599,7 +615,13 @@
     bi.costData2 = _costArr;
    
     bi.dictarry=self.dictarry;
+    bi.isaddka = YES;
     
+//    bi.isaddMoney = YES;
+    bi.addMoney = [bi.wenDicts objectForKey:@"billmoney"];
+    bi.addIndex = _btnIndex;
+    
+
     [self.navigationController popToViewController:bi animated:YES];
     
 }

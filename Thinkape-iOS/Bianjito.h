@@ -16,7 +16,7 @@
 @property(nonatomic,strong)NSMutableArray *updateimage;
 @property(nonatomic,strong)NSMutableArray *imagedate;
 
-@property (nonatomic,assign) long index;
+@property (nonatomic,assign) int index;
 //wo
 @property(nonatomic,strong) NSString * selectType;
 @property(nonatomic,strong)NSMutableDictionary * acceptAddDict;//新增明细接收的字典
@@ -33,4 +33,7 @@
 //点击cell的行数
 @property(nonatomic,assign)int iscellindes;
 @property(nonatomic,strong)NSMutableDictionary *dilct;
+
+
+@property (nonatomic,copy)NSString *oldMoney;
 @end

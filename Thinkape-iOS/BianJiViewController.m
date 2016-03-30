@@ -98,10 +98,28 @@
     return self;
 }
 
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    
+    [self costScrollView];
+    
+    
+}
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.selectedion=1;
+    self.isaddMoney = NO;
+    self.isTransform = NO;
+    
+    
     
     UIButton *iconb =[[UIButton alloc] initWithFrame:CGRectMake(5, 0, 40, 40)];
     [iconb setBackgroundImage:[UIImage imageNamed:@"back3.png"] forState:UIControlStateNormal];
@@ -1186,11 +1204,40 @@
         //金额数字
         totleMoney.text = model.TotalMoney;
         
+        if (_isTransform == YES) {
+            if (i == _changeIndex) {
+                totleMoney.text = self.changeMoney;
+                model.TotalMoney = self.changeMoney;
+            }
+        }
+        //添加：
+        if (self.isaddka == YES) {
+            if (i == _addIndex) {
+                
+                totleMoney.text = [NSString stringWithFormat:@"%.2lld",[model.TotalMoney longLongValue] + [self.addMoney longLongValue]];
+                model.TotalMoney = totleMoney.text;
+            }
+        }
+        
+        if (self.isdeletes == YES) {
+            
+            totleMoney.text = self.moneyArray[i];
+            model.TotalMoney = totleMoney.text;
+        }
+        
+    
         totleMoney.textAlignment = NSTextAlignmentCenter;
         [btn addSubview:totleMoney];
         
         [scroll addSubview:btn];
     }
+    
+    
+    
+    self.isTransform = NO;
+    self.isaddka = NO;
+    self.isdeletes = NO;
+    
     return scroll;
 }
 //
@@ -1211,10 +1258,17 @@
     vc.costDataArr = _costData2;
     
     vc.dilct = self.dictarry;
+    
+    
+    //拿到一开始的值
+
+    CostLayoutModel *model = [_costLayoutArray2 safeObjectAtIndex:btn.tag];
+    
+    vc.oldMoney = model.TotalMoney;
+    
     [self.navigationController pushViewController:vc animated:YES];
 
-   
-
+    [self.tableview setContentOffset:CGPointMake(0, 0) animated:YES];
    
 }
 
@@ -1232,8 +1286,7 @@
             [returnStr appendFormat:@"%@,",model.iuserid];
         }
     }
-    
-    
+
     return returnStr;
 }
 
@@ -1251,8 +1304,6 @@
 {
     NSMutableString *xmlStr = [NSMutableString string];
     
-  
-   
     int i = 0;
     for (LayoutModel *layoutModel in _mainLayoutArray) {
         NSString *value = [self.XMLParameterDic objectForKey:layoutModel.fieldname];
@@ -1267,7 +1318,6 @@
         }else{
         
         }
-
         
         NSString *ids = [self.tableViewDic objectForKey:layoutModel.fieldname];
     
