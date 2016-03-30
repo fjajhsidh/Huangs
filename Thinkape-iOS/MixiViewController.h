@@ -12,7 +12,7 @@
 @property(nonatomic,assign)long index;
 @property(nonatomic,strong)NSMutableArray *costatrraylost;
 @property(nonatomic,strong)NSMutableArray *costarrdate;
-@property(nonatomic,strong)NSString *dexcel;
+
 
 @property(nonatomic,strong)NSMutableDictionary *dict2;
 //wo
@@ -20,7 +20,7 @@
 @property(nonatomic,assign)BOOL hudong;
 @property(nonatomic,assign)int indexsele;
 @property (nonatomic , strong) UIView * calculatorView;
-@property(nonatomic) BOOL delaysContentTouches;
+
 //删除的字典
 @property(nonatomic,strong)NSMutableDictionary *dictarry;
 @end

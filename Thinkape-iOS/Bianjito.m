@@ -63,7 +63,7 @@
    
     app.indexpage = _index;
     [self addLeftNavgation];
-//    self.dilct =[NSMutableDictionary dictionary];
+
     
 }
 -(void)addRightNavgation{
@@ -95,7 +95,7 @@
     
     
     //删除
-    bianji.isdeletes=YES;
+    
     
     bianji.isChanges=YES;
     //删除的grid
@@ -202,12 +202,12 @@
         
         
     }
-    //
+    
     else{
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(12, 0, width, 50)];
         bgView.tag = 304;
         for (int i = 0; i < model.fileds.count + 1; i++) {
-            //            UILabel *label;
+           
             UIButton *button;
             if (i == 0 ) {
                 label = [[UILabel alloc] initWithFrame:CGRectMake(35,14, 40, 15)];
@@ -222,7 +222,6 @@
             label.textColor = [UIColor colorWithHexString:@"333333"];
             label.textAlignment = NSTextAlignmentCenter;
             button=[[UIButton alloc] initWithFrame:CGRectMake(bgView.frame.origin.x-speace+(itemWidth+speace)*(i-1)-10, 14, itemWidth, 15)];
-            //            button.font=[UIFont systemFontOfSize:13];
             button.titleLabel.font = [UIFont systemFontOfSize:13];
             button.tag=i;
             [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
@@ -298,40 +297,6 @@
     return cell;
     
 }
-
-
--(void)saveto:(NSMutableDictionary *)save
-{
-    NSDictionary *dic =@{@"sda":save};
-    [dic writeToFile:[self filePath] atomically:YES];
-}
--(void)readtodate:(NSMutableDictionary *)read
-{
-    NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
-    read= [dic objectForKey:@"sda"];
-}
--(void)savetoarray:(NSString *)save
-{
-    NSDictionary *dic =@{@"sda":save};
-    [dic writeToFile:[self filePath] atomically:YES];
-}
--(void)readtoarray:(NSString *)read
-{
-    NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self fileArray]];
-    read= [dic objectForKey:@"sda"];
-}
--(NSString *)fileArray{
-    NSString *documentsPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
-    NSString *filePath =[documentsPath stringByAppendingPathComponent:@"array.txt"];
-    NSLog(@"文件夹位置%@",filePath);
-    return filePath;
-}
--(NSString *)filePath{
-    NSString *documentsPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
-    NSString *filePath =[documentsPath stringByAppendingPathComponent:@"su.txt"];
-    NSLog(@"文件夹位置%@",filePath);
-    return filePath;
-}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row==1||indexPath.row==0) {
@@ -347,7 +312,7 @@
     
     LayoutModel *layoutModel = [model.fileds safeObjectAtIndex:label.tag -1];
     _indexRow = indexPath.row-2;
-//    if (self.editstart==YES) {
+
     
     _datar = [_dataArr safeObjectAtIndex:indexPath.row-2];
     
@@ -397,8 +362,6 @@
     NSLog(@"button%ld",sender.tag);
     //点击的那个字典需要取id
     NSMutableDictionary *deleteDic =[aler safeObjectAtIndex:self.iscellindes];
-//    [Costarry replaceObjectAtIndex:select withObject:aler];
-//    _costDataArr= Costarry;
     CostLayoutModel *model = [self.costLayoutArray safeObjectAtIndex:_index];
  
     if([deleteDic objectForKey:@"billdetailid"]!=nil && ![[deleteDic objectForKey:@"billdetailid"] isEqualToString:@""]){

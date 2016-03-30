@@ -10,28 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/BianJiViewController.m"
-            timestampString = "480939981.361375"
+            timestampString = "480999859.343014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1546"
-            endingLineNumber = "1546"
-            landmarkName = "-XMLParameter"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Thinkape-iOS/BianJiViewController.m"
-            timestampString = "480939981.361375"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1440"
-            endingLineNumber = "1440"
-            landmarkName = "-costDetails:"
+            startingLineNumber = "1444"
+            endingLineNumber = "1444"
+            landmarkName = "-saveBills:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/MixiViewController.m"
-            timestampString = "480937692.352051"
+            timestampString = "480999555.162798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "-savetolist"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/Bianjiviewtableview.m"
-            timestampString = "480924946.293887"
+            timestampString = "480999555.162798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "949"
-            endingLineNumber = "949"
+            startingLineNumber = "830"
+            endingLineNumber = "830"
             landmarkName = "-savetext:"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,13 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/BianJiViewController.m"
-            timestampString = "480993591.042801"
+            timestampString = "480999859.343014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1746"
-            endingLineNumber = "1746"
-            landmarkName = "-saveBills:"
-            landmarkType = "5">
+            startingLineNumber = "1640"
+            endingLineNumber = "1640">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -90,29 +72,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/BianJiViewController.m"
-            timestampString = "480993591.042801"
+            timestampString = "480999859.343014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1751"
-            endingLineNumber = "1751"
-            landmarkName = "-saveBills:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Thinkape-iOS/BianJiViewController.m"
-            timestampString = "480993591.042801"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1733"
-            endingLineNumber = "1733"
-            landmarkName = "-saveBills:"
-            landmarkType = "5">
+            startingLineNumber = "1622"
+            endingLineNumber = "1622">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -138,11 +102,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/Bianjito.m"
-            timestampString = "480939981.361375"
+            timestampString = "480998293.338319"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "379"
-            endingLineNumber = "379"
+            startingLineNumber = "344"
+            endingLineNumber = "344"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -154,28 +118,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/BianJiViewController.m"
-            timestampString = "480939981.361375"
+            timestampString = "480999859.343014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1343"
-            endingLineNumber = "1343"
-            landmarkName = "-costDetails:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Thinkape-iOS/BianJiViewController.m"
-            timestampString = "480939981.361375"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1354"
-            endingLineNumber = "1354"
-            landmarkName = "-costDetails:"
+            startingLineNumber = "1243"
+            endingLineNumber = "1243"
+            landmarkName = "-isPureInt:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -186,11 +134,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/MixiViewController.m"
-            timestampString = "480940129.318196"
+            timestampString = "480999555.162798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
             landmarkName = "-savetolist"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,11 +150,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/MixiViewController.m"
-            timestampString = "480940130.541339"
+            timestampString = "480999555.162798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "-savetolist"
             landmarkType = "5">
          </BreakpointContent>
@@ -218,11 +166,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/Bianjiviewtableview.m"
-            timestampString = "480940229.339902"
+            timestampString = "480999555.162798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "634"
-            endingLineNumber = "634"
+            startingLineNumber = "537"
+            endingLineNumber = "537"
             landmarkName = "-saveItemsToDB:callbakc:"
             landmarkType = "5">
             <Locations>
@@ -234,11 +182,11 @@
                   moduleName = "Thinkape-iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yangxuhui/Desktop/%E5%AE%89%E8%A3%85cocoapods/Huangs/Thinkape-iOS/Bianjiviewtableview.m"
-                  timestampString = "480993592.205851"
+                  timestampString = "480999860.617254"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "634"
-                  endingLineNumber = "634"
+                  startingLineNumber = "537"
+                  endingLineNumber = "537"
                   offsetFromSymbolStart = "124">
                </Location>
                <Location
@@ -249,11 +197,11 @@
                   moduleName = "Thinkape-iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yangxuhui/Desktop/%E5%AE%89%E8%A3%85cocoapods/Huangs/Thinkape-iOS/Bianjiviewtableview.m"
-                  timestampString = "480993592.205983"
+                  timestampString = "480999860.617653"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "634"
-                  endingLineNumber = "634"
+                  startingLineNumber = "537"
+                  endingLineNumber = "537"
                   offsetFromSymbolStart = "48">
                </Location>
             </Locations>
@@ -266,11 +214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/Bianjiviewtableview.m"
-            timestampString = "480940244.175781"
+            timestampString = "480999555.162798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "612"
-            endingLineNumber = "612"
+            startingLineNumber = "515"
+            endingLineNumber = "515"
             landmarkName = "-requestKindsDataSource:dataVer:"
             landmarkType = "5">
             <Locations>
@@ -282,11 +230,11 @@
                   moduleName = "Thinkape-iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yangxuhui/Desktop/%E5%AE%89%E8%A3%85cocoapods/Huangs/Thinkape-iOS/Bianjiviewtableview.m"
-                  timestampString = "480993592.206727"
+                  timestampString = "480999860.621254"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "612"
-                  endingLineNumber = "612"
+                  startingLineNumber = "515"
+                  endingLineNumber = "515"
                   offsetFromSymbolStart = "344">
                </Location>
                <Location
@@ -297,11 +245,11 @@
                   moduleName = "Thinkape-iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yangxuhui/Desktop/%E5%AE%89%E8%A3%85cocoapods/Huangs/Thinkape-iOS/Bianjiviewtableview.m"
-                  timestampString = "480993592.206851"
+                  timestampString = "480999860.6217"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "612"
-                  endingLineNumber = "612"
+                  startingLineNumber = "515"
+                  endingLineNumber = "515"
                   offsetFromSymbolStart = "77">
                </Location>
             </Locations>
@@ -314,11 +262,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/Bianjiviewtableview.m"
-            timestampString = "480940260.806031"
+            timestampString = "480999555.162798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "609"
-            endingLineNumber = "609"
+            startingLineNumber = "512"
+            endingLineNumber = "512"
             landmarkName = "-requestKindsDataSource:dataVer:"
             landmarkType = "5">
          </BreakpointContent>
@@ -330,11 +278,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/Bianjiviewtableview.m"
-            timestampString = "480940294.532019"
+            timestampString = "480999555.162798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "-selectItem:ID:view:"
             landmarkType = "5">
          </BreakpointContent>
@@ -346,11 +294,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/Bianjiviewtableview.m"
-            timestampString = "480940302.114343"
+            timestampString = "480999555.162798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "308"
-            endingLineNumber = "308"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
             landmarkName = "-selectItem:ID:view:"
             landmarkType = "5">
          </BreakpointContent>
@@ -362,12 +310,26 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Thinkape-iOS/BianJiViewController.m"
-            timestampString = "480940364.848272"
+            timestampString = "480999859.343014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "331"
-            endingLineNumber = "331"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "1621"
+            endingLineNumber = "1621">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Thinkape-iOS/Bianjito.m"
+            timestampString = "480997853.529312"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -377,13 +339,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Thinkape-iOS/BianJiViewController.m"
-            timestampString = "480940366.147128"
+            filePath = "Thinkape-iOS/StayApprovalViewController.m"
+            timestampString = "480998583.893123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "332"
-            endingLineNumber = "332"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "-refreshUnApplyData"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -393,44 +355,60 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Thinkape-iOS/BianJiViewController.m"
-            timestampString = "480993591.042801"
+            filePath = "Thinkape-iOS/StayApprovalViewController.m"
+            timestampString = "480998635.48427"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1732"
-            endingLineNumber = "1732"
-            landmarkName = "-saveBills:"
+            startingLineNumber = "394"
+            endingLineNumber = "394"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Thinkape-iOS/BillsListViewController.m"
+            timestampString = "480999852.914394"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "-viewWillDisappear:"
             landmarkType = "5">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[BianJiViewController saveBills:]"
+                  symbolName = "-[BillsListViewController viewWillDisappear:]"
                   moduleName = "Thinkape-iOS"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yangxuhui/Desktop/%E5%AE%89%E8%A3%85cocoapods/Huangs/Thinkape-iOS/BianJiViewController.m"
-                  timestampString = "480993592.210388"
+                  urlString = "file:///Users/yangxuhui/Desktop/%E5%AE%89%E8%A3%85cocoapods/Huangs/Thinkape-iOS/BillsListViewController.m"
+                  timestampString = "480999860.629438"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1732"
-                  endingLineNumber = "1732"
-                  offsetFromSymbolStart = "1414">
+                  startingLineNumber = "36"
+                  endingLineNumber = "36"
+                  offsetFromSymbolStart = "137">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[BianJiViewController saveBills:]"
+                  symbolName = "__45-[BillsListViewController viewWillDisappear:]_block_invoke"
                   moduleName = "Thinkape-iOS"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yangxuhui/Desktop/%E5%AE%89%E8%A3%85cocoapods/Huangs/Thinkape-iOS/BianJiViewController.m"
-                  timestampString = "480993592.210515"
+                  urlString = "file:///Users/yangxuhui/Desktop/%E5%AE%89%E8%A3%85cocoapods/Huangs/Thinkape-iOS/BillsListViewController.m"
+                  timestampString = "480999860.629786"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1732"
-                  endingLineNumber = "1732"
-                  offsetFromSymbolStart = "1464">
+                  startingLineNumber = "36"
+                  endingLineNumber = "36"
+                  offsetFromSymbolStart = "12">
                </Location>
             </Locations>
          </BreakpointContent>

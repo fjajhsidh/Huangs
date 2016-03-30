@@ -36,7 +36,6 @@
 #import "AppDelegate.h"
 #import "MiXimodel.h"
 #import "BillsListViewController.h"
-#import "MOEL.h"
 @interface BianJiViewController ()<UITableViewDataSource,UITableViewDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIAlertViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UIActionSheetDelegate,KindsItemsViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 
@@ -58,22 +57,18 @@
 //试验用
 @property (strong, nonatomic) KindsModel *selectModel;
 @property (strong, nonatomic) KindsPickerView *kindsPickerView;
-@property(nonatomic,strong)NSMutableArray *datestring;
+
 @property(nonatomic,strong)DatePickerView *datePickerView;
 @property(nonatomic,strong)NSMutableDictionary *XMLParameterDic;
 @property(nonatomic,strong)UITextField *textfield;
-@property(nonatomic,strong)UITextField *textstring;
 
 @property(nonatomic,strong)NSMutableArray *arrytext;
 
-@property(nonatomic,assign)BOOL ishideto;
 @property(nonatomic,copy)NSString *str;
 @property(nonatomic,strong)NSMutableArray *dataArry;
 //删除的grad
 @property(nonatomic,copy) NSString *delete;
 @property(nonatomic,strong)NSMutableDictionary *deledict;
-//wo
-
 
 @property(nonatomic,strong)NSMutableDictionary *dictArray;
 @property(nonatomic,strong)CostLayoutModel *coster;
@@ -128,10 +123,7 @@
     _pathFlow = [[NSMutableArray alloc] init];
     _selectModel=[[KindsModel alloc] init];
     _arrytext=[NSMutableArray array];
-    
-    self.datestring=[[NSMutableArray alloc] init];
-    
-    //存右边栏数据的字典
+     //存右边栏数据的字典
     self.tableViewDic=[[NSMutableDictionary alloc]init];
     self.XMLParameterDic=[[NSMutableDictionary alloc]init];
     
@@ -141,7 +133,7 @@
     self.textfield=[[UITextField alloc] initWithFrame:CGRectMake(140, 5, 170, 30)];
     self.textfield.textAlignment=NSTextAlignmentCenter;
     self.textfield.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
-    self.textstring=[[UITextField alloc] init];
+    
     
     if (self.kindsPickerView) {
         self.kindsPickerView = [[[NSBundle mainBundle] loadNibNamed:@"KindsPickerView" owner:self options:nil] lastObject];
@@ -159,7 +151,7 @@
     [self requestDataSource];
     
     [self addFooterView];
-//    [self readtodate];
+
     self.dictarry =[NSMutableDictionary dictionary];
     self.deledict =[NSMutableDictionary dictionary];
    //保存删除字表id
@@ -171,7 +163,7 @@
 
 -(void)pulltoreturn
 {
-    //    BillsListViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"BillsListView"];
+ 
     NSArray *temArray =self.navigationController.viewControllers;
     for (UIViewController *ter in temArray) {
         if ([ter isKindOfClass:[BillsListViewController class]]) {
@@ -229,11 +221,7 @@
                           
                           NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
                         
-                          
-                          //                          NSLog(@"%@=%@=%@",[self.tableViewDic class],[_mainData class],[dataArr class]);
-                          //                          [self.tableViewDic setObject:_mainData forKey:dataArr];
-                          //                          NSLog(@"%@=%@=%@",[self.tableViewDic class],[_mainData class],[dataArr class]);
-                          //                          [self addCommintBtn];
+            
                           
                           [_costData2 addObjectsFromArray:[dataArr objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, _costLayoutArray2.count)]]];
                           
@@ -295,7 +283,6 @@
         number = _mainLayoutArray.count + 1;
         
         if ([self isUnCommint]) {
-            //            number = _mainLayoutArray.count + 2;
             number = _mainLayoutArray.count + 2;
             
         }
@@ -303,22 +290,9 @@
     }
     else
         
-        //        number = _mainLayoutArray.count + 2;
-        number = _mainLayoutArray.count + 2;
-    //                  }
-    //            break;
-    //        case 1:{
-    //            number = self.dataArray.count;
-    //
-    //        }
-    //            break;
-    //        case 2:{
-    //            number = self.pathFlow.count;
-    //        }
-    //            break;
-    //        default:
-    //            break;
-    //    }
+      
+    number = _mainLayoutArray.count + 2;
+
     return number;
 }
 
@@ -337,9 +311,7 @@
     [subView removeFromSuperview];
     [subView1 removeFromSuperview];
     
-    //    self.tableViewDic = [_mainData safeObjectAtIndex:0];
-    //    NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
-    //    cell.lineViewHeight.constant = 0.5f;
+ 
     
     if (indexPath.row < _mainLayoutArray.count) {
         LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row];
@@ -351,7 +323,7 @@
         
         cell.textfield.text= value;
         
-//        value = [self.XMLParameterDic objectForKey:model.fieldname];
+
         if (model.ismust==1&& indexPath.row!= _mainLayoutArray.count&&indexPath.row!=_mainLayoutArray.count+2) {
             cell.textfield.placeholder=@"不能为空";
         }
@@ -364,9 +336,7 @@
             cell.textfield.placeholder=@"";
         }
         
-        //wo
-        NSLog(@"细嗅编辑%@=%@",model.name,model.fieldname);
-        NSLog(@"model.fieldname的model：%@ self.tableViewDic的cell:%@",model.fieldname,self.tableViewDic);
+       
         
         
         cell.textfield.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
@@ -398,9 +368,9 @@
         }
         
         if ([model.fieldname isEqualToString:@"totalmoney"]) {
-            //            cell.leftlabel.textColor = [UIColor hex:@"f23f4e"];
+            
             cell.leftlabel.textColor=[UIColor hex:@"f23f4e"];
-            //        }
+           
             
         }
         
@@ -412,9 +382,7 @@
     if (indexPath.row == _mainLayoutArray.count) {
         
         cell.leftlabel.text =nil;
-        
-        //         [cell.rightButton setTitle:@"" forState:UIControlStateNormal];
-        //        [cell.contentView addSubview:[self costScrollView]];
+       
         cell.textfield.text=nil;
         cell.textfield.placeholder= nil;
         
@@ -422,18 +390,7 @@
     }
     
     
-    //注释看看删不删掉
-    //            else if (indexPath.row > _mainLayoutArray.count - 3 && indexPath.row < _mainLayoutArray.count + 1){
-    //                LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row - 1];
-    //                cell.titleLabel.text = [NSString stringWithFormat:@"%@:",model.name];
-    //                cell.contentLabel.text = [mainDataDic objectForKey:model.fieldname];
-    //                cell.contentLabelHeight.constant = [self fixStr:[mainDataDic objectForKey:model.fieldname]];
-    //                if ([model.fieldname isEqualToString:@"totalmoney"]) {
-    //                    cell.contentLabel.textColor = [UIColor hex:@"f23f4e"];
-    //                }
-    //                else
-    //                    cell.contentLabel.textColor = [UIColor hex:@"333333"];
-    //            }
+
     else if (indexPath.row == _mainLayoutArray.count + 1){
         cell.leftlabel.text =nil;
         cell.textfield.text=nil;
@@ -444,9 +401,7 @@
             bgView = [[UIView alloc] initWithFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (SCREEN_WIDTH - 36) * 0.75)];
             bgView.tag = 204;
         }
-        //        AppDelegate *app =[UIApplication sharedApplication].delegate;
-        //        app.uptateimage=_uploadArr;
-        //        app.imagedate=_imageArray;
+       
         
         NSInteger count = _imageArray.count + _uploadArr.count;
         CGFloat speace = 15.0f;
@@ -488,7 +443,7 @@
     
     CGFloat rowHeight = 0.0f;
     
-    //    if (self.selectedIndex == 0) {
+  
     NSDictionary *mainDataDic = [_mainData safeObjectAtIndex:0];
     if (indexPath.row == _mainLayoutArray.count + 1 && _uploadArr.count != 0){
         NSInteger count = _imageArray.count + _uploadArr.count;
@@ -510,11 +465,7 @@
         int row = count / 3 + 1;
         return (speace + imageWidth) * row + 10;
     }
-    //看看要不要删掉
-    //        else if (indexPath.row > _mainLayoutArray.count - 3 && indexPath.row < _mainLayoutArray.count + 1){
-    //           LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row - 1];
-    //           rowHeight = [self fixStr:[mainDataDic objectForKey:model.fieldname]] + 20;
-    //        }
+    
     else if (indexPath.row < _mainLayoutArray.count){
         LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row];
         rowHeight = [self fixStr:[mainDataDic objectForKey:model.fieldname]] + 20;
@@ -538,27 +489,8 @@
 
 - (void)selectItem:(NSString *)name ID:(NSString *)ID view:(KindsItemsView *)view{
     
-    //    LayoutModel *model = [_mainLayoutArray safeObjectAtIndex:indexPath.row];
-    //
-    //
-    //    cell.leftlabel.text = [NSString stringWithFormat:@"%@:",model.name];
-    //    cell.textfield.text= [NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:model.fieldname]];
-    
-    NSInteger tag = view.tag;
-    //    LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:self.textfield.tag];
+       NSInteger tag = view.tag;
     LayoutModel *layoutModel = [self.mainLayoutArray safeObjectAtIndex:self.textfield.tag];
-    NSLog(@"tag:%lu",tag);
-    
-    NSLog(@"模型：%@",layoutModel);
-    NSLog(@"值和ID%@%@",name,ID);
-    NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
-    NSLog(@"%@",layoutModel.fieldname);
-    //    NSString *str=[NSString stringWithFormat:@"%@",[self.tableViewDic objectForKey:layoutModel.name]];
-    NSLog(@"要%@",layoutModel.fieldname);
-    
-    
-    //    NSLog(@"str:%@  self.tableViewDic:%@",str,self.tableViewDic);
-    
     [self.tableViewDic setObject:name forKey:layoutModel.fieldname];
     [self.XMLParameterDic setObject:ID forKey:[NSString stringWithFormat:@"%@%@",layoutModel.fieldname,@"_id"]];
     NSLog(@"值键%@=%@",layoutModel.fieldname,layoutModel.name);
@@ -589,29 +521,17 @@
         i++;
         [self.XMLParameterDic setObject:idStr forKey:layoutModel.fieldname];
         [self.XMLParameterDic setObject:nameStr forKey:layoutModel.fieldname];
-//        [self.tableview reloadData];
-        //        self.textfield.text=nameStr;
-        //        self.ishideto =YES;
-        NSLog(@"FFFFFFFFFFFFFFFFFFFF%@",self.textstring.text);
+
+     
         
     }
     
     
     
-    //    [self.XMLParameterDic setObject:idStr forKey:layoutModel.fieldname];
-    //    [self.tableViewDic setObject:nameStr forKey:layoutModel.fieldname];
+   
     
     [self.tableview reloadData];
 }
-
-
-
--(void)aller
-{
-    NSLog(@">>>>>>>");
-}
-
-
 #pragma mark-UItextFieldDelegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
@@ -622,11 +542,9 @@
     
     NSLog(@"tag值：%ld",textField.tag);
     
-    //    self.textstring.tag=textField.tag;
-    //    self.textstring=textField;
+   
     NSIndexPath *path =[self.tableview indexPathForSelectedRow];
     NSLog(@"path值：%@",path);
-//    BianjiTableViewCell *cell =[self.tableview cellForRowAtIndexPath:path];
     
     if (![model.datasource isEqualToString:@"0"]&&![model.sqldatatype isEqualToString:@"date"]) {
     
@@ -641,7 +559,7 @@
         if ([model.sqldatatype isEqualToString:@"date"]){
             
             
-            //            self.textfield.font=[UIFont systemFontOfSize:13];
+         
             
             [self removeViewFromSuperview];
             
@@ -698,10 +616,9 @@
                 
             }
             
-            //            }
+           
         }
-//        [self.XMLParameterDic setObject:textField.text forKey:model.fieldname];
-//        [self.tableViewDic setObject:textField.text forKey:model.fieldname];
+
     }
     
     [self.XMLParameterDic setObject:textField.text forKey:model.fieldname];
@@ -748,8 +665,7 @@
 
 
 - (void)requestKindsDataSource:(LayoutModel *)model dataVer:(NSString *)Dataver{
-    //model.dataver
-    //[RequestCenter GetRequest:[NSString stringWithFormat:@"ac=GetDataSourceNew&u=%@&datasource=%@&dataver=0",self.uid,model.datasource]
+
     //http://localhost:53336/WebUi/ashx/mobilenew.ashx?ac=GetDataSource&u=9& datasource =400102&dataver=1.3
     NSInteger tag= [self.mainLayoutArray indexOfObject:model];
     if ([model.datasource containsString:@"_code"]) {
@@ -880,22 +796,8 @@
 }
 #pragma mark-本地化保存self.textfield.text
 
-//本地保存
--(void)savetoDb
-{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if (self.textfield.text.length!=0) {
-        [userDefaults setObject:self.textfield.text forKey:@"text"];
-        
-    }
-}
-//读取本地保存的数据
--(void)readtoDb
-{
-    NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
-    self.textfield.text=[userdefault stringForKey:@"text"];
-    
-}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -904,14 +806,11 @@
     NSDictionary *mainDataDic = [_mainData safeObjectAtIndex:0];
     return [[mainDataDic objectForKey:@"flowstatus_show"] isEqualToString:@"未提交"] || [[mainDataDic objectForKey:@"flowstatus_show"] isEqualToString:@"已弃审"] || [[mainDataDic objectForKey:@"flowstatus_show"] isEqualToString:@"已退回"];
 }
-//- (void)agreeApprove{
-//    [self singleApprove:_unModel type:@"pass"];
-//}
+
 - (void)resizeFootViewFrame:(NSInteger)type{
     if (type == 0) {
         textFiledHeight = 30;
-        // UIView *view = [self.view viewWithTag:1024];
-        //        self.tableViewBottomConstraint.constant = 60 + textFiledHeight;
+       
         self.beizhuText.frame = CGRectMake(10, 10, CGRectGetWidth(infoView.frame) - 20, textFiledHeight);
         infoView.frame = CGRectMake(10, SCREEN_HEIGHT - 50 - textFiledHeight, SCREEN_WIDTH - 20, 50 + textFiledHeight);
         CGFloat btnWidth = (CGRectGetWidth(infoView.frame) - 40) / 2.0f;
@@ -921,8 +820,7 @@
     else
     {
         textFiledHeight = 0;
-        // UIView *view = [self.view viewWithTag:1024];
-        //        self.tableViewBottomConstraint.constant = 50 + textFiledHeight;
+       
         self.beizhuText.frame = CGRectMake(10, 0, CGRectGetWidth(infoView.frame) - 20, textFiledHeight);
         infoView.frame = CGRectMake(10, SCREEN_HEIGHT - 50 - textFiledHeight, SCREEN_WIDTH - 20, 50 + textFiledHeight);
         CGFloat btnWidth = (CGRectGetWidth(infoView.frame) - 40) / 2.0f;
@@ -930,7 +828,7 @@
         [backBatn setFrame:CGRectMake(CGRectGetMaxX(sureBtn.frame) + 20, CGRectGetMinY(sureBtn.frame), btnWidth, 30)];
     }
     
-    //        lastConstant = self.tableViewBottomConstraint.constant;
+   
 }
 
 - (void)backVC{
@@ -952,22 +850,7 @@
         [subView removeFromSuperview];
     }
     
-    //    CGFloat width = CGRectGetWidth(view.frame);
-    //    CGFloat itemWidth = (width - 4)/3;
-    //    int rows = _uploadArr.count / 3 + 1;
-    //    [view setFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, itemWidth * 0.75 * rows)];
-    //    for (int i = 0; i < _uploadArr.count; i++) {
-    //        int colum = i %3;
-    //        int row = i/3;
-    //        NSString *url = [_uploadArr safeObjectAtIndex:i];
-    //        UIButton *itemView = [UIButton buttonWithType:UIButtonTypeCustom];
-    //
-    //        [itemView setFrame:CGRectMake(colum*(itemWidth + 2), row * (itemWidth * 0.75 + 2), itemWidth, itemWidth * 0.75)];
-    //        itemView.tag = i;
-    //        itemView.userInteractionEnabled  = YES;
-    //        [itemView addTarget:self action:@selector(showImage:) forControlEvents:UIControlEventTouchUpInside];
-    //        [view addSubview:itemView];
-    //                }
+   
     if (_uploadArr.count != 0 || _imageArray.count != 0) {
         NSInteger count = _uploadArr.count;
         CGFloat speace = 15.0f;
@@ -1021,8 +904,6 @@
         int btnCloum = count %3;
         int btnRow = count / 3;
         view.backgroundColor = [UIColor clearColor];
-        //看看都不能删掉，注意只有一行
-        //       NSDictionary *mainDataDic = [_mainData safeObjectAtIndex:0];
         if ([self isUnCommint]) {
             UIButton *addImage = [UIButton buttonWithType:UIButtonTypeCustom];
             [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * btnCloum, speace + (speace + imageWidth) * btnRow, imageWidth, imageWidth)];
@@ -1099,26 +980,14 @@
             [self presentViewController:picker animated:YES completion:nil];
             
         }
-        //    }else{
-        //
+       
         if (buttonIndex==0) {
             
             
             [self.navigationController popViewControllerAnimated:YES];
-            //              [RequestCenter GetRequest:[NSString stringWithFormat:@"ac=AutoCreate&u=1&sourceprogramid=%@&targetprogramid=%@&billid=%@",self.uid,_unModel.SourceProgramID,_unModel.TargetProgramID,_unModel.billid,]] parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-            //          NSArray *msg = [responseObject objectForKey:@"msg"];
-            //          for (NSDictionary *dict in msg) {
-            //              if ([[dict objectForKey:@"title"] isEqualToString:@"差旅费用报销"]) {
-            //
-            //              }
-            //          }
-            //      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            //          <#code#>
-            //      }];
+           
         }
-        //    if (buttonIndex==1) {
-        //        NSLog(@"借款");
-        //    }
+      
     }
 }
 
@@ -1140,17 +1009,12 @@
     NSLog(@"图片的地址str : %@",str);
     
     
-//    [SVProgressHUD showWithMaskType:2];
+
     
     
     [[AFHTTPRequestOperationManager manager] POST:str
                                        parameters:_imageArray.count != 0? @{@"FByte":fbyte} : nil
                                           success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                              //看看能不能删掉
-                                              //                                              if ([[responseObject objectForKey:@"msg"] isEqualToString:@"ok"]) {
-                                              
-                                              
-//
                                               [SVProgressHUD dismiss];
                                               if (index + 1 < _imageArray.count) {
                                
@@ -1169,7 +1033,7 @@
                                                       self.reloadData();
                                                   }
                                               }
-                                              //                                              }
+                                              
                                           }
                                           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                               
@@ -1225,7 +1089,7 @@
 
 
 - (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index{
-    //    UIButton *imageView = (UIButton *)[bgView viewWithTag:index];
+   
     if (browser.tag == 11) {
         return _imageArray[index];
     }
@@ -1309,10 +1173,7 @@
         [btn setFrame:CGRectMake(i*(60 + 35), 10, 57, 57)];
         [btn addTarget:self action:@selector(costDetails:) forControlEvents:UIControlEventTouchUpInside];
         btn.contentMode = UIViewContentModeScaleAspectFit;
-        //        [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.photopath]]
-        //                                 forState:UIControlStateNormal
-        //                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        //                                }];
+     
         [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.photopath]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"ab_nav_bg.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             
         }];
@@ -1336,7 +1197,7 @@
 
 -(void)costDetails:(UIButton *)btn
 {
-    //    CostDetailViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CostDetailVC"];
+   
    
     Bianjito *vc = [[Bianjito alloc] init];
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -1348,153 +1209,17 @@
     vc.index=btn.tag;
     
     vc.costDataArr = _costData2;
-   
+    
     vc.dilct = self.dictarry;
     [self.navigationController pushViewController:vc animated:YES];
-//    
-//    vc.index = (int)btn.tag;
-//    if (self.oldDicts.count==0&&self.wenDicts.count==0&&self.isdeletes==NO) {
-//       
-//        vc.costDataArr = _costData2;
-//    
-//       
-//    } else
-//    {
-//        
-//        if (self.bigCost.count==0) {
-//            
-//           
-//            
-//            self.bigCost = [NSMutableArray arrayWithArray:_costData2];
-//            
-//           
-//            NSMutableArray *datearray = [self.bigCost safeObjectAtIndex:indexpate];
-//            //修改的字典
-//            NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
-//            
-//           
-//            
-//            
-//            NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
-//            
-//                if (self.isdeletes==NO) {
-//                    if (NewDic.count!= 0) {
-//                        [alet replaceObjectAtIndex:indx withObject:NewDic];
-//                    }
-//                }
-//            
-//           
-//           
-//            
-//          
-//            
-//            [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
-//            NSMutableArray *date =[self.bigCost safeObjectAtIndex:indexpate];
-//            _dictArray =[date objectAtIndex:indx];
-//            [self saveto];
-//            //可以删掉
-//            vc.costDataArr = self.bigCost;
-//            
-//                    }
-//        if (self.bigCost.count!=0) {
-//            [self readtodate];
-//          
-//            
-//                self.bigCost = [NSMutableArray arrayWithArray:_costData2];
-//            
-//            NSMutableArray *datearray = [self.bigCost safeObjectAtIndex:indexpate];
-//            //修改的字典
-//            NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithDictionary:self.oldDicts];
-//            //新增的字典
-//            NSMutableDictionary *reset = [NSMutableDictionary dictionaryWithDictionary:self.wenDicts];
-//           
-//            
-//            NSMutableArray *alet = [NSMutableArray arrayWithArray:datearray];
-//            /// 有问题
-//           
-//                
-//            
-//            if (self.isdeletes==NO) {
-//                if (NewDic.count !=0) {
-//                    [alet replaceObjectAtIndex:indx withObject:NewDic];
-//                }
-//            }
-//           
-//            if (self.isdeletes==NO) {
-//                if (self.isaddka==YES) {
-//                    if (reset.count !=0) {
-//                        
-//                        [alet addObject:reset];
-//                    }
-//                    self.isaddka=NO;
-//                }
-//            }
-//          
-//            
-    
-           
-           
-            
-         //  [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
-            //实验删除
-            
-                
-            
-//            if (self.isdeletes==YES) {
-//                self.bigCost= [NSMutableArray arrayWithArray:_costData2];
-//                [self saveto];
-//                
-//                self.isdeletes=NO;
-//                
-//            }else
-//            {
-//                [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
-//            }
-//            if (self.isdeletes==YES) {
-//            self.bigCost= [NSMutableArray arrayWithArray:_costData2];
-//            [self saveto];
-//                
-//            self.isdeletes=NO;
-//                                
-//            }
-//            [self.bigCost replaceObjectAtIndex:indexpate withObject:alet];
-            
-//            [self saveto];
-            //可以删掉
-           // vc.costDataArr = self.bigCost;
-        
-       // }
-       
-        
-     //  vc.costDataArr = self.bigCost;
-       
-        
-        
-        
-      
-        
-//    }
 
    
 
    
 }
--(void)saveto
-{
-    NSDictionary *dic =@{@"sda":self.bigCost};
-    [dic writeToFile:[self filePath] atomically:YES];
-}
--(void)readtodate
-{
-    NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
-   self.bigCost= [dic objectForKey:@"sda"];
-}
--(NSString *)filePath{
-    NSString *documentsPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
-    NSString *filePath =[documentsPath stringByAppendingPathComponent:@"HuiBs.txt"];
-    NSLog(@"文件夹位置%@",filePath);
-    return filePath;
-}
+
+
+
 - (NSString *)appendStr:(NSArray *)arr{
     
     NSMutableString *returnStr = [NSMutableString string];
@@ -1511,22 +1236,9 @@
     
     return returnStr;
 }
--(void)saveDict
-{
-    NSDictionary *dic =@{@"Dict":self.dictarry};
-    [dic writeToFile:[self filePathdict] atomically:YES];
-}
--(void)readtodict
-{
-    NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
-    self.dictarry= [dic objectForKey:@"Dict"];
-}
--(NSString *)filePathdict{
-    NSString *documentsPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
-    NSString *filePath =[documentsPath stringByAppendingPathComponent:@"XuHui.txt"];
-    NSLog(@"文件夹位置%@",filePath);
-    return filePath;
-}
+
+
+
 - (BOOL)isPureInt:(NSString*)string{
     NSScanner* scan = [NSScanner scannerWithString:string];
     int val;
@@ -1539,8 +1251,7 @@
 {
     NSMutableString *xmlStr = [NSMutableString string];
     
-    //XMLParameterDic
-    //tableViewDic   字段
+  
    
     int i = 0;
     for (LayoutModel *layoutModel in _mainLayoutArray) {
@@ -1556,8 +1267,7 @@
         }else{
         
         }
-//        
-//        NSString *strs =[NSString stringWithFormat:@"%@%@",layoutModel.fieldname,@"_show"];
+
         
         NSString *ids = [self.tableViewDic objectForKey:layoutModel.fieldname];
     
@@ -1598,20 +1308,6 @@
   
     NSMutableString *string =[NSMutableString string];
     [string appendFormat:@"%@",@"<Detail>"];
-    
-    
-//    [self readtodate];
-    //删除的时候拿的数组
-//    if (self.isdeletes==YES) {
-//        self.bigCost =[NSMutableArray arrayWithArray:_costData2];
-//    }
-    
-   
-//    for (int d =0; d<self.costLayoutArray2.count; d++) {
-//        _coster =[self.costLayoutArray2 objectAtIndex:d];
-//        
-//    }
-   
     for (int i=0;i<_costLayoutArray2.count;i++) {
         CostLayoutModel *model =[_costLayoutArray2 objectAtIndex:i];
         NSString *groundmain =model.gridmainid;
@@ -1662,20 +1358,7 @@
     
     NSLog(@"++++++++%@",string);
     return string;
-//    for (int i=0; i<_costData2.count; i++) {
-//        NSMutableArray *daarry = [_costData2 safeObjectAtIndex:i];
-//        for (int c=0; c<daarry.count; c++) {
-//            _dictArray = [daarry objectAtIndex:c];
-//            
-//          
-//        }
-//       
-//    }
-//    for (MiXimodel *model in _costData2) {
-//        NSString *value =[_dictArray objectForKey:model.fieldname];
-//        NSLog(@"++++++++++++++%@",value);
-//    }
-//    
+  
    
 }
 
@@ -1727,7 +1410,7 @@
             
             
             
-            //       NSString *adx =[se]
+          
             
         }
     
@@ -1741,9 +1424,6 @@
     }
     NSString *gridmainid;
     NSString *programid;
-    
-//    NSString *appStr =@"Data";
-//    NSString * ac1 = [NSString stringWithFormat:@"%@%@",ac,appStr];
     
     gridmainid = _selectModel.gridmainid;
     programid = _selectModel.programid;
@@ -1764,7 +1444,7 @@
                                            NSString *af =[responseObject objectForKey:@"error"];
                                            long a = [af integerValue];
                                            if (a !=0) {
-//                                                [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
+
                                              
                                                
                                             [SVProgressHUD showSuccessWithStatus:[responseObject objectForKey:@"msg"]];
@@ -1909,19 +1589,10 @@
 //保存文件
 -(void)safefield
 {
-    //    if (_type==0) {
-    //        self.newflag=@"yes";
-    //    }else
-    //    {
-    //        self.newflag=@"no";
-    //    }
-    //    [self saveBills:@"SaveCG"];
     
-    //保存字段：
     [self saveBills:@"SaveED"];
     
-    //保存图片
-//    [self uploadImage:0];
+  
 }
 
 //取消按钮的点击事件：

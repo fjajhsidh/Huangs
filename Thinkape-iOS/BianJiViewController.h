@@ -27,9 +27,9 @@
 @property(nonatomic,assign)NSInteger type;
 @property(nonatomic,strong)NSMutableDictionary *oldDicts;
 @property(nonatomic,strong)NSMutableDictionary *wenDicts;
-@property(nonatomic,assign)BOOL isaddka;
+
 @property(nonatomic,strong) NSMutableArray *costData2;
-@property(nonatomic,assign)BOOL isdeletes;
+
 @property(nonatomic,assign)BOOL isChanges;
 @property (nonatomic,strong)NSMutableArray *bigCost;
 //删除的字典
