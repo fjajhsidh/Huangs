@@ -221,9 +221,7 @@
         
         [bgView addSubview:title];
         
-    }
-    
-    else{
+    }else{
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(12, 0, width, 50)];
         bgView.tag = 304;
         for (int i = 0; i < model.fileds.count + 1; i++) {
