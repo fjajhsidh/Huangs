@@ -111,7 +111,7 @@
         [self addFooterView];
     }
     
-    // Do any additional setup after loading the view.
+   
 }
 
 //wo添加申请转报销，申请转借款的按钮

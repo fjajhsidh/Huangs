@@ -29,6 +29,14 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBar.hidden = YES;
+    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self refreshListData];
+    }];
+    
+    self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        [self loadMoreData];
+    }];
+    [self.tableView.header beginRefreshing];
  }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -49,14 +57,6 @@
     UIButton *firstBtn = (UIButton *)[self.topView viewWithTag:10];
     firstBtn.selected = YES;
     
-    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self refreshListData];
-    }];
-
-    self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        [self loadMoreData];
-    }];
-    [self.tableView.header beginRefreshing];
 }
 
 

@@ -112,6 +112,7 @@
     self.calculatorvc=[[CalculatorViewController alloc]init];
     self.calculatorvc.delegate=self;
     self.textfield.delegate=self;
+    self.tableview.bounces=NO;
 }
 
 //返回上一层
@@ -135,21 +136,7 @@
     //
     NSInteger height =0;
     if (indexPath.row != self.coster.fileds.count) {
-        return 40;
-        
-    }else{
-        
-        //            NSInteger count = _imagedatarry.count + _updatearry.count;
-        NSInteger count = _imageupdate.count;
-        CGFloat speace = 15.0f;
-        CGFloat imageWidth = (SCREEN_WIDTH - 4*speace) / 3.0f;
-        //            int row = count / 3 + 1;
-        NSInteger row = count / 3+1;
-        height= (speace + imageWidth) * row;
-        NSLog(@"cell的高度%ld",height);
-        
-        //            return (speace + imageWidth) * row;
-        
+       height= 40;
         
     }
     return height;
@@ -196,11 +183,12 @@
     int number=0;
     CostLayoutModel *model = [self.costatrraylost objectAtIndex:_index];
     if (model.fileds.count!=0) {
-        number=model.fileds.count+1;
+        //减少一行
+        number=model.fileds.count;
     }
     return number;
     
-    NSLog(@"返回的是哪个")
+    
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -230,261 +218,11 @@
     cell.detailtext.delegate=self;
     cell.detailtext.tag=indexPath.row;
 
-    if (indexPath.row==self.coster.fileds.count) {
-        [cell.textlabel removeFromSuperview];
-        [cell.detailtext removeFromSuperview];
-        
-        if (!bgView) {
-            bgView = [[UIView alloc] initWithFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (SCREEN_WIDTH - 36) * 0.75)];
-            bgView.tag = 204;
-        }
-        NSInteger count = _imageupdate.count + _updateImage.count;
-        CGFloat speace = 15.0f;
-        CGFloat imageWidth = (SCREEN_WIDTH - 36 -4*speace) / 3.0f;
-        long row = count / 3 + 1;
-        [bgView setFrame:CGRectMake(18, 0, SCREEN_WIDTH - 36, (speace + imageWidth) * row)];
-        [bgView removeFromSuperview];
-        [self addItems:bgView];
-        [cell.contentView addSubview:bgView];
-    }
-    
+   //加号删除
     cell.selectionStyle=UITableViewCellAccessoryNone;
 
     return cell;
     
-}
-
-- (CGFloat )fixStr:(NSString *)str{
-    CGRect frame = [str boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.frame) - 115, 99999) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil];
-    return  frame.size.height >=0 ? frame.size.height : 20;
-}
-
-
-- (void)addItems:(UIView *)view{
-    
-    for (UIView *subView in bgView.subviews) {
-        [subView removeFromSuperview];
-    }
-    
-      if (_updateImage.count != 0 || _imageupdate.count != 0) {
-        NSInteger count = _updateImage.count;
-        CGFloat speace = 15.0f;
-        CGFloat imageWidth = (SCREEN_WIDTH - 36 - 4*speace) / 3.0f;
-        
-        for (int i = 0; i < count; i++) {
-            int cloum = i %3;
-            int row = i / 3;
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [btn setFrame:CGRectMake(speace + (speace + imageWidth) * cloum, speace + (speace + imageWidth) * row, imageWidth, imageWidth)];
-            NSString *url = [_updateImage safeObjectAtIndex:i];
-            if ([self fileType:url] == 1) {
-                [btn setImage:[UIImage imageNamed:@"word"] forState:UIControlStateNormal];
-            }
-            else{
-                [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:url] forState:UIControlStateNormal];
-            }
-            btn.tag = 1024+ i;
-            [btn addTarget:self action:@selector(showImagess:) forControlEvents:UIControlEventTouchUpInside];
-            [bgView addSubview:btn];
-            UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [deleteBtn setFrame:CGRectMake(imageWidth - 32, 0, 32, 32)];
-            [deleteBtn setImage:[UIImage imageNamed:@"deleteBtn"] forState:UIControlStateNormal];
-            deleteBtn.tag = 1024+ i;
-            [deleteBtn addTarget:self action:@selector(deleteImages:) forControlEvents:UIControlEventTouchUpInside];
-            [btn addSubview:deleteBtn];
-
-            
-        }
-        count += _imageupdate.count;
-        for (int i = _updateImage.count; i < count; i++) {
-            int cloum = i %3;
-            int row = i / 3;
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [btn setFrame:CGRectMake(speace + (speace + imageWidth) * cloum, speace + (speace + imageWidth) * row, imageWidth, imageWidth)];
-            [btn setBackgroundImage:[_imageupdate safeObjectAtIndex:i - _updateImage.count] forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(showSelectImage:) forControlEvents:UIControlEventTouchUpInside];
-            btn.tag = 2024+ i;
-            [bgView addSubview:btn];
-  
-            UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [deleteBtn setFrame:CGRectMake(imageWidth - 32, 0, 32, 32)];
-            [deleteBtn setImage:[UIImage imageNamed:@"deleteBtn"] forState:UIControlStateNormal];
-            deleteBtn.tag = 2024+ i;
-            [deleteBtn addTarget:self action:@selector(deleteImages:) forControlEvents:UIControlEventTouchUpInside];
-            [btn addSubview:deleteBtn];
-            //            }
-        }
-        int btnCloum = count %3;
-        int btnRow = count / 3;
-        view.backgroundColor = [UIColor clearColor];
-        UIButton *addImage = [UIButton buttonWithType:UIButtonTypeCustom];
-        [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * btnCloum, speace + (speace + imageWidth) * btnRow, imageWidth, imageWidth)];
-        [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
-        [addImage addTarget:self action:@selector(plusimages) forControlEvents:UIControlEventTouchUpInside];
-        [bgView addSubview:addImage];
-    }
-    else{
-        CGFloat speace = 15.0f;
-        CGFloat imageWidth = (SCREEN_WIDTH - 36 - 4*speace) / 3.0f;
-        UIButton *addImage = [UIButton buttonWithType:UIButtonTypeCustom];
-        [addImage setFrame:CGRectMake(speace + (speace + imageWidth) * 0, speace + (speace + imageWidth) * 0, imageWidth, imageWidth)];
-        [addImage setImage:[UIImage imageNamed:@"addImage"] forState:UIControlStateNormal];
-        [addImage addTarget:self action:@selector(plusimages) forControlEvents:UIControlEventTouchUpInside];
-        [bgView addSubview:addImage];
-        
-    }
-    
-    
-}
-- (void)deleteImages:(UIButton *)btn{
-    
-    if (btn.tag >=1024 && btn.tag < 2024) {
-        ImageModel *model = [_updateImage safeObjectAtIndex:btn.tag - 1024];
-        
-        if (delteImageIDS.length == 0) {
-            delteImageIDS = [NSString stringWithFormat:@"%@",model.ID];
-        }
-        else{
-            delteImageIDS = [NSString stringWithFormat:@"%@,%@",delteImageIDS,model.ID];
-        }
-        [_updateImage removeObject:model];
-        
-        
-    }
-    else{
-        [_imageupdate removeObjectAtIndex:btn.tag - 2024];
-        [self.tableview reloadData];
-    }
-    [self.tableview reloadData];
-}
-
-- (NSInteger)fileType:(NSString *)fileName{
-    NSArray *suffix = [fileName componentsSeparatedByString:@"."];
-    NSString *type = [suffix lastObject];
-    NSRange range = [type rangeOfString:@"png"];
-    NSRange range1 = [type rangeOfString:@"jpg"];
-    
-    if (range.length >0 || range1.length > 0) {
-        return 0;
-    }
-    else
-        return 1;
-}
--(void)plusimages
-{
-    UIActionSheet *actionsheet =[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"本地拍照",@"选取本地图片" ,nil];
-    [actionsheet showInView:self.view];
-    
-}
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex==0) {
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentViewController:picker animated:YES completion:nil];
-    }
-    if (buttonIndex==1) {
-        CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
-        picker.delegate = self;
-        [self presentViewController:picker animated:YES completion:nil];
-    }
-}
-- (NSString *)bate64ForImage:(UIImage *)image{
-    UIImage *_originImage = image;
-    NSData *_data = UIImageJPEGRepresentation(_originImage, 0.5f);
-    NSString *_encodedImageStr = [_data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    return _encodedImageStr;
-}
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-
-{
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    NSLog(@"info:%@",info);
-    UIImage *originalImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    UIImage *image = [UIImage imageWithData:[originalImage thumbImage:originalImage]];
-    image = [image fixOrientation:image];
-    [_imageupdate addObject:image];
-    [self.tableview reloadData];
-}
-
-- (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets{
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    id class = [assets lastObject];
-    for (ALAsset *set in assets) {
-        UIImage *image = [UIImage imageWithCGImage:[set thumbnail]];
-        [_imageupdate addObject:image];
-    }
-    [self.tableview reloadData];
-    NSLog(@"class :%@",[class class]);
-}
-- (void)showSelectImage:(UIButton *)btn{
-    SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
-    
-    browser.sourceImagesContainerView = nil;
-    browser.imageCount = _imageupdate.count;
-    
-    browser.currentImageIndex = btn.tag - 2024 - _updateImage.count;
-    
-    browser.delegate = self;
-    browser.tag = 11;
-    [browser show]; // 展示图片浏览器
-}
-
-- (void)showImagess:(UIButton *)btn{
-    NSString *url = [_updateImage safeObjectAtIndex:btn.tag - 1024];
-    if ([self fileType:url] == 1) {
-        [[RequestCenter defaultCenter] downloadOfficeFile:url
-                                                  success:^(NSString *filename) {
-                                                      QLPreviewController *previewVC = [[QLPreviewController alloc] init];
-                                                      previewVC.dataSource = self;
-                                                      [self presentViewController:previewVC animated:YES completion:^{
-                                                          
-                                                      }];
-                                                  }
-                                                  fauiler:^(NSError *error) {
-                                                      
-                                                  }];
-    }
-    else {
-        SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
-        browser.tag = 10;
-        browser.sourceImagesContainerView = nil;
-        
-        browser.imageCount = _updateImage.count;
-        
-        browser.currentImageIndex = btn.tag - 1024;
-        
-        browser.delegate = self;
-        
-        [browser show]; // 展示图片浏览器
-    }
-}
-- (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller{
-    return 1;
-}
-- (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index{
-    if (browser.tag == 11) {
-        return _imageupdate[index];
-    }
-    else
-        return nil;
-}
-
-
-- (NSURL *)photoBrowser:(SDPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index{
-    if (browser.tag == 10) {
-        NSLog(@"url %@",[_updateImage objectAtIndex:index]);
-        NSString *model = [_updateImage objectAtIndex:index];
-        return [NSURL URLWithString:model];
-    }
-    else
-        return nil;
-    
-}
-
-- (id <QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index{
-    return [NSURL fileURLWithPath:[[RequestCenter defaultCenter] filePath]];
 }
 
 
