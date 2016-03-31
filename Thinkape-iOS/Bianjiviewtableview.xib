@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Bianjiviewtableview">
             <connections>
-                <outlet property="safetext" destination="8f4-SL-Kma" id="pEn-3z-tbp"/>
                 <outlet property="tableview" destination="NOp-Bv-1TQ" id="sTE-mA-4dd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -17,34 +16,11 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jS0-fm-wjM">
-                    <rect key="frame" x="19" y="622" width="337" height="37"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8f4-SL-Kma">
-                            <rect key="frame" x="8" y="4" width="321" height="30"/>
-                            <state key="normal" title="新增">
-                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                            <connections>
-                                <action selector="savetext:" destination="-1" eventType="touchUpInside" id="lCm-QS-K5i"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" red="0.64313725490196083" green="0.10980392156862745" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="337" id="52L-r0-uAi"/>
-                        <constraint firstAttribute="height" constant="37" id="Usf-3Y-Xds"/>
-                        <constraint firstAttribute="trailing" secondItem="8f4-SL-Kma" secondAttribute="trailing" constant="8" id="Wz8-Nq-NsD"/>
-                        <constraint firstAttribute="bottom" secondItem="8f4-SL-Kma" secondAttribute="bottom" constant="3" id="jTg-JF-XoR"/>
-                        <constraint firstItem="8f4-SL-Kma" firstAttribute="top" secondItem="jS0-fm-wjM" secondAttribute="top" constant="4" id="rxR-dO-ed7"/>
-                        <constraint firstItem="8f4-SL-Kma" firstAttribute="leading" secondItem="jS0-fm-wjM" secondAttribute="leading" constant="8" id="ryh-q1-2lV"/>
-                    </constraints>
-                </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NOp-Bv-1TQ">
-                    <rect key="frame" x="0.0" y="62" width="375" height="552"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="412"/>
+                    <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="552" id="TH1-VK-Kuy"/>
+                        <constraint firstAttribute="height" constant="412" id="Gbp-iG-juA"/>
                     </constraints>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="t20-Yv-ewe"/>
@@ -52,15 +28,12 @@
                     </connections>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="jS0-fm-wjM" secondAttribute="trailing" constant="19" id="0Bj-bi-EUW"/>
-                <constraint firstItem="NOp-Bv-1TQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="62" id="2m2-fn-DCq"/>
-                <constraint firstAttribute="bottom" secondItem="jS0-fm-wjM" secondAttribute="bottom" constant="8" id="WdJ-SQ-9a0"/>
-                <constraint firstItem="jS0-fm-wjM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="19" id="h6W-jo-7gs"/>
-                <constraint firstItem="NOp-Bv-1TQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="lbH-74-IKa"/>
-                <constraint firstItem="jS0-fm-wjM" firstAttribute="top" secondItem="NOp-Bv-1TQ" secondAttribute="bottom" constant="8" id="oWV-vz-VAq"/>
-                <constraint firstAttribute="trailing" secondItem="NOp-Bv-1TQ" secondAttribute="trailing" id="z1f-yB-hAT"/>
+                <constraint firstAttribute="trailing" secondItem="NOp-Bv-1TQ" secondAttribute="trailing" id="RGA-EL-zwe"/>
+                <constraint firstItem="NOp-Bv-1TQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Y1G-8s-6dL"/>
+                <constraint firstItem="NOp-Bv-1TQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ew8-IX-nLd"/>
+                <constraint firstAttribute="bottom" secondItem="NOp-Bv-1TQ" secondAttribute="bottom" constant="255" id="wU8-pJ-P9G"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="293.5" y="222.5"/>

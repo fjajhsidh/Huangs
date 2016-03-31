@@ -71,7 +71,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.title=@"修改明细";
   
     UIButton *iconb =[[UIButton alloc] initWithFrame:CGRectMake(5, 0, 40, 40)];
     [iconb setBackgroundImage:[UIImage imageNamed:@"back3.png"] forState:UIControlStateNormal];
@@ -99,9 +99,11 @@
     [btn setTitle:@"保 存" forState:UIControlStateNormal];
     //设置边框为圆角
     [btn.layer setMasksToBounds:YES];
-    [btn.layer setCornerRadius:10];
+    [btn.layer setCornerRadius:5];
     
-    [btn setBackgroundColor:[UIColor colorWithRed:0.70 green:0.189 blue:0.213 alpha:1.000]];
+  
+    [btn setBackgroundColor:[UIColor colorWithRed:44/225.0 green:70/225.0 blue:155/225.0 alpha:0.95]];
+    
     [btn addTarget:self action:@selector(savetolist) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:btn];
@@ -112,7 +114,7 @@
     self.calculatorvc=[[CalculatorViewController alloc]init];
     self.calculatorvc.delegate=self;
     self.textfield.delegate=self;
-    self.tableview.bounces=NO;
+   
 }
 
 //返回上一层

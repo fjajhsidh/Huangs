@@ -83,7 +83,7 @@
     [super viewDidLoad];
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)forBarMetrics:UIBarMetricsDefault];
     
-    self.title=@"编辑明细";
+    self.title=@"新增明细";
     
     self.tableview.bounces=YES;
     
@@ -101,7 +101,20 @@
     app.indexpage = _indexto;
     self.calculatorvc=[[CalculatorViewController alloc]init];
     self.calculatorvc.delegate=self;
-    self.tableview.bounces=NO;
+    UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setFrame:CGRectMake(10, SCREEN_HEIGHT-60, SCREEN_WIDTH-20, 40)];
+    
+    [btn setTitle:@"保 存" forState:UIControlStateNormal];
+    //设置边框为圆角
+    [btn.layer setMasksToBounds:YES];
+    [btn.layer setCornerRadius:5];
+    
+    //    [btn setBackgroundColor:[UIColor colorWithRed:0.70 green:0.189 blue:0.213 alpha:1.000]];
+    [btn setBackgroundColor:[UIColor colorWithRed:44/225.0 green:70/225.0 blue:155/225.0 alpha:0.95]];
+    
+    [btn addTarget:self action:@selector(addtolist) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:btn];
     
 }
 
@@ -586,7 +599,7 @@
 
 //点击新增：
 
-- (IBAction)savetext:(id)sender {
+- (void)addtolist {
     self.textfield.text=[self XMLParameter];
     if ([self.textfield.text isEqualToString:@""]||self.textfield.text==nil) {
         return;
