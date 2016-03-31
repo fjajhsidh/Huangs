@@ -45,12 +45,13 @@
 #import "BianJiViewController.h"
 #import "CalculatorViewController.h"
 #import "calculatorView.h"
+
 @interface Bianjiviewtableview ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate,UITextFieldDelegate,CalculatorResultDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property(nonatomic,assign)int countu;
 @property(nonatomic,strong)NSMutableArray *imagedatarry;
 @property(nonatomic,strong)NSMutableArray *updatearry;
-@property (weak, nonatomic) IBOutlet UIButton *safetext;
+
 @property(nonatomic,strong)NSMutableDictionary *dict1;
 @property(nonatomic,strong)UITextField *textstring;
 @property(nonatomic,strong)UIButton *addImage;
@@ -77,12 +78,15 @@
     UIView *infoView;
     CGFloat lastConstant;
     BOOL isSinglal;
+    CGFloat Textfield_y;
+    CGFloat distances;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)forBarMetrics:UIBarMetricsDefault];
-    
+    Textfield_y=0;
+    distances=0;
     self.title=@"新增明细";
     
     self.tableview.bounces=YES;
@@ -115,9 +119,29 @@
     [btn addTarget:self action:@selector(addtolist) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:btn];
-    
+    //键盘的弹出和隐藏
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShowsd:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHidensd:) name:UIKeyboardWillHideNotification object:nil];
 }
-
+- (void)keyboardShowsd:(NSNotification *)notification{
+    NSDictionary *keyBoardInfo = [notification userInfo];
+    NSValue *aValue = [keyBoardInfo objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
+    CGRect rect = [aValue CGRectValue];
+    CGFloat keyBoard_Y = rect.origin.y;
+    if (Textfield_y> keyBoard_Y && Textfield_y!= 0) {
+        distances =Textfield_y- keyBoard_Y + 100;
+        self.view.frame = CGRectMake(0, -distances, self.view.frame.size.width, self.view.frame.size.height);
+    }
+}
+- (void)keyboardHidensd:(NSNotification *)notification{
+    Textfield_y= 0;
+    self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    [textField resignFirstResponder];
+    return YES;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

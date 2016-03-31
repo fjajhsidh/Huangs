@@ -7,9 +7,9 @@
 //
 
 
-#import "ParentsViewController.h"
 
-@interface Bianjito : ParentsViewController
+#import <UIKit/UIKit.h>
+@interface Bianjito : UIViewController
 @property (nonatomic,strong) NSMutableArray *costLayoutArray;
 
 @property (nonatomic,strong) NSMutableArray *costDataArr;

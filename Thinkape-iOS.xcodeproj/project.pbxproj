@@ -558,9 +558,9 @@
 			isa = PBXGroup;
 			children = (
 				4E3436D71AEE075F00E45C55 /* StayApprovalViewCell.h */,
-				4E3436D81AEE075F00E45C55 /* StayApprovalViewCell.m */,
 				4E411E911B01D8D400BE43B0 /* StayDetail.h */,
 				4E411E921B01D8D400BE43B0 /* StayDetail.m */,
+				4E3436D81AEE075F00E45C55 /* StayApprovalViewCell.m */,
 			);
 			name = cell;
 			sourceTree = "<group>";
@@ -590,8 +590,8 @@
 			children = (
 				4E3436DA1AEE0BD400E45C55 /* Model */,
 				4E3436D61AEE074300E45C55 /* cell */,
-				4EA5C4161AEDD99100D2EB32 /* StayApprovalViewController.h */,
 				4EA5C4171AEDD99100D2EB32 /* StayApprovalViewController.m */,
+				4EA5C4161AEDD99100D2EB32 /* StayApprovalViewController.h */,
 			);
 			name = shenpi;
 			sourceTree = "<group>";
@@ -1207,7 +1207,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "d7008bf9-e24d-49a3-897f-b071345da039";
+				PROVISIONING_PROFILE = "1d96f27a-a7c7-483e-80e4-3fa2f55fb8b9";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1228,7 +1228,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.com.thinkape;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "1d96f27a-a7c7-483e-80e4-3fa2f55fb8b9";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = asdsda;
@@ -1282,7 +1282,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "d7008bf9-e24d-49a3-897f-b071345da039";
+				PROVISIONING_PROFILE = "1d96f27a-a7c7-483e-80e4-3fa2f55fb8b9";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1364,7 +1364,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "d7008bf9-e24d-49a3-897f-b071345da039";
+				PROVISIONING_PROFILE = "1d96f27a-a7c7-483e-80e4-3fa2f55fb8b9";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1400,7 +1400,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "d7008bf9-e24d-49a3-897f-b071345da039";
+				PROVISIONING_PROFILE = "1d96f27a-a7c7-483e-80e4-3fa2f55fb8b9";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

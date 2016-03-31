@@ -970,6 +970,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     self.tagValue=textField.tag;
     self.textfield.tag = textField.tag;
+    [textField resignFirstResponder];
 
      KindsLayoutModel *layoutModel = [self.layoutArray safeObjectAtIndex:self.tagValue];
     
@@ -989,7 +990,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
         [self.kindsItemsView removeFromSuperview];
         [self.datePickerView removeFromSuperview];
         
-        [textField resignFirstResponder];
+        
         return NO;
         
         
@@ -1030,7 +1031,6 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
          return YES;
         
     }
-    
 }
 
 
@@ -1294,7 +1294,7 @@ QLPreviewControllerDataSource,CalculatorResultDelegate>
                NSString *mober = layout.MobileSspDefaultValue;
                NSString *aler =[self str:mober];
             //            @synchronized(self) {
-               NSString *defaults = [NSString stringWithFormat:@"http://27.115.23.126:5032/ashx/mobilenew.ashx?ac=MobileDefaultValue&u=%@&fieldname=%@&strsql=%@",self.uid,layout.Field,aler];
+               NSString *defaults = [NSString stringWithFormat:@"%@?ac=MobileDefaultValue&u=%@&fieldname=%@&strsql=%@", Web_Domain,self.uid,layout.Field,aler];
         
                NSLog(@"默认值的接口=%@",defaults);
                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];

@@ -36,6 +36,8 @@
 #import "AppDelegate.h"
 #import "MiXimodel.h"
 #import "BillsListViewController.h"
+#import "IQKeyboardManager.h"
+#import "AppDelegate.h"
 @interface BianJiViewController ()<UITableViewDataSource,UITableViewDelegate,SDPhotoBrowserDelegate,QLPreviewControllerDataSource,UIAlertViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,UIActionSheetDelegate,KindsItemsViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 
@@ -87,7 +89,20 @@
     BOOL isSinglal;
     BOOL commintBills;
     NSString *sspid;
+    //键盘
+    CGFloat Textfield_y;
+    CGFloat distances;
+    BOOL _wasKeyboardManagerEnabled;
 }
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    _wasKeyboardManagerEnabled = [[IQKeyboardManager sharedManager] isEnabled];
+    [[IQKeyboardManager sharedManager] setEnable:NO];
+    
+    
+}
+
 
 - (id)initWithCoder:(NSCoder *)aDecoder{
     self = [super initWithCoder:aDecoder];
@@ -119,7 +134,8 @@
     self.isaddMoney = NO;
     self.isTransform = NO;
     
-    
+    Textfield_y=0;
+    distances =0;
     
     UIButton *iconb =[[UIButton alloc] initWithFrame:CGRectMake(5, 0, 40, 40)];
     [iconb setBackgroundImage:[UIImage imageNamed:@"back3.png"] forState:UIControlStateNormal];
@@ -148,10 +164,7 @@
     NSLog(@"self.tableViewDic:%@",[self.tableViewDic class]);
     
     
-    self.textfield=[[UITextField alloc] initWithFrame:CGRectMake(140, 5, 170, 30)];
-    self.textfield.textAlignment=NSTextAlignmentCenter;
-    self.textfield.contentVerticalAlignment=UIControlContentHorizontalAlignmentCenter;
-    
+    self.textfield=[[UITextField alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-150)/2,0,SCREEN_WIDTH-50,40)];
     
     if (self.kindsPickerView) {
         self.kindsPickerView = [[[NSBundle mainBundle] loadNibNamed:@"KindsPickerView" owner:self options:nil] lastObject];
@@ -171,12 +184,34 @@
     [self addFooterView];
 
     self.dictarry =[NSMutableDictionary dictionary];
+     //保存删除字表id
     self.deledict =[NSMutableDictionary dictionary];
-   //保存删除字表id
-    
+  //键盘的弹出和隐藏
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShows:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHidens:) name:UIKeyboardWillHideNotification object:nil];
 
    
     
+}
+- (IBAction)textKeyboard:(id)sender {
+    
+//    [self.textfield resignFirstResponder];
+    
+    
+}
+- (void)keyboardShows:(NSNotification *)notification{
+    NSDictionary *keyBoardInfo = [notification userInfo];
+    NSValue *aValue = [keyBoardInfo objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
+    CGRect rect = [aValue CGRectValue];
+    CGFloat keyBoard_Y = rect.origin.y;
+    if (Textfield_y > keyBoard_Y && Textfield_y!= 0) {
+        distances =Textfield_y - keyBoard_Y + 100;
+        self.view.frame = CGRectMake(0, -distances, self.view.frame.size.width, self.view.frame.size.height);
+    }
+}
+- (void)keyboardHidens:(NSNotification *)notification{
+    Textfield_y= 0;
+    self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 }
 
 -(void)pulltoreturn
@@ -340,7 +375,7 @@
         value = value.length>0?value:@"";
         
         cell.textfield.text= value;
-        
+       
 
         if (model.ismust==1&& indexPath.row!= _mainLayoutArray.count&&indexPath.row!=_mainLayoutArray.count+2) {
             cell.textfield.placeholder=@"不能为空";
@@ -550,17 +585,23 @@
     
     [self.tableview reloadData];
 }
+
 #pragma mark-UItextFieldDelegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
-//    self.tableview.bounces=NO;
+   
+    
+    
+    
+   
     self.textfield.tag=textField.tag;
     LayoutModel *model = [self.mainLayoutArray safeObjectAtIndex:textField.tag];
     
     NSLog(@"tag值：%ld",textField.tag);
     
    
+    
     NSIndexPath *path =[self.tableview indexPathForSelectedRow];
     NSLog(@"path值：%@",path);
     
@@ -596,7 +637,11 @@
     
    
 }
-
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    [textField resignFirstResponder];
+    return YES;
+}
 
 
 //调用方法避免选择框重叠

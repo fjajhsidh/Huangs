@@ -32,6 +32,7 @@
 #import "BianJiViewController.h"
 #import "CalculatorViewController.h"
 #import "calculatorView.h"
+#import "IQKeyboardManager.h"
 @interface MixiViewController ()<UITextFieldDelegate,KindsItemsViewDelegate,UINavigationControllerDelegate,SDPhotoBrowserDelegate,UIActionSheetDelegate,QLPreviewControllerDataSource,QLPreviewControllerDelegate,UIImagePickerControllerDelegate,CTAssetsPickerControllerDelegate,CalculatorResultDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 
@@ -67,10 +68,17 @@
     UIButton *backBatn;
     UIView *infoView;
     BOOL isSinglal;
-    
+    BOOL _wasKeyboardManagerEnabled;
+    CGFloat Text_y;
+    CGFloat distances;
 }
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    Text_y=0;
+    distances=0;
     self.title=@"修改明细";
   
     UIButton *iconb =[[UIButton alloc] initWithFrame:CGRectMake(5, 0, 40, 40)];
@@ -114,7 +122,9 @@
     self.calculatorvc=[[CalculatorViewController alloc]init];
     self.calculatorvc.delegate=self;
     self.textfield.delegate=self;
-   
+    //键盘的弹出和隐藏
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShowDs:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHidenDs:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 //返回上一层
@@ -127,6 +137,25 @@
         }
     }
 
+}
+- (void)keyboardShowDs:(NSNotification *)notification{
+    NSDictionary *keyBoardInfo = [notification userInfo];
+    NSValue *aValue = [keyBoardInfo objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
+    CGRect rect = [aValue CGRectValue];
+    CGFloat keyBoard_Y = rect.origin.y;
+    if (Text_y > keyBoard_Y && Text_y!= 0) {
+        distances =Text_y - keyBoard_Y + 100;
+        self.view.frame = CGRectMake(0, -distances, self.view.frame.size.width, self.view.frame.size.height);
+    }
+}
+- (void)keyboardHidenDs:(NSNotification *)notification{
+   Text_y= 0;
+    self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    [textField resignFirstResponder];
+    return YES;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -233,9 +262,7 @@
 
     cell.detailtext.text= [self.dict2 objectForKey:layoutModel.fieldname];
     
-    if ([layoutModel.sqldatatype isEqualToString:@"number"]) {
-        cell.detailtext.keyboardType =UIKeyboardTypeDecimalPad ;
-    }
+   
     if (layoutModel.ismust==1) {
         cell.detailtext.placeholder=@"请输入不能为零";
     }
@@ -250,6 +277,20 @@
     
 }
 
+- (void)keyboardShowDsd:(NSNotification *)notification{
+    NSDictionary *keyBoardInfo = [notification userInfo];
+    NSValue *aValue = [keyBoardInfo objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
+    CGRect rect = [aValue CGRectValue];
+    CGFloat keyBoard_Y = rect.origin.y;
+    if (Text_y > keyBoard_Y && Text_y!= 0) {
+        distances =Text_y - keyBoard_Y + 100;
+        self.view.frame = CGRectMake(0, -distances, self.view.frame.size.width, self.view.frame.size.height);
+    }
+}
+- (void)keyboardHidenDsd:(NSNotification *)notification{
+    Text_y= 0;
+    self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+}
 
 #pragma mark-KindsItemsViewDelegate
 
@@ -274,11 +315,10 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
  
-    self.tagver=textField.tag;
+    self.textfield.tag=textField.tag;
    
    
-    self.textfield = textField;
-    MiXimodel *model2 =[self.coster.fileds safeObjectAtIndex:self.tagver];
+    MiXimodel *model2 =[self.coster.fileds safeObjectAtIndex:self.textfield.tag];
     NSString *cater =[NSString stringWithFormat:@"%@",model2.name];
     if ([cater rangeOfString:@"金额"].location !=NSNotFound) {
         
@@ -376,8 +416,8 @@
     
     [self.calculatorvc.view removeFromSuperview];
     
-    self.tagver=textField.tag;
-    self.textfield.tag = textField.tag;
+//    self.tagver=textField.tag;
+//    self.textfield.tag = textField.tag;
     
    MiXimodel *layoutModel = [self.coster.fileds safeObjectAtIndex:self.textfield.tag];
     

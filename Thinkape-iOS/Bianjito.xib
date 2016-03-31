@@ -23,7 +23,7 @@
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="30" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="eR2-cu-c9Z">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="490"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="375" id="rKc-ZP-IWJ"/>
                             </constraints>
@@ -33,7 +33,7 @@
                             </connections>
                         </tableView>
                     </subviews>
-                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="eR2-cu-c9Z" firstAttribute="top" secondItem="Iur-Jc-6SY" secondAttribute="top" id="aqz-6C-gKW"/>
                         <constraint firstAttribute="trailing" secondItem="eR2-cu-c9Z" secondAttribute="trailing" id="d3Q-qu-c6m"/>
@@ -43,7 +43,7 @@
                     </constraints>
                 </scrollView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="Iur-Jc-6SY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="E89-ty-oFR"/>
                 <constraint firstAttribute="bottom" secondItem="Iur-Jc-6SY" secondAttribute="bottom" constant="177" id="KDe-0B-35G"/>
