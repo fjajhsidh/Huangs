@@ -104,7 +104,7 @@
     UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
     [btn setFrame:CGRectMake(10, SCREEN_HEIGHT-60, SCREEN_WIDTH-20, 40)];
     
-    [btn setTitle:@"保 存" forState:UIControlStateNormal];
+    [btn setTitle:@"新 增" forState:UIControlStateNormal];
     //设置边框为圆角
     [btn.layer setMasksToBounds:YES];
     [btn.layer setCornerRadius:5];
@@ -150,10 +150,7 @@
      
             
         }
-        UIView *subView = [cell.contentView viewWithTag:203];
-        UIView *subView1 = [cell.contentView viewWithTag:204];
-        [subView removeFromSuperview];
-        [subView1 removeFromSuperview];
+       
        
         
         cell.textlabel.text=[NSString stringWithFormat:@"%@",layoutModel.name];
