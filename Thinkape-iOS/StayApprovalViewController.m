@@ -87,6 +87,7 @@
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                           
                           NSDictionary *dataDic = [responseObject objectForKey:@"msg"];
+                           _number = [[dataDic objectForKey:@"total"] integerValue];
                           [self.dataArray addObjectsFromArray:[UnApprovalModel objectArrayWithKeyValuesArray:[dataDic objectForKey:@"data"]]];
                           [self.tableView.header endRefreshing];
                           [self.tableView reloadData];
@@ -111,7 +112,7 @@
                    parameters:nil
                       success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                           NSDictionary *dataDic = [responseObject objectForKey:@"msg"];
-                          _number = [[dataDic objectForKey:@"total"] integerValue];
+//                          _number = [[dataDic objectForKey:@"total"] integerValue];
                           
                           [self.dataArray addObjectsFromArray:[UnApprovalModel objectArrayWithKeyValuesArray:[dataDic objectForKey:@"data"]]];
                           [self.tableView reloadData];
